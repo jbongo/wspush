@@ -15,6 +15,11 @@ class CreateSitesTable extends Migration
     {
         Schema::create('sites', function (Blueprint $table) {
             $table->id();
+            $table->integer('client_id')->nullable();
+            $table->string('nom')->nullable();
+            $table->text('url')->nullable();
+            $table->string('pays')->nullable();
+            $table->boolean('est_archive')->default(false);
             $table->timestamps();
         });
     }
