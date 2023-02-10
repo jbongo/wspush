@@ -91,22 +91,27 @@ switch ($curent_url[1]) {
         </li>
   
 
-        {{-- <li class="side-nav-item">
+        <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="{{$li_simulations}}" aria-controls="sidebarBaseUI" class="side-nav-link">
                 <i class="uil-wallet"></i>
-                <span> xxxxxx </span>
+                <span> Articles </span>
                 <span class="menu-arrow"></span>
             </a>
             <div class="collapse @if($li_simulations) show @endif" id="sidebarBaseUI">
                 <ul class="side-nav-second-level">
                     
                     <li class="{{$li_ordre_simule_algo1}}">
-                        <a href="">1- Par défaut </a>
+                        <a href="{{route('article.index')}}">Tous les articles </a>
                     </li>
-                   
+                    <li class="{{$li_ordre_simule_algo1}}">
+                        <a href="{{route('article.add')}}">Ajouter </a>
+                    </li>
+                    <li class="{{$li_ordre_simule_algo1}}">
+                        <a href="">Catégories </a>
+                    </li>
                 </ul>
             </div>
-        </li> --}}
+        </li>
         
         <li class="side-nav-item">
             <a  href="#" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">

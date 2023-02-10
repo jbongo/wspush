@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSitesTable extends Migration
+class CreateSiteexternesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateSitesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sites', function (Blueprint $table) {
+        Schema::create('siteexternes', function (Blueprint $table) {
             $table->id();
             $table->integer('client_id')->nullable();
             $table->string('nom')->nullable();
@@ -32,6 +32,6 @@ class CreateSitesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sites');
+        Schema::dropIfExists('siteexternes');
     }
 }
