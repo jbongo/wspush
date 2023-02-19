@@ -78,10 +78,11 @@ class ArticleController extends Controller
         $article = Article::where('id', Crypt::decrypt($site_id))->first();
         
         $categories = Categorieexterne::where([['est_archive',false], ['siteexterne_id', $article->siteexterne_id]])->get();
+        $domaine = "https://gabonnews.maxilium.net";
 
-        $response = Http::post('http://127.0.0.1/wordpress/wp-json/jwt-auth/v1/token', [
-            'username' => 'admin',
-            'password' => 'admin123',
+        $response = Http::post("$domaine/wp-json/jwt-auth/v1/token", [
+            'username' => 'gabonnews',
+            'password' => 'Gabonnews@01',
         ]);
 
         $token = $response->json()['token'] ;
@@ -91,7 +92,7 @@ class ArticleController extends Controller
         $data = file_get_contents($article->image);
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => "http://127.0.0.1/wordpress/wp-json/wp/v2/media",
+        CURLOPT_URL => "$domaine/wp-json/wp/v2/media",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
@@ -119,7 +120,7 @@ class ArticleController extends Controller
             $fileResponse = json_decode($response,true);
 
             $resp = Http::withToken($token)
-            ->post('http://127.0.0.1/wordpress/wp-json/wp/v2/posts',
+            ->post("$domaine/wp-json/wp/v2/posts",
 
                     [
                     'title' => $article->titre,
