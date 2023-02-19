@@ -58,11 +58,12 @@
                     <table class="table table-centered w-100 dt-responsive nowrap" id="action-achete-datatable">
                             <thead class="table-lightx" style="background-color: #17a2b8; color:#fff;">
                                 <tr>
+                                    <th scope="col">Date d'ajout</th>
                                     <th scope="col">Image</th>
                                     <th scope="col">Titre</th>
-                                    <th scope="col">Contenu</th>
                                     <th scope="col">Catégorie</th>
                                     <th scope="col">Statut</th>
+                                    <th scope="col">Site</th>
                                     
                                     <th scope="col">Actions</th>
                                 </tr>
@@ -76,33 +77,47 @@
                                                            
                                 <tr>
                                    
-                        
+                                    <td>
+                                        <div class="d-flex align-items-center" class="img-wrapper">
+                                            <div class="flex-grow-1 ms-2 fw-bold"><span class="text-secondary">{{$article->created_at->format('Y-m-d')}}</span></div>
+                                          
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex align-items-center" class="img-wrapper">
+                                            <a href="{{route('article.edit', Crypt::encrypt($article->id))}}" >
+                                                 <img src="{{$article->image}}" style=" border-radius: 3px;" height="50px" width="60px" alt=""> </a>                                            
+                                        </div>
+                                    </td>
+
+
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 ms-2 fw-bold " style="font-size: 16px">{{$article->titre}}</div>
+                                            <div class="flex-grow-1 ms-2 fw-bold " style="font-size: 16px">
+                                                <a href="{{route('article.edit', Crypt::encrypt($article->id))}}" class="text-secondary" > {{substr($article->titre,0,50)}}...</a>
+                                            </div>
                                             
                                         </div>
                                     </td>
                                      <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 ms-2 fw-bold"><span class="text-danger">ffff</span></div>
+                                            <div class="flex-grow-1 ms-2 fw-bold"><span class="text-danger">{{$article->categorieexterne->nom}}</span></div>
                                         </div> 
                                     </td>
                                      <td>
                                         <div class="d-flex align-items-center">                                            
-                                            <p class="mb-0 text-muted">rrrrr</p>
+                                            <p class="mb-0 text-muted">@if($article->est_publie == true) Publié @else Non publié @endif</p>
                                         </div> 
                                     </td>
                                     <td>
-                                        <span class="text-default"><h5 class="text-success my-0">dddd</h5> </span> 
-                                    </td>
-                                    <td>
                                         <div class="d-flex align-items-center">
-                                            <h5 class="text-danger my-0">xxx </h5>
-                                        </div>
+                                            <div class="flex-grow-1 ms-2 fw-bold"> <span class="text-primary">
+                                                <a href="{{$article->siteexterne->url}}" target="_blank" > 
+                                                {{$article->siteexterne->nom}}</span><i class="mdi mdi-arrow-top-right-bold-box-outline"></i></a></div>
+                                        </div> 
                                     </td>
-                          
-                                               
+                                 <td>
                                         <a href="{{route('article.edit', Crypt::encrypt($article->id))}}" class="text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"><i class="mdi mdi-lead-pencil"></i></a>
 {{-- 
                                         <a href="{{route('article.show', Crypt::encrypt($article->id))}}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"><i class="mdi mdi-eye-outline"></i></a>
@@ -171,6 +186,21 @@
         background-color: beige;
     }
 
+    .img-wrapper {
+        display: inline-block;
+        overflow: hidden;
+
+       
+        
+    }
+
+    img:hover {
+        transform:scale(4.5);
+        -ms-transform:scale(4.5); /* IE 9 */
+        -moz-transform:scale(4.5); /* Firefox */
+        -webkit-transform:scale(4.5); /* Safari and Chrome */
+        -o-transform:scale(4.5); /* Opera */
+    }
 </style>
 
 

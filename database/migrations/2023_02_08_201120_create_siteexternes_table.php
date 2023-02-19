@@ -17,9 +17,15 @@ class CreateSiteexternesTable extends Migration
             $table->id();
             $table->integer('client_id')->nullable();
             $table->string('nom')->nullable();
-            $table->text('url')->nullable();
+            $table->text('url')->nullable(); 
+            $table->string('selecteur_lien')->nullable();
+            $table->string('selecteur_titre')->nullable();
+            $table->string('selecteur_contenu')->nullable();
+            $table->string('selecteur_image')->nullable();
+            $table->boolean('image_affiche_css')->default(false);
             $table->string('pays')->nullable();
             $table->boolean('est_archive')->default(false);
+            $table->boolean('est_actif')->default(true);
             $table->boolean('est_wordpress')->default(false);
             $table->timestamps();
         });

@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Mot de passe oublié | MiniBourse</title>
+        <title>Mot de passe oublié | Maxillium</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -26,7 +26,7 @@
                             <div class="card-header pt-4 pb-4 text-center bg-primary">
                                 <a href="#" style="color: #fff; font-size:25px; font-weight: bold;">
                                     {{-- <span><img src="assets/images/logo.png" alt="" height="18"></span> --}}
-                                    MiniBourse
+                                    Maxillium
                                 </a>
                             </div>
                             
@@ -72,7 +72,7 @@
         <!-- end page -->
 
         <footer class="footer footer-alt">
-            2018 - <script>document.write(new Date().getFullYear())</script> © MiniBourse
+            2018 - <script>document.write(new Date().getFullYear())</script> © Maxillium
         </footer>
 
         <!-- bundle -->

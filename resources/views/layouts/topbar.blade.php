@@ -6,11 +6,11 @@
         <a href="index.html" class="topnav-logo">
             <span class="topnav-logo-lg">
                 <img src="{{asset('assets/images/logo_sm.png')}}" alt="" height="16">
-                <span style="color: #fff; font-size:20px; font-weight: bold;">MiniBourse</span>
+                <span style="color: #fff; font-size:20px; font-weight: bold;">Maxillium</span>
             </span>
             <span class="topnav-logo-sm">
                 <img src="{{asset('assets/images/logo_sm.png')}}" alt="" height="16">
-                <span style="color: #fff; font-size:20px; font-weight: bold;">MiniBourse</span>
+                <span style="color: #fff; font-size:20px; font-weight: bold;">Maxillium</span>
                 
             </span>
         </a>

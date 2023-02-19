@@ -84,10 +84,26 @@ switch ($curent_url[1]) {
         </li>
 
         <li class="side-nav-item">
-            <a  href="#" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
-                <i class="uil uil-wallet"></i>         
-                <span> Sites Web </span>
+            <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="{{$li_simulations}}" aria-controls="sidebarBaseUI" class="side-nav-link">
+                <i class="uil-wallet"></i>
+                <span> Sites Externes </span>
+                <span class="menu-arrow"></span>
             </a>
+            <div class="collapse @if($li_simulations) show @endif" id="sidebarBaseUI">
+                <ul class="side-nav-second-level">
+                    
+                    <li class="{{$li_ordre_simule_algo1}}">
+                        <a href="{{route('site_externe.index')}}">Tous les sites </a>
+                    </li>
+                    <li class="{{$li_ordre_simule_algo1}}">
+                        <a href="{{route('site_externe.add')}}">Ajouter </a>
+                    </li>
+                    <li class="{{$li_ordre_simule_algo1}}">
+                        <a href="{{route('categorie_externe.index')}}">Catégories </a>
+                    </li>
+
+                </ul>
+            </div>
         </li>
   
 

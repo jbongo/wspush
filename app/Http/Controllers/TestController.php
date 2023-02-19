@@ -10,34 +10,34 @@ class TestController extends Controller
 {
     public function index(){
 
-        $url = "assets\images\bg-auth.jpg";
-        $path_parts = pathinfo($url);
+        // $url = "assets\images\bg-auth.jpg";
+        // $path_parts = pathinfo($url);
 
-        $newPath = $path_parts['dirname'] . '/tmp-files/';
-        if(!is_dir ($newPath)){
-            mkdir($newPath, 0777);
-        }
+        // $newPath = $path_parts['dirname'] . '/tmp-files/';
+        // if(!is_dir ($newPath)){
+        //     mkdir($newPath, 0777);
+        // }
         
-        $newUrl = $newPath . $path_parts['basename'];
-        copy($url, $newUrl);
-        $imgInfo = getimagesize($newUrl);
-        dd($imgInfo);
+        // $newUrl = $newPath . $path_parts['basename'];
+        // copy($url, $newUrl);
+        // $imgInfo = getimagesize($newUrl);
+        // dd($imgInfo);
   
-        $file = new UploadedFile(
-            $newUrl,
-            $path_parts['basename'],
-            $imgInfo['mime'],
-            filesize($url),
-            true,
-            TRUE
-        );
+        // $file = new UploadedFile(
+        //     $newUrl,
+        //     $path_parts['basename'],
+        //     $imgInfo['mime'],
+        //     filesize($url),
+        //     true,
+        //     TRUE
+        // );
 
 
 
         // $uploadedFile = new UploadedFile("assets\images\bg-auth.jpg");
         // $uploadedFile = new \Symfony\Component\HttpFoundation\File\File("assets\images\bg-auth.jpg");
 
-        dd($file);
+        // dd($file);
 
 
 
@@ -48,7 +48,7 @@ class TestController extends Controller
 
 
 
-        dd('xx');
+        // dd('xx');
 
         $client = new Client([
             'base_uri' => 'http://127.0.0.1',

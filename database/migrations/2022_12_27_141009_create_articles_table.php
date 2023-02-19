@@ -15,16 +15,16 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->integer('categorie_id')->nullable();
-            $table->integer('site_id')->nullable();
+            $table->integer('categorieexterne_id')->nullable();
+            $table->integer('siteexterne_id')->nullable();
             $table->integer('client_id')->nullable();
             $table->string('titre')->nullable();
             $table->text('description')->nullable();
             $table->text('image')->nullable();
             $table->text('url')->nullable();
-            $table->boolean('est_publie')->default(false);
             $table->boolean('est_brouillon')->default(false);
             $table->boolean('est_archive')->default(false);
+            $table->boolean('est_publie')->default(false);
             $table->date('date_publication')->nullable();
             $table->timestamps();
         });
