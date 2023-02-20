@@ -19,12 +19,12 @@ use App\Http\Controllers\SiteinterneController;
 */
 
 Route::get('/', function () {
-    return view('welcome')->middleware(['auth']);
-});
+    return view('welcome');
+})->middleware(['auth']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth'])->name('dashboard')->middleware(['auth']);
+})->middleware(['auth'])->name('dashboard');
 
 // Tests
 Route::controller(TestController::class)->group(function (){
