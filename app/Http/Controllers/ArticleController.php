@@ -82,7 +82,7 @@ class ArticleController extends Controller
 
         $response = Http::post("$domaine/wp-json/jwt-auth/v1/token", [
             'username' => 'gabonnews',
-            'password' => 'Gabonnews@01',
+            'password' => 'Azalakapinhou@01',
         ]);
 
         $token = $response->json()['token'] ;
