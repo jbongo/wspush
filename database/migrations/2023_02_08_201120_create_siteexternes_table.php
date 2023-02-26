@@ -15,7 +15,6 @@ class CreateSiteexternesTable extends Migration
     {
         Schema::create('siteexternes', function (Blueprint $table) {
             $table->id();
-            $table->integer('client_id')->nullable();
             $table->string('nom')->nullable();
             $table->text('url')->nullable(); 
             $table->string('selecteur_lien')->nullable();

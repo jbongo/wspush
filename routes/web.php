@@ -6,6 +6,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ScrapController;
 use App\Http\Controllers\SiteexterneController;
 use App\Http\Controllers\CategorieexterneController;
+use App\Http\Controllers\CategorieinterneController;
 use App\Http\Controllers\SiteinterneController;
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +41,7 @@ Route::controller(SiteexterneController::class)->group(function (){
     Route::post('/site-externe/update/{site_id}', 'update')->name('site_externe.update')->middleware(['auth']);
 });
 
-// Catégorie externes
+// Catégories externes
 Route::controller(CategorieexterneController::class)->group(function (){
     Route::get('/categorie-externes/{site_id?}', 'index')->name('categorie_externe.index')->middleware(['auth']);
     Route::get('/categorie-externe/add', 'create')->name('categorie_externe.add')->middleware(['auth']);
@@ -49,6 +50,24 @@ Route::controller(CategorieexterneController::class)->group(function (){
     Route::post('/categorie-externe/update/{categorie_id}', 'update')->name('categorie_externe.update')->middleware(['auth']);
 });
 
+
+// Sites internes
+Route::controller(SiteinterneController::class)->group(function (){
+    Route::get('/site-internes', 'index')->name('site_interne.index')->middleware(['auth']);
+    Route::get('/site-interne/add', 'create')->name('site_interne.add')->middleware(['auth']);
+    Route::get('/site-interne/edit/{site_id}', 'edit')->name('site_interne.edit')->middleware(['auth']);
+    Route::post('/site-interne/store', 'store')->name('site_interne.store')->middleware(['auth']);
+    Route::post('/site-interne/update/{site_id}', 'update')->name('site_interne.update')->middleware(['auth']);
+});
+
+// Catégories internes
+Route::controller(CategorieinterneController::class)->group(function (){
+    Route::get('/categorie-internes/{site_id}', 'index')->name('categorie_interne.index')->middleware(['auth']);
+    Route::get('/categorie-interne/add', 'create')->name('categorie_interne.add')->middleware(['auth']);
+    Route::get('/categorie-interne/edit/{categorie_id}', 'edit')->name('categorie_interne.edit')->middleware(['auth']);
+    Route::post('/categorie-interne/store', 'store')->name('categorie_interne.store')->middleware(['auth']);
+    Route::post('/categorie-interne/update/{categorie_id}', 'update')->name('categorie_interne.update')->middleware(['auth']);
+});
 
 
 // Articles
@@ -68,9 +87,6 @@ Route::controller(ScrapController::class)->group(function (){
     Route::get('/scrap', 'scrap')->name('scrap.index')->middleware(['auth']);
 });
 
-// Dashboard
-// Route::controller(DashboardController::class)->group(function (){
-//     Route::get('/', 'index')->name('welcome')->middleware(['auth']);
-// });
+
 
 require __DIR__.'/auth.php';

@@ -20,4 +20,12 @@ class Categorieexterne extends Model
     {
         return $this->belongsTo(Siteexterne::class);
     }
+
+     /**
+     * Retourne la liste des categories internes associée à la catégorie
+     */
+    function categorieinternes()
+    {
+        return $this->belongsToMany(Categorieinterne::class);
+    }
 }

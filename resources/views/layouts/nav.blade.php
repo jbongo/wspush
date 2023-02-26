@@ -84,6 +84,13 @@ switch ($curent_url[1]) {
         </li>
 
         <li class="side-nav-item">
+            <a  href="{{route('site_interne.index')}}"aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
+                <i class="uil uil-wallet"></i>         
+                <span> Sites </span>
+            </a>
+        </li>
+
+        <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="{{$li_simulations}}" aria-controls="sidebarBaseUI" class="side-nav-link">
                 <i class="uil-wallet"></i>
                 <span> Sites Externes </span>

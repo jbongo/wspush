@@ -86,7 +86,10 @@ class ScrapController extends Controller
                         if(!filter_var($imageUrl, FILTER_VALIDATE_URL))
                         {     
 
+                            // retirer "/" s'il existe en début de l'url
                             $imageUrl = ltrim($imageUrl, '/');
+
+                            // retirer "/" s'il existe en fin de l'url
                             $siteUrl = rtrim($site->url, '/');
                             $imageUrl = $siteUrl.'/'.$imageUrl;
 
