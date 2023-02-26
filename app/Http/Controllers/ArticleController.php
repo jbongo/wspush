@@ -77,64 +77,79 @@ class ArticleController extends Controller
     {
         $article = Article::where('id', Crypt::decrypt($site_id))->first();
         
-        $categories = Categorieexterne::where([['est_archive',false], ['siteexterne_id', $article->siteexterne_id]])->get();
-        $domaine = "https://gabonnews.maxilium.net";
+        $categorieexterne = Categorieexterne::where([['est_archive',false], ['id', $article->categorieexterne_id]])->first();
 
-        $response = Http::post("$domaine/wp-json/jwt-auth/v1/token", [
-            'username' => 'gabonnews',
-            'password' => 'Azalakapinhou@01',
-        ]);
+        // on réccupère toutes les catégories internes liées à la catégorie externe de l'article afin de retrouver tous sites où il faut diffuser
 
-        $token = $response->json()['token'] ;
+        $categorieinternes = $categorieexterne->categorieinternes;
         
-        $curl = curl_init();
 
-        $data = file_get_contents($article->image);
+        foreach ($categorieinternes as $categorieinterne) {
+            
+            $siteinterne = $categorieinterne->siteinterne;
+            
+            $domaine = $siteinterne->url;
 
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => "$domaine/wp-json/wp/v2/media",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_HTTPHEADER => array(
-            "authorization: Bearer $token",
-            "cache-control: no-cache",
-            "content-disposition: attachment; filename=test.png",
-            "content-type: image/png",
-        ),
-        CURLOPT_POSTFIELDS => $data,
-        ));
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        if ($err) {
-            echo "cURL Error #:" . $err;
-        } else {
-
-            $fileResponse = json_decode($response,true);
-
-            $resp = Http::withToken($token)
-            ->post("$domaine/wp-json/wp/v2/posts",
-
-                    [
-                    'title' => $article->titre,
-                    'content' => $article->description,
-                    // 'date' => '2023-01-22T15:04:52',
-                    // 'slug' => 'this-best-article',
-                    'status' => 'publish',
-                    'featured_media' => $fileResponse['id'] // ID de l'image téléchargée
-                    ]
-            );
-
-           
+            $response = Http::post("$domaine/wp-json/jwt-auth/v1/token", [
+                'username' => $siteinterne->login,
+                'password' => $siteinterne->password,
+            ]);
     
+            $token = $response->json()['token'] ;
+            
+            $curl = curl_init();
+    
+            $data = file_get_contents($article->image);
+    
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => "$domaine/wp-json/wp/v2/media",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_HTTPHEADER => array(
+                "authorization: Bearer $token",
+                "cache-control: no-cache",
+                "content-disposition: attachment; filename=test.png",
+                "content-type: image/png",
+            ),
+            CURLOPT_POSTFIELDS => $data,
+            ));
+    
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+    
+            curl_close($curl);
+    
+            if ($err) {
+                echo "cURL Error #:" . $err;
+            } else {
+    
+                $fileResponse = json_decode($response,true);
+    
+                $resp = Http::withToken($token)
+                ->post("$domaine/wp-json/wp/v2/posts",
+    
+                        [
+                        'title' => $article->titre,
+                        'content' => $article->description,
+                        'categories' => $categorieinterne->wp_id,
+                        // 'date' => '2023-01-22T15:04:52',
+                        // 'slug' => 'this-best-article',
+                        'status' => 'publish',
+                        'featured_media' => $fileResponse['id'] // ID de l'image téléchargée
+                        ]
+                );
+    
+               
+        
+            }
+
         }
+
+       
 
      
         return redirect()->back()->with('ok','Article Publié');
