@@ -59,6 +59,7 @@
                             <thead class="table-lightx" style="background-color: #17a2b8; color:#fff;">
                                 <tr>
                                     <th scope="col">Date d'ajout</th>
+                                    <th scope="col">Heure d'ajout</th>
                                     <th scope="col">Image</th>
                                     <th scope="col">Titre</th>
                                     <th scope="col">Catégorie</th>
@@ -79,11 +80,16 @@
                                    
                                     <td>
                                         <div class="d-flex align-items-center" class="img-wrapper">
-                                            <div class="flex-grow-1 ms-2 fw-bold"><span class="text-secondary">{{$article->created_at->format('Y-m-d')}}</span></div>
+                                            <div class="flex-grow-1 ms-2 fw-bold"><span class="text-secondary">{{$article->created_at->format('Y-m-d')}}</span>--{{$article->id}}</div>
                                           
                                         </div>
                                     </td>
-
+                                    <td>
+                                        <div class="d-flex align-items-center" class="img-wrapper">
+                                            <div class="flex-grow-1 ms-2 fw-bold"><span class="text-secondary">{{$article->created_at->format('h:i')}}</span></div>
+                                          
+                                        </div>
+                                    </td>
                                     <td>
                                         <div class="d-flex align-items-center" class="img-wrapper">
                                             <a href="{{route('article.edit', Crypt::encrypt($article->id))}}" >

@@ -17,8 +17,10 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::where('est_archive', false)->get();
-   
+        $articles = Article::where('est_archive', false)->orderBy('id','asc')->get();
+  
+        // dd($articles);
+        
         return view('article.index', compact('articles'));
     }
 
