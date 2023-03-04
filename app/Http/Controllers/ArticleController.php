@@ -131,7 +131,6 @@ class ArticleController extends Controller
             } else {
     
                 $fileResponse = json_decode($response,true);
-                dd($fileResponse);
                 $resp = Http::withToken($token)
                 ->post("$domaine/wp-json/wp/v2/posts",
     
