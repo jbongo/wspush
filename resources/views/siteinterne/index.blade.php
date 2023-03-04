@@ -385,11 +385,12 @@
         let pays = that.data('pays');
         let diffuse =  that.data('est_diffuse_auto') ;
 
+        let currentFormAction = that.data('href');
+        $('#form-edit').attr('action', currentFormAction) ;
+        
         if(diffuse == true)  $('#edit_est_diffuse_auto').attr('checked', true);
         $('#edit_pays option[value='+pays+']').attr('selected','selected');
         
-        let currentFormAction = that.data('href');
-        $('#form-edit').attr('action', currentFormAction) ;
 
     });
 
