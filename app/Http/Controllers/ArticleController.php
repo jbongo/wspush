@@ -97,6 +97,7 @@ class ArticleController extends Controller
                 'password' => $siteinterne->password,
             ]);
     
+            
             $token = $response->json()['token'] ;
             
             $curl = curl_init();
@@ -130,7 +131,7 @@ class ArticleController extends Controller
             } else {
     
                 $fileResponse = json_decode($response,true);
-    
+                dd($token);
                 $resp = Http::withToken($token)
                 ->post("$domaine/wp-json/wp/v2/posts",
     
