@@ -131,6 +131,7 @@ class ArticleController extends Controller
             } else {
     
                 $fileResponse = json_decode($response,true);
+           
                 $resp = Http::withToken($token)
                 ->post("$domaine/wp-json/wp/v2/posts",
     
@@ -141,7 +142,7 @@ class ArticleController extends Controller
                         // 'date' => '2023-01-22T15:04:52',
                         // 'slug' => 'this-best-article',
                         'status' => 'publish',
-                        'featured_media' => $fileResponse['id'] // ID de l'image téléchargée
+                        'featured_media' => $fileResponse == null ? null : $fileResponse['id'] // ID de l'image téléchargée
                         ]
                 );
     
