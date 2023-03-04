@@ -124,7 +124,7 @@
                                         <a  class="text-success modifier" data-bs-toggle="modal" data-bs-target="#editModal"
                                             
                                             data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pays}}" data-login="{{$site->login}}" data-passwordx="{{$site->password}}"
-                                            data-href="{{route('site_interne.update', Crypt::encrypt($site->id))}}" data-site_id="{{$site->id}}" 
+                                            data-href="{{route('site_interne.update', Crypt::encrypt($site->id))}}" data-site_id="{{$site->id}}"  data-est_diffuse_auto = {{$site->est_diffuse_auto}}
                                             title="Modifier" ><i class="mdi mdi-lead-pencil"></i></a>
                                             {{-- 
                                             <a href="{{route('article.show', Crypt::encrypt($site->id))}}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"><i class="mdi mdi-eye-outline"></i></a>
@@ -176,7 +176,7 @@
                                     <div class="col-6" >
                                         <div id="" class="custom-control custom-radio custom-control-inline">
                                             <label class="custom-control-label" for="pays">Pays *</label>
-                                            <select name="pays" class="form-control" id="pays" required>                                                
+                                            <select name="pays" class="form-select" id="pays" required>                                                
                                                 <option value="Côte d'Ivoire">Côte d'Ivoire</option> 
                                                 <option value="Gabon">Gabon</option>                                              
                                                 <option value="Bénin">Bénin</option>                                              
@@ -198,6 +198,18 @@
                                             <input type="text"  class="form-control" name="password" id="password"  required>
                                         </div>
                                     </div>
+                                </div>
+                                <hr>
+                                <div class="row autre_champs" style="margin-top: 20px">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="est_diffuse_auto" class="form-label">Diffuser automatiquement ? </label>
+                                            <div class="form-check form-switch" >
+                                                <input class="form-check-input btn-lg" style="margin-left: -1.5em" type="checkbox" id="est_diffuse_auto" name="est_diffuse_auto" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                                
  
@@ -267,6 +279,19 @@
                                         <input type="text"  class="form-control" name="password" id="edit_password"  required>
                                     </div>
                                 </div>
+                            </div>
+
+                            <hr>
+                            <div class="row autre_champs" style="margin-top: 20px">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="est_diffuse_auto" class="form-label">Diffuser automatiquement ? </label>
+                                        <div class="form-check form-switch" >
+                                            <input class="form-check-input btn-lg" style="margin-left: -1.5em"  type="checkbox" id="edit_est_diffuse_auto" name="est_diffuse_auto" >
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </div>
                             
                                                                 
@@ -354,7 +379,9 @@
         $('#edit_password').val(that.data('passwordx')) ;
 
         let pays = that.data('pays');
+        let diffuse =  that.data('est_diffuse_auto') ;
 
+        if(diffuse == true)  $('#edit_est_diffuse_auto').attr('checked', true);
         $('#edit_pays option[value='+pays+']').attr('selected','selected');
         
         let currentFormAction = that.data('href');

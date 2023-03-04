@@ -75,10 +75,12 @@ Route::controller(ArticleController::class)->group(function (){
     Route::get('/articles', 'index')->name('article.index')->middleware(['auth']);
     Route::get('/article/add', 'create')->name('article.add')->middleware(['auth']);
     Route::get('/article/edit/{article_id}', 'edit')->name('article.edit')->middleware(['auth']);
+    Route::get('/article/edit-renomme/{article_id}', 'editRenomme')->name('article.edit_renomme')->middleware(['auth']);
     Route::get('/article/publier/{article_id}', 'publier')->name('article.publier')->middleware(['auth']);
     Route::post('/article/store', 'store')->name('article.store')->middleware(['auth']);
     Route::post('/article/update/{article_id}', 'update')->name('article.update')->middleware(['auth']);
 });
+
 
 
 

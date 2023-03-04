@@ -23,6 +23,7 @@ class CreateSiteinternesTable extends Migration
             $table->string('pays')->nullable();
             $table->boolean('est_archive')->default(false);
             $table->boolean('est_actif')->default(true);
+            $table->boolean('est_diffuse_auto')->default(false);
             $table->timestamps();
         });
     }

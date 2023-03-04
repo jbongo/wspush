@@ -80,7 +80,7 @@
                                    
                                     <td>
                                         <div class="d-flex align-items-center" class="img-wrapper">
-                                            <div class="flex-grow-1 ms-2 fw-bold"><span class="text-secondary">{{$article->created_at->format('Y-m-d')}}</span>--{{$article->id}}</div>
+                                            <div class="flex-grow-1 ms-2 fw-bold"><span class="text-secondary">{{$article->created_at->format('Y-m-d')}}</span></div>
                                           
                                         </div>
                                     </td>

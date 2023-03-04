@@ -21,7 +21,7 @@ class ArticleController extends Controller
   
         // dd($articles);
         
-        return view('article.index', compact('articles'));
+        return view('article.index', compact('articles'));  
     }
 
     /**

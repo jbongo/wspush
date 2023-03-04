@@ -154,3 +154,57 @@ switch ($curent_url[1]) {
 
 </div>
 <!-- Left Sidebar End -->
+
+<style>
+    @media (min-width: 992px){
+        body[data-layout=detached] .container-fluid, body[data-layout=detached] .container-lg, body[data-layout=detached] .container-md, body[data-layout=detached] .container-sm, body[data-layout=detached] .container-xl, body[data-layout=detached] .container-xxl {
+            max-width: 100%;
+        }
+    }
+
+    body[data-layout=detached] .leftside-menu {
+    position: relative;
+    background: #172F43!important;
+    min-width: 260px;
+    max-width: 260px;
+    -webkit-box-shadow: var(--ct-box-shadow);
+    box-shadow: var(--ct-box-shadow);
+    margin-top: 10px;
+    padding-top: 0!important;
+    z-index: 1001!important;
+}
+
+.topnav-navbar-dark {
+    background-color: #172F43;
+}
+
+.topnav-navbar-dark .nav-user {
+    background-color: #1e384e!important;
+}
+
+body[data-layout=detached] .leftside-menu .side-nav .side-nav-link {
+    color: #ffffff!important;
+}
+
+body[data-layout=detached] .leftside-menu .side-nav .menuitem-active>a {
+    color: #ffffff!important;
+}
+
+body[data-layout=detached] .leftside-menu .side-nav .side-nav-forth-level li a, body[data-layout=detached] .leftside-menu .side-nav .side-nav-second-level li a, body[data-layout=detached] .leftside-menu .side-nav .side-nav-third-level li a {
+    color: #c4d1dd;
+}
+
+body[data-layout=detached] .leftbar-user .leftbar-user-name {
+
+    color: #ffffff;
+ 
+}
+
+body[data-layout=detached] .leftside-menu .side-nav .side-nav-forth-level li a:focus, body[data-layout=detached] .leftside-menu .side-nav .side-nav-forth-level li a:hover, body[data-layout=detached] .leftside-menu .side-nav .side-nav-second-level li a:focus, body[data-layout=detached] .leftside-menu .side-nav .side-nav-second-level li a:hover, body[data-layout=detached] .leftside-menu .side-nav .side-nav-third-level li a:focus, body[data-layout=detached] .leftside-menu .side-nav .side-nav-third-level li a:hover {
+    color: #48b5e9;
+}
+
+body[data-layout=detached] .leftside-menu .side-nav .side-nav-link:active, body[data-layout=detached] .leftside-menu .side-nav .side-nav-link:focus, body[data-layout=detached] .leftside-menu .side-nav .side-nav-link:hover {
+    color: #48b5e9!important;
+}
+</style>

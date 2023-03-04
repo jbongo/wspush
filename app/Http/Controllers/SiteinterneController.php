@@ -53,6 +53,8 @@ class SiteinterneController extends Controller
             "pays"=> $request->pays,
             "login"=> $request->login,
             "password"=> $request->password,
+            "est_diffuse_auto"=> $request->est_diffuse_auto == "on" ? true : false,
+            
         ]);
 
         return  redirect()->back()->with('ok', 'Site interne créé');
@@ -90,7 +92,7 @@ class SiteinterneController extends Controller
     public function update(Request $request, $site_id)
     {
 
-      
+            
        
         $site = Siteinterne::where('id', Crypt::decrypt($site_id))->first();
         
@@ -120,6 +122,7 @@ class SiteinterneController extends Controller
         $site->pays = $request->pays;
         $site->login = $request->login;
         $site->password = $request->password;
+        $site->est_diffuse_auto = $request->est_diffuse_auto == "on" ? true : false;
        
         
         $site->update();

@@ -103,7 +103,9 @@ class CategorieinterneController extends Controller
             
             $siteexternes =  Siteexterne::where('est_archive', false)->get();
 
-            return view('categorieinterne.edit', compact('categorieinterne', 'siteexternes'));
+            // return view('categorieinterne.edit', compact('categorieinterne', 'siteexternes'));
+            return redirect()->route('categorie_interne.edit',Crypt::encrypt($categorieinterne->id))->with('ok',' Catégorie créée');
+
 
 
         }else{
