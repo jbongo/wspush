@@ -167,6 +167,8 @@
                                             <select name="pays" class="form-control" id="pays" required>                                                
                                                 <option value="Côte d'Ivoire">Côte d'Ivoire</option> 
                                                 <option value="Gabon">Gabon</option>                                              
+                                                <option value="Djibouti">Djibouti</option>                                              
+                                                <option value="Centrafrique">Centrafrique</option>                                              
                                                 <option value="Bénin">Bénin</option>                                              
                                             </select>
                                         </div>                                        
@@ -268,7 +270,9 @@
                                         <label class="custom-control-label" for="edit_pays">Pays</label>
                                         <select name="pays" class="form-control" id="edit_pays" required>                                                
                                             <option value="Côte d'Ivoire">Côte d'Ivoire</option> 
-                                            <option value="Gabon">Gabon</option>                                              
+                                            <option value="Gabon">Gabon</option>     
+                                            <option value="Djibouti">Djibouti</option>                                              
+                                            <option value="Centrafrique">Centrafrique</option>                                           
                                             <option value="Bénin">Bénin</option>                                              
                                         </select>
                                     </div>                                        
