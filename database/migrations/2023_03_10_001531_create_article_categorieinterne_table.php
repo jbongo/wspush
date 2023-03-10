@@ -3,8 +3,10 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Categorieinterne;
+use App\Models\Article;
 
-class CreateArticleinternesTable extends Migration
+class CreateArticleCategorieinterneTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +15,17 @@ class CreateArticleinternesTable extends Migration
      */
     public function up()
     {
-        Schema::create('articleinternes', function (Blueprint $table) {
+        Schema::create('article_categorieinterne', function (Blueprint $table) {
             $table->id();
-            $table->integer("article_id")->nullable();         
+            $table->primary(['categorieinterne_id','article_id']);
+            $table->foreignIdFor(Categorieinterne::class);
+            $table->foreignIdFor(Article::class);
             $table->integer("articlerenomme_id")->nullable();         
             $table->integer("siteinterne_id")->nullable();         
-            $table->integer("categorieinterne_id")->nullable();         
             $table->integer("postwp_id")->nullable();         
             $table->boolean('est_archive')->default(false);
             $table->boolean('est_renomme')->default(false);
+            $table->boolean('est_publie_auto')->default(false);
             $table->timestamps();
         });
     }
@@ -33,6 +37,6 @@ class CreateArticleinternesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('articleinternes');
+        Schema::dropIfExists('article_categorieinterne');
     }
 }

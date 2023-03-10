@@ -20,5 +20,15 @@ class Siteexterne extends Model
     {
         return $this->hasMany(Categorieexterne::class);
     }
+
+    /**
+     * The Siteinterne that belong to the Siteexterne
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function Siteinterne()
+    {
+        return $this->belongsToMany(Siteinterne::class);
+    }
     
 }

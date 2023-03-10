@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoriearticlesTable extends Migration
+class CreateSiteinterneSiteexterneTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateCategoriearticlesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categoriearticles', function (Blueprint $table) {
+        Schema::create('siteinterne_siteexterne', function (Blueprint $table) {
             $table->id();
-            $table->string('nom')->nullable();
-            $table->integer('site_id')->nullable();
+            $table->primary(['siteinterne_id','siteexterne_id']);
+
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateCategoriearticlesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categoriearticles');
+        Schema::dropIfExists('siteinterne_siteexterne');
     }
 }

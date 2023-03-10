@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Models\Article;
 
 class publier_article_auto extends Command
 {
@@ -11,14 +12,14 @@ class publier_article_auto extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:publierauto';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Publication automatique des articles sur les sites';
 
     /**
      * Create a new command instance.
@@ -37,6 +38,7 @@ class publier_article_auto extends Command
      */
     public function handle()
     {
-        return 0;
+        $newArticle = new Article;
+        $newArticle->publierAuto();
     }
 }

@@ -39,7 +39,31 @@ class Categorieinterne extends Model
 
         return $categorie != null ? true : false;
         
-
-
     }
+
+    /**
+     * The articles that belong to the Categorieinterne
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function articles()
+    {
+        return $this->belongsToMany(Article::class)
+                ->withPivot('articlerenomme_id','siteinterne_id','postwp_id','est_renomme','est_publie_auto')
+                ->withTimestamps();
+    }
+
+    
+    /**
+     * Retourne true si la catégorie est liè à une catégorie externe
+     */
+    function haveArticle($article_id)
+    {
+        
+        $article = ArticleCategorieinterne::where([['article_id', $article_id], ['categorieinterne_id', $this->id]])->first();
+
+        return $article != null ? true : false;
+        
+    }
+
 }
