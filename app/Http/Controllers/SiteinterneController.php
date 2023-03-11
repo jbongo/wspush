@@ -56,19 +56,26 @@ class SiteinterneController extends Controller
             "est_diffuse_auto"=> $request->est_diffuse_auto == "on" ? true : false,
             
         ]);
+        
+        return  redirect()->route()->with('ok', 'Site interne créé');
+
+
 
         return  redirect()->back()->with('ok', 'Site interne créé');
     }
 
+
     /**
-     * Display the specified resource.
+     * Associer des sites externe au site interne
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function joinSiteexterne($site_id)
     {
-        //
+        $site = Siteinterne::where('id', Crypt::decrypt($site_id))->first();
+        
+        dd($site);
     }
 
     /**

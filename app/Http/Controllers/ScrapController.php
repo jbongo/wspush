@@ -165,4 +165,141 @@ class ScrapController extends Controller
 
         dd($data);
     }
+
+
+    /**
+     * Test des selecteurs des sites
+     */
+
+     public function indexSelecteur(){
+
+        return view('siteexterne.test_selecteur');
+     }
+
+
+
+
+    /**
+     * Test des selecteurs des sites
+     */
+     public function testerSelecteur(Request $request, $type_selecteur){
+
+        // dd($request->all());
+
+        $url = $request->url;
+        $client = new Client();
+        
+       
+            
+            $links_selector = $request->links_selector;
+
+            try {                  
+                
+                $crawler = $client->request('GET', $url); 
+
+                // On réccupère tous les liens de la page catégorie du site
+                $liens = $crawler->filter($links_selector)
+                ->each(function($node){                 
+                    $link = $node->link();                
+                
+                    return $link;            
+                });
+
+                echo(sizeof($liens)." liens <br>");
+
+               
+
+            } catch (\Exception $th) {
+                
+                return "ERREUR $th";
+            }
+
+
+  
+            
+            $title_selector = $request->title_selector;
+            $lien = $liens[0];
+
+            try {                       
+                   
+                $crawler = $client->click($lien);    
+                $titre = $crawler->filter($title_selector)->text();               
+
+                if($titre != null){
+                    echo("TITRE : ".$titre."  <br>");
+
+                }else{
+                    return "ERREUR";
+                }
+                
+            
+            } catch (\Exception $th) {
+                return "ERREUR $th";
+            }
+
+
+            $content_selector = $request->content_selector;
+
+            try {                       
+                   
+                $crawler = $client->click($lien);    
+                  
+                $contenu = $crawler->filter($content_selector)->html();  
+
+                if($contenu != null){
+                    echo("CONTENU : ".$contenu." <br>");
+
+                }else{
+                    return "ERREUR";
+                }
+
+            
+            } catch (\Exception $th) {
+                return "ERREUR $th";
+               
+            }
+            
+       
+
+            $image_affiche_css = $request->image_affiche_css;
+            $image_selector = $request->image_selector;
+            
+
+            try {                       
+                   
+                $crawler = $client->click($lien);
+    
+                  
+             
+                
+                if($image_affiche_css == "oui"){
+                    // Sélectionne la première élément avec un fond d'image
+                    $element = $crawler->filter($image_selector);               
+
+                    // Extrait l'URL de l'image à partir de la valeur de l'attribut style
+                    preg_match('/url\((.*?)\)/', $element->attr('style'), $matches);
+                
+
+                    $imageUrl = trim($matches[1], '"\'');
+
+                }else{
+                    $imageUrl = $crawler->filter($image_selector)->attr('src'); 
+                }
+
+                if($imageUrl != null){
+                    echo("IMAGE : ".$imageUrl."  <br>");
+
+                }else{
+                    return "ERREUR";
+                }
+                
+                                        
+                
+            
+            } catch (\Exception $th) {
+                return "ERREUR $th";
+               
+            }
+      
+     }
 }

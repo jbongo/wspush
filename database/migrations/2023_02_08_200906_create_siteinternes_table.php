@@ -16,11 +16,11 @@ class CreateSiteinternesTable extends Migration
         Schema::create('siteinternes', function (Blueprint $table) {
             $table->id();
             $table->integer('client_id')->nullable();
+            $table->integer("pays_id")->nullable();
             $table->string('nom')->nullable();
             $table->string('login')->nullable();
             $table->string('password')->nullable();
             $table->text('url')->nullable();
-            $table->string('pays')->nullable();
             $table->boolean('est_archive')->default(false);
             $table->boolean('est_actif')->default(true);
             $table->boolean('est_diffuse_auto')->default(false);

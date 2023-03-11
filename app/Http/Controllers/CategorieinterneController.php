@@ -49,7 +49,7 @@ class CategorieinterneController extends Controller
     public function store(Request $request)
     {
     
-
+// dd($request->all());
         $request->validate([
             "nom"=> "required|string",           
         ]);
@@ -63,51 +63,60 @@ class CategorieinterneController extends Controller
 
         $siteinterne = Siteinterne::where('id', $request->siteinterne_id)->first();
 
+        if($request->categorie_cree == "non"){
 
-        // retirer "/" s'il existe en fin de l'url      
-        $domaine = rtrim($siteinterne->url, '/');
 
-        $response = Http::post("$domaine/wp-json/jwt-auth/v1/token", [
-            'username' => $siteinterne->login,
-            'password' => $siteinterne->password,
-        ]);
+            // retirer "/" s'il existe en fin de l'url      
+            $domaine = rtrim($siteinterne->url, '/');
 
-        $token = $response->json()['token'] ;
+            $response = Http::post("$domaine/wp-json/jwt-auth/v1/token", [
+                'username' => $siteinterne->login,
+                'password' => $siteinterne->password,
+            ]);
+
+            $token = $response->json()['token'] ;
+            
+            $curl = curl_init();
+
         
-        $curl = curl_init();
 
-       
+            $resp = Http::withToken($token)
+            ->post("$domaine/wp-json/wp/v2/categories",
 
-        $resp = Http::withToken($token)
-        ->post("$domaine/wp-json/wp/v2/categories",
+                    [
+                        "name" => $request->nom
+                    ]
+            );
 
-                [
-                    "name" => $request->nom
-                ]
-        );
-
-           
-        $fileResponse = json_decode($resp,true);
-    
+            
+            $fileResponse = json_decode($resp,true);
+        
 
 
 
-        $categorieinterne = Categorieinterne::create([
-            "nom"=> $request->nom,
-            "siteinterne_id"=> $request->siteinterne_id,
-            "wp_id"=> $resp['id'],
-            "url"=> $resp['link'],
-        ]);
+            $categorieinterne = Categorieinterne::create([
+                "nom"=> $request->nom,
+                "siteinterne_id"=> $request->siteinterne_id,
+                "wp_id"=> $resp['id'],
+                "url"=> $resp['link'],
+            ]);
+
+        }else{
+
+            $categorieinterne = Categorieinterne::create([
+                "nom"=> $request->nom,
+                "siteinterne_id"=> $request->siteinterne_id,
+                "wp_id"=> $request->wp_id,
+                "url"=> $request->url,
+            ]);
+
+            
+        }
+
 
         if($categorieinterne != false) {
             
-            $siteexternes =  Siteexterne::where('est_archive', false)->get();
-
-            // return view('categorieinterne.edit', compact('categorieinterne', 'siteexternes'));
             return redirect()->route('categorie_interne.edit',Crypt::encrypt($categorieinterne->id))->with('ok',' Catégorie créée');
-
-
-
         }else{
             return redirect()->back()->with('nok',' Erreur: Catégorie non ajoutée');
 

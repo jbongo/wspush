@@ -108,7 +108,10 @@ switch ($curent_url[1]) {
                     <li class="{{$li_ordre_simule_algo1}}">
                         <a href="{{route('categorie_externe.index')}}">Catégories </a>
                     </li>
-
+                    <li class="{{$li_ordre_simule_algo1}}">
+                        <a href="{{route('scrap.index_selecteur')}}">Tests sélecteurs </a>
+                    </li>
+                    
                 </ul>
             </div>
         </li>

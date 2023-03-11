@@ -34,7 +34,7 @@ Route::controller(TestController::class)->group(function (){
 
 // Sites externes
 Route::controller(SiteexterneController::class)->group(function (){
-    Route::get('/site-externes', 'index')->name('site_externe.index')->middleware(['auth']);
+    Route::get('/site-externes', 'index')->name('site_externe.index')->middleware(['auth']);  
     Route::get('/site-externe/add', 'create')->name('site_externe.add')->middleware(['auth']);
     Route::get('/site-externe/edit/{site_id}', 'edit')->name('site_externe.edit')->middleware(['auth']);
     Route::post('/site-externe/store', 'store')->name('site_externe.store')->middleware(['auth']);
@@ -56,6 +56,7 @@ Route::controller(SiteinterneController::class)->group(function (){
     Route::get('/site-internes', 'index')->name('site_interne.index')->middleware(['auth']);
     Route::get('/site-interne/add', 'create')->name('site_interne.add')->middleware(['auth']);
     Route::get('/site-interne/edit/{site_id}', 'edit')->name('site_interne.edit')->middleware(['auth']);
+    Route::get('/site-interne/join-site-externe/{site_id}', 'joinSiteexterne')->name('site_interne.join_site_externe')->middleware(['auth']);
     Route::post('/site-interne/store', 'store')->name('site_interne.store')->middleware(['auth']);
     Route::post('/site-interne/update/{site_id}', 'update')->name('site_interne.update')->middleware(['auth']);
 });
@@ -87,6 +88,8 @@ Route::controller(ArticleController::class)->group(function (){
 // Scrapp
 Route::controller(ScrapController::class)->group(function (){
     Route::get('/scrap', 'scrap')->name('scrap.index')->middleware(['auth']);
+    Route::get('/scrap/test-selecteur', 'indexSelecteur')->name('scrap.index_selecteur')->middleware(['auth']);
+    Route::post('/scrap/tester-selecteur/{type_selecteur}', 'testerSelecteur')->name('scrap.tester_selecteur')->middleware(['auth']);
 });
 
 

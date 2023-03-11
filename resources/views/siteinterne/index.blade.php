@@ -71,6 +71,7 @@
                                     <th scope="col">Nom</th>
                                     <th scope="col">Url</th>
                                     <th scope="col">Catégories</th>
+                                    <th scope="col">Sites Sources</th>
                                     <th scope="col">Statut</th>                                    
                                     <th scope="col">Actions</th>
                                 </tr>
@@ -115,6 +116,16 @@
                                             </p>
                                         </div> 
                                     </td>                                
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                                                                   
+                                            <p class="inbox-item-date">
+                                                <a  href="{{route('site_interne.join_site_externe',Crypt::encrypt($site->id))}}" type="button" class="btn btn-sm btn-success px-1 py-0">
+                                                     <i class='uil uil-eye font-14'></i> </a>
+                                            </p>
+                                           
+                                        </div> 
+                                    </td>     
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <h5 class="text-danger my-0">@if($site->est_actif == true)  Actif @else Désactivé @endif </h5>
@@ -207,7 +218,7 @@
                                         <div class="mb-3">
                                             <label for="est_diffuse_auto" class="form-label">Diffuser automatiquement ? </label>
                                             <div class="form-check form-switch" >
-                                                <input class="form-check-input btn-lg" style="margin-left: -1.5em" type="checkbox" id="est_diffuse_auto" name="est_diffuse_auto" >
+                                                <input class="form-check-input btn-lg" style="margin-left: -1.5em" type="checkbox" checked id="est_diffuse_auto" name="est_diffuse_auto" >
                                             </div>
                                         </div>
                                     </div>
@@ -291,7 +302,7 @@
                                     <div class="mb-3">
                                         <label for="est_diffuse_auto" class="form-label">Diffuser automatiquement ? </label>
                                         <div class="form-check form-switch" >
-                                            <input class="form-check-input btn-lg" style="margin-left: -1.5em"  type="checkbox" id="edit_est_diffuse_auto" name="est_diffuse_auto" >
+                                            <i nput class="form-check-input btn-lg" style="margin-left: -1.5em"  type="checkbox" id="edit_est_diffuse_auto" name="est_diffuse_auto" >
                                         </div>
                                     </div>
                                 </div>
@@ -314,25 +325,55 @@
 
      <!-- Modal Add categorie -->
      <div class="modal fade" id="editCategorieModal" tabindex="-1" aria-labelledby="addActionModalLabel" aria-hidden="true">
-        <div class="modal-dialog ">
+        <div class="modal-dialog modal-lg">
             <form action="{{route('categorie_interne.store')}}" method="post">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addActionModalLabel">Ajouter une catégorie à <span id="nom_site"></span></h5>
+                        <h3 class="modal-title" id="addActionModalLabel">Ajouter une catégorie à <span id="nom_site"></span></h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         
                             @csrf
+                       
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="mb-3">
+                                        <label for="categorie_cree" class="form-label">La catégorie a t'elle déjà été créée sur le site ?</label>
+                                        <select name="categorie_cree" id="categorie_cree" class="form-select">
+                                            <option value="non">non</option>
+                                            <option value="oui">oui</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" class="form-control" name="siteinterne_id" id="siteinterne_id"  required >
 
-                            <div class="row autre_champs" style="margin-top: 20px">
+                            <div class="row " style="margin-top: 20px">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="nom_categorie" class="form-label">Nom de la catégorie *</label>
                                         <input type="text"  class="form-control" name="nom" id="nom_categorie"  required>
                                     </div>
                                 </div>
-                                <input type="hidden" class="form-control" name="siteinterne_id" id="siteinterne_id"  required >
+
+                            </div>
+                            <div class="row categorie_cree" style="margin-top: 20px">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="wp_id" class="form-label">ID de la catégorie *</label>
+                                        <input type="text"  class="form-control" name="wp_id" id="wp_id"  required>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row categorie_cree" style="margin-top: 20px">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="url" class="form-label">URL de la catégorie *</label>
+                                        <input type="text"  class="form-control" name="url" id="url"  required>
+                                    </div>
+                                </div>
 
                             </div>
 
@@ -398,19 +439,27 @@
 
 {{-- Ajout d'une catégorie--}}
 <script>
+    $('.categorie_cree').hide();
+
     $('.add_categorie').on( 'click',function (e) {
 
         let that = $(this);
         $('#nom_site').text(that.data('nom')) ;
         $('#siteinterne_id').val(that.data('site_id')) ;
 
-        // console.log(that.data('site_id'));
-        
-        // let currentFormAction = that.data('href');
-        // $('#form-edit-categorie').attr('action', currentFormAction) ;
-
     });
 
+    $('#categorie_cree').change(function(e){
+
+    let cate = $('#categorie_cree').val();
+    if(cate == "oui"){
+        $('.categorie_cree').show();
+    }else{
+        $('.categorie_cree').hide();
+    }
+
+
+})
 </script>
         
 
