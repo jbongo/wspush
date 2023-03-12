@@ -170,7 +170,7 @@ class ArticleController extends Controller
                         
                     }
                 } catch (\Exception $th) {
-                    echo "Erreur get titre contenu image -- ".$lien->getUri().": $th";
+                    echo "Erreur : $th";
                 
                 }
             }
