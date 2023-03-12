@@ -171,6 +171,7 @@ class ArticleController extends Controller
                     }
                 } catch (\Exception $th) {
                     echo "Erreur : $th";
+                    return redirect()->back()->with('nok','Article Non Publié');
                 
                 }
             }
