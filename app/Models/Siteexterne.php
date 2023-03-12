@@ -30,5 +30,15 @@ class Siteexterne extends Model
     {
         return $this->belongsToMany(Siteinterne::class);
     }
+
+    /**
+     * Get the pays that owns the Siteexterne
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function pays()
+    {
+        return $this->belongsTo(Pays::class);
+    }
     
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Siteinterne;
+use App\Models\Pays;
 use Illuminate\Support\Facades\Crypt;
 
 class SiteinterneController extends Controller
@@ -16,6 +17,7 @@ class SiteinterneController extends Controller
     public function index()
     {
         $sites = Siteinterne::where('est_archive', false)->get();
+        $pays = Pays::all();
 
         return view('siteinterne.index', compact('sites'));
     }
@@ -50,7 +52,7 @@ class SiteinterneController extends Controller
         $site = Siteinterne::create([
             "nom"=> $request->nom,
             "url"=> $request->url,
-            "pays"=> $request->pays,
+            "pays_id"=> $request->pays_id,
             "login"=> $request->login,
             "password"=> $request->password,
             "est_diffuse_auto"=> $request->est_diffuse_auto == "on" ? true : false,
@@ -74,8 +76,10 @@ class SiteinterneController extends Controller
     public function joinSiteexterne($site_id)
     {
         $site = Siteinterne::where('id', Crypt::decrypt($site_id))->first();
-        
-        dd($site);
+        $pays = Pays::all();
+       
+
+        return view('siteinterne.join_siteexterne', compact('pays','site'));
     }
 
     /**
@@ -126,7 +130,7 @@ class SiteinterneController extends Controller
 
         $site->nom = $request->nom;
         $site->url = $request->url;
-        $site->pays = $request->pays;
+        $site->pays_id = $request->pays_id;
         $site->login = $request->login;
         $site->password = $request->password;
         $site->est_diffuse_auto = $request->est_diffuse_auto == "on" ? true : false;

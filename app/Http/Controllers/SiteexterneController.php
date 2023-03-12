@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Siteexterne;
+use App\Models\Pays;
 use Illuminate\Support\Facades\Crypt;
 
 class SiteexterneController extends Controller
@@ -16,6 +17,7 @@ class SiteexterneController extends Controller
     public function index()
     {
         $sites = Siteexterne::where('est_archive', false)->get();
+        $pays = Pays::all();
 
         return view('siteexterne.index', compact('sites'));
     }
@@ -55,7 +57,7 @@ class SiteexterneController extends Controller
             "selecteur_lien"=> $request->selecteur_lien,
             "selecteur_titre"=> $request->selecteur_titre,
             "selecteur_contenu"=> $request->selecteur_contenu,
-            "pays"=> $request->pays,
+            "pays_id"=> $request->pays_id,
             "selecteur_image"=> $request->selecteur_image,
             "image_affiche_css"=> $request->image_affiche_css == "Non" ? false : true,
             "est_wordpress"=> $request->est_wordpress == "Non" ? false : true,
@@ -126,7 +128,7 @@ class SiteexterneController extends Controller
         $site->selecteur_lien = $request->selecteur_lien;
         $site->selecteur_titre = $request->selecteur_titre;
         $site->selecteur_contenu = $request->selecteur_contenu;
-        $site->pays = $request->pays;
+        $site->pays_id = $request->pays_id;
         $site->selecteur_image = $request->selecteur_image;
         $site->image_affiche_css = $request->image_affiche_css == "Non" ? false : true;
         $site->est_wordpress = $request->est_wordpress == "Non" ? false : true;
