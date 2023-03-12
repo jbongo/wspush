@@ -289,7 +289,7 @@ class ScrapController extends Controller
                 if($imageUrl != null){
                     echo("IMAGE : ".$imageUrl."  <br>");
 
-                    echo "<img scr='$imageUrl' height='400px' width='500px'/> ";
+                    echo "<img src='$imageUrl' height='400px' width='500px'/> ";
 
                 }else{
                     return "ERREUR";
