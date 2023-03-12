@@ -120,7 +120,6 @@ class ScrapController extends Controller
 
 
             }
-            echo "$site->nom \n";
 
         }
 

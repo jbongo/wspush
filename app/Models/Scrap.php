@@ -29,6 +29,7 @@ class Scrap extends Model
            
             $categories = $site->categorieexternes;
 
+            echo "$site->nom \n";
 
             foreach ($categories as $categorie) {
                
@@ -54,6 +55,7 @@ class Scrap extends Model
 
                 } catch (\Exception $th) {
                    
+                    echo "Erreur get liens: $th";
                 }
              
         
@@ -115,6 +117,7 @@ class Scrap extends Model
                         }
                     
                     } catch (\Exception $th) {
+                        echo "Erreur get titre contenu image: $th";
                        
                     }
         
