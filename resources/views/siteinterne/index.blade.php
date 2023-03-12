@@ -187,12 +187,12 @@
                                     <div class="col-6" >
                                         <div id="" class="custom-control custom-radio custom-control-inline">
                                             <label class="custom-control-label" for="pays">Pays *</label>
-                                            <select name="pays" class="form-select" id="pays" required>                                                
-                                                <option value="Côte d'Ivoire">Côte d'Ivoire</option> 
-                                                <option value="Gabon">Gabon</option>  
-                                                <option value="Djibouti">Djibouti</option>                                              
-                                                <option value="Centrafrique">Centrafrique</option>                                              
-                                                <option value="Bénin">Bénin</option>                                              
+                                            <select name="pays" class="form-select" id="pays" required>        
+                                                
+                                                @foreach ($pays as $pay)
+                                                    <option value="{{$pay->id}}">{{$pay->nom}}</option>                                                     
+                                                @endforeach
+                                                                            
                                             </select>
                                         </div>                                        
                                     </div> 
@@ -271,11 +271,9 @@
                                     <div id="" class="custom-control custom-radio custom-control-inline">
                                         <label class="custom-control-label" for="edit_pays">Pays *</label>
                                         <select name="pays" class="form-control" id="edit_pays" required>                                                
-                                            <option value="Côte d'Ivoire">Côte d'Ivoire</option> 
-                                            <option value="Gabon">Gabon</option>
-                                            <option value="Djibouti">Djibouti</option>                                              
-                                            <option value="Centrafrique">Centrafrique</option>                                              
-                                            <option value="Bénin">Bénin</option>                                              
+                                            @foreach ($pays as $pay)
+                                                <option value="{{$pay->id}}">{{$pay->nom}}</option>                                                     
+                                            @endforeach                                             
                                         </select>
                                     </div>                                        
                                 </div> 

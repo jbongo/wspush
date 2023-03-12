@@ -52,7 +52,7 @@ class SiteinterneController extends Controller
         $site = Siteinterne::create([
             "nom"=> $request->nom,
             "url"=> $request->url,
-            "pays_id"=> $request->pays_id,
+            "pays_id"=> $request->pays,
             "login"=> $request->login,
             "password"=> $request->password,
             "est_diffuse_auto"=> $request->est_diffuse_auto == "on" ? true : false,
@@ -130,7 +130,7 @@ class SiteinterneController extends Controller
 
         $site->nom = $request->nom;
         $site->url = $request->url;
-        $site->pays_id = $request->pays_id;
+        $site->pays_id = $request->pays;
         $site->login = $request->login;
         $site->password = $request->password;
         $site->est_diffuse_auto = $request->est_diffuse_auto == "on" ? true : false;
