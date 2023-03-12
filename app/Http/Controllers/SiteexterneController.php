@@ -19,7 +19,7 @@ class SiteexterneController extends Controller
         $sites = Siteexterne::where('est_archive', false)->get();
         $pays = Pays::all();
 
-        return view('siteexterne.index', compact('sites'));
+        return view('siteexterne.index', compact('sites','pays'));
     }
 
     /**

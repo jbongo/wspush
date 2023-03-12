@@ -19,7 +19,7 @@ class SiteinterneController extends Controller
         $sites = Siteinterne::where('est_archive', false)->get();
         $pays = Pays::all();
 
-        return view('siteinterne.index', compact('sites'));
+        return view('siteinterne.index', compact('sites','pays'));
     }
 
     /**
