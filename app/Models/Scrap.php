@@ -88,7 +88,7 @@ class Scrap extends Model
 
                         // Si l'url de l'image n'est pas en lien absolue, ajouter l'url du site
                        
-                        if(!filter_var($imageUrl, FILTER_VALIDATE_URL))
+                        if(!filter_var($imageUrl, FILTER_VALIDATE_URL) && !(str_contains($imageUrl, 'http')))
                         {     
 
                             // retirer "/" s'il existe en début de l'url

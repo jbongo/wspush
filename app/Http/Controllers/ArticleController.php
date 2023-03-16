@@ -105,7 +105,7 @@ class ArticleController extends Controller
                     ]);
             
                     
-                    dd($response->json());
+                   
                     $token = $response->json()['token'] ;
                     
                     $curl = curl_init();
