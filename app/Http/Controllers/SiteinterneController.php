@@ -59,7 +59,7 @@ class SiteinterneController extends Controller
             
         ]);
         
-        return  redirect()->route()->with('ok', 'Site interne créé');
+        // return  redirect()->route()->with('ok', 'Site interne créé');
 
 
 
