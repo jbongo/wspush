@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Categorieinterne;
+use App\Models\Categorieexterne;
 use App\Models\Siteinterne;
 use App\Models\Siteexterne;
+use App\Models\Pays;
 use App\Models\CategorieexterneCategorieinterne;
+use App\Models\SiteexterneSiteinterne;
 
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
@@ -142,14 +145,31 @@ class CategorieinterneController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($categorieinterne_id)
+    public function edit($categorieinterne_id, $pays = null)
     {
-       
+      
         $categorieinterne = Categorieinterne::where('id', Crypt::decrypt($categorieinterne_id))->first();
-        $siteexternes =  Siteexterne::where('est_archive', false)->get();
+
+        if($pays == "all"){
+            $siteexternes =  Siteexterne::where('est_archive', false)->get();
+            $paysSelect = "all";
+        }elseif($pays == null ){
+            
+            $paysSelect = Pays::where('id',$categorieinterne->siteinterne->pay_id)->first();
+            $siteexternes =  Siteexterne::where([['est_archive', false], ['pay_id', $paysSelect->id]])->get();
+
+        
+        }else{
+            $paysSelect = Pays::where('id',$pays)->first();
+            $siteexternes =  Siteexterne::where([['est_archive', false], ['pay_id', $paysSelect->id]])->get();
+
+        }
 
 
-        return view('categorieinterne.edit', compact('categorieinterne','siteexternes'));
+        $pays = Pays::all();
+        $url = "/categorie-interne/edit/$categorieinterne_id";
+
+        return view('categorieinterne.edit', compact('categorieinterne','siteexternes', 'pays','paysSelect','url'));
       
     }
 
@@ -163,9 +183,11 @@ class CategorieinterneController extends Controller
     public function update(Request $request, $categorieinterne_id)
     {
         $categorieinterne = Categorieinterne::where('id', Crypt::decrypt($categorieinterne_id))->first();
+        $siteinterne = $categorieinterne->siteinterne;
 
         // Trier par client ID plus tard 
         CategorieexterneCategorieinterne::where('categorieinterne_id',Crypt::decrypt($categorieinterne_id) )->delete();
+        SiteexterneSiteinterne::where('siteinterne_id',$siteinterne->id )->delete();
         
         $nom = $request->nom;
         $req = $request->all();
@@ -173,7 +195,18 @@ class CategorieinterneController extends Controller
         unset($req['_token']);
         unset($req['nom']);
 
+
+        
         $categorieexterne_ids = array_keys($req);
+
+        // Lier tous les sites internes aux sites externes
+        $categorieexternes = Categorieexterne::whereIn('id', $categorieexterne_ids )->get();
+
+        foreach ($categorieexternes as $categorieexterne) {
+            $siteinterne->siteexternes()->attach($categorieexterne->siteexterne_id);
+        }
+      
+        // Lier les catégories internes aux catégories externes
         $categorieinterne->categorieexternes()->attach($categorieexterne_ids);
         
         return redirect()->back()->with('ok',' Terminé');

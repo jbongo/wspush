@@ -15,7 +15,7 @@ class Siteinterne extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function Siteexterne()
+    public function Siteexternes()
     {
         return $this->belongsToMany(Siteexterne::class);
     }
@@ -25,8 +25,9 @@ class Siteinterne extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function pays()
+    public function pay()
     {
+        // dd($this);
         return $this->belongsTo(Pays::class);
     }
 

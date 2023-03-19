@@ -16,7 +16,9 @@
                         <li class="breadcrumb-item active">Détails</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Modifier la catégorie  <span class="text-danger"> {{$categorieinterne->nom}} </span> de {{$categorieinterne->siteinterne->nom}}</h4>
+                <h4 class="page-title">Modifier la catégorie  <span class="text-danger"> {{$categorieinterne->nom}} </span> de {{$categorieinterne->siteinterne->nom}}
+                / {{$categorieinterne->siteinterne->pay->nom}}
+                </h4>
             </div>
         </div>
     </div>
@@ -54,8 +56,8 @@
     <div class="row">
 
   
-
-        <div class="col-12 ">
+     
+        <div class="col-9 ">
             <div class="card">
                 <div class="card-body">
                    
@@ -63,7 +65,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title" id="addcategorieinterneModalLabel"><span class="text-danger"> {{$categorieinterne->nom}} </span> / {{$categorieinterne->siteinterne->nom}}</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                             </div>
                             <div class="modal-body">
                                 
@@ -140,6 +142,57 @@
             </div>
         </div> <!-- end col -->
         
+        <div class="col-3 ">
+            <div class="card">
+                <div class="card-body">
+                   
+                    <form action="{{route('categorie_interne.update', Crypt::encrypt($categorieinterne->id))}}" method="post">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="addcategorieinterneModalLabel"><span class="text-danger"> Choisir le pays </span> </h4>
+                                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+                            </div>
+                            <div class="modal-body">
+                                
+                                    @csrf                     
+                                    
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <select  class="form-select" name="pays"  id="pays" >
+                                                @if($paysSelect == "all")
+                                                    <option value="all">Tous les pays</option>
+                                                @else
+                                                    <option value="{{$paysSelect->id}}">{{$paysSelect->nom}}</option>                                                         
+
+                                                @endif
+                                                <option value="all">Tous les pays</option>
+
+                                                @foreach ($pays as $pay)
+                                                    <option value="{{$pay->id}}">{{$pay->nom}}</option>                                                         
+                                                @endforeach
+                                            </select>
+                                            
+                                            
+                                            @if ($errors->has('pays'))
+                                              <br>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <i class="dripicons-wrong me-2"></i> <strong>{{$errors->first('pays')}}</strong> 
+                                                </div>
+                                            @endif
+                                        </div>
+                                       
+                                      
+                                    </div>
+                                                                        
+                            </div>
+                            
+                        </div>
+                    </form> 
+           
+                </div>
+            </div>
+        </div> <!-- end col -->
+        
         
         
         
@@ -153,5 +206,16 @@
 
 @section('script')
 
+<script>
 
+    let url = "{{$url}}";
+    
+    // Choix du pays
+    $('#pays').change(function(e){
+
+        window.location.href=url+'/'+e.currentTarget.value;
+
+    });
+
+</script>
 @endsection

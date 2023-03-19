@@ -79,7 +79,7 @@
                         
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 ms-2 fw-bold " style="font-size: 16px">{{$site->pays}}</div>
+                                            <div class="flex-grow-1 ms-2 fw-bold " style="font-size: 16px">{{$site->pay->nom}}</div>
                                             
                                         </div>
                                     </td>
@@ -109,7 +109,7 @@
                                     <td>
                                         <a  class="text-success modifier" data-bs-toggle="modal" data-bs-target="#editModal"
                                             
-                                            data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pays}}" data-selecteur_lien="{{$site->selecteur_lien}}"
+                                            data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pay->nom}}" data-selecteur_lien="{{$site->selecteur_lien}}"
                                             data-selecteur_titre="{{$site->selecteur_titre}}" data-selecteur_contenu="{{$site->selecteur_contenu}}"
                                             data-selecteur_image="{{$site->selecteur_image}}" data-est_wordpress="{{$site->est_wordpress}}" data-image_affiche_css="{{$site->image_affiche_css}}"
                                             data-image_affiche_css="{{$site->image_affiche_css}}" data-href="{{route('site_externe.update', Crypt::encrypt($site->id))}}"

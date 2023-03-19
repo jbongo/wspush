@@ -88,7 +88,7 @@
                         
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 ms-2 fw-bold " style="font-size: 16px">{{$site->pays}}</div>
+                                            <div class="flex-grow-1 ms-2 fw-bold " style="font-size: 16px">{{$site->pay->nom}}</div>
                                             
                                         </div>
                                     </td>
@@ -134,7 +134,7 @@
                                     <td>
                                         <a  class="text-success modifier" data-bs-toggle="modal" data-bs-target="#editModal"
                                             
-                                            data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pays}}" data-login="{{$site->login}}" data-passwordx="{{$site->password}}"
+                                            data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pay->nom}}" data-login="{{$site->login}}" data-passwordx="{{$site->password}}"
                                             data-href="{{route('site_interne.update', Crypt::encrypt($site->id))}}" data-site_id="{{$site->id}}"  data-est_diffuse_auto = {{$site->est_diffuse_auto}}
                                             title="Modifier" ><i class="mdi mdi-lead-pencil"></i></a>
                                             {{-- 
@@ -300,7 +300,7 @@
                                     <div class="mb-3">
                                         <label for="est_diffuse_auto" class="form-label">Diffuser automatiquement ? </label>
                                         <div class="form-check form-switch" >
-                                            <i nput class="form-check-input btn-lg" style="margin-left: -1.5em"  type="checkbox" id="edit_est_diffuse_auto" name="est_diffuse_auto" >
+                                            <input class="form-check-input btn-lg" style="margin-left: -1.5em"  type="checkbox" id="edit_est_diffuse_auto" name="est_diffuse_auto" >
                                         </div>
                                     </div>
                                 </div>

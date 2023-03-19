@@ -65,7 +65,7 @@ Route::controller(SiteinterneController::class)->group(function (){
 Route::controller(CategorieinterneController::class)->group(function (){
     Route::get('/categorie-internes/{site_id}', 'index')->name('categorie_interne.index')->middleware(['auth']);
     Route::get('/categorie-interne/add', 'create')->name('categorie_interne.add')->middleware(['auth']);
-    Route::get('/categorie-interne/edit/{categorie_id}', 'edit')->name('categorie_interne.edit')->middleware(['auth']);
+    Route::get('/categorie-interne/edit/{categorie_id}/{pays?}', 'edit')->name('categorie_interne.edit')->middleware(['auth']);
     Route::post('/categorie-interne/store', 'store')->name('categorie_interne.store')->middleware(['auth']);
     Route::post('/categorie-interne/update/{categorie_id}', 'update')->name('categorie_interne.update')->middleware(['auth']);
 });

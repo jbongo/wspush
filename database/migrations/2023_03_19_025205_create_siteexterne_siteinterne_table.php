@@ -7,7 +7,7 @@ use App\Models\Siteinterne;
 use App\Models\Siteexterne;
 
 
-class CreateSiteinterneSiteexterneTable extends Migration
+class CreateSiteexterneSiteinterneTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,11 +16,11 @@ class CreateSiteinterneSiteexterneTable extends Migration
      */
     public function up()
     {
-        Schema::create('siteinterne_siteexterne', function (Blueprint $table) {
+        Schema::create('siteexterne_siteinterne', function (Blueprint $table) {
             $table->id();
-            $table->primary(['siteinterne_id','siteexterne_id']);
-            $table->foreignIdFor(Siteinterne::class);
+            $table->primary(['siteexterne_id','siteinterne_id']);
             $table->foreignIdFor(Siteexterne::class);
+            $table->foreignIdFor(Siteinterne::class);
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateSiteinterneSiteexterneTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('siteinterne_siteexterne');
+        Schema::dropIfExists('siteexterne_siteinterne');
     }
 }

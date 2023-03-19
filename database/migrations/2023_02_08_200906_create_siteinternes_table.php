@@ -16,7 +16,7 @@ class CreateSiteinternesTable extends Migration
         Schema::create('siteinternes', function (Blueprint $table) {
             $table->id();
             $table->integer('client_id')->nullable();
-            $table->integer("pays_id")->nullable();
+            $table->integer("pay_id")->nullable();
             $table->string('nom')->nullable();
             $table->string('login')->nullable();
             $table->string('password')->nullable();
