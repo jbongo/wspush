@@ -45,7 +45,7 @@
                         <div class="col-6">
                             <div class="alert alert-success alert-dismissible bg-danger text-white text-center border-0 fade show" role="alert">
                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                <strong> {{session('ok')}}</strong>
+                                <strong> {{session('nok')}}</strong>
                             </div>
                         </div>
                         @endif
@@ -70,6 +70,7 @@
                                     <th scope="col">Pays</th>
                                     <th scope="col">Nom</th>
                                     <th scope="col">Url</th>
+                                    <th scope="col">Alimenter</th>
                                     <th scope="col">Catégories</th>
                                     <th scope="col">Sites Sources</th>
                                     <th scope="col">Statut</th>                                    
@@ -102,6 +103,16 @@
                                             <div class="flex-grow-1 ms-2 fw-bold"><span class="text-danger">{{$site->url}}</span></div>
                                         </div> 
                                     </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                                                                   
+                                            <p class="inbox-item-date">
+                                                <a  href="{{route('site_interne.alimenter',Crypt::encrypt($site->id))}}" type="button" class="btn btn-sm btn-secondary px-1 py-0">
+                                                     <i class='uil uil-eye font-14'></i> </a>
+                                            </p>
+                                    
+                                        </div> 
+                                    </td>    
                                     <td>
                                         <div class="d-flex align-items-center">
                                                                                    

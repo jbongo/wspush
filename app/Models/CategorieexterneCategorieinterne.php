@@ -12,4 +12,21 @@ class CategorieexterneCategorieinterne extends Model
     protected $table = 'categorieexterne_categorieinterne';
 
  
+    /**
+     * Retourne la liste des categories internes associé à la catégorie
+     */
+    function categorieinterne()
+    {
+        return $this->belongsTo(Categorieinterne::class,);
+
+    }
+
+    /**
+     * Retourne la liste des categories externes associé à la catégorie
+     */
+    function categorieexterne()
+    {
+        return $this->belongsTo(Categorieexterne::class,);
+
+    }
 }
