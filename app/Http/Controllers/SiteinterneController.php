@@ -234,8 +234,8 @@ class SiteinterneController extends Controller
                             $image = json_decode($resp2,true);
 
 
-                            
                             if( isset($image['id']) ){
+                            
 
                                    echo $article['title']['rendered'].$article['date']."--- $url_externe------ <br>";                        
                                 
@@ -253,6 +253,7 @@ class SiteinterneController extends Controller
                         
                                 $data = file_get_contents($image['guid']['rendered']);
 
+                        
                                 
                         
                                 curl_setopt_array($curl, array(
@@ -266,7 +267,7 @@ class SiteinterneController extends Controller
                                 CURLOPT_HTTPHEADER => array(
                                     "authorization: Bearer $token",
                                     "cache-control: no-cache",
-                                    "content-disposition: attachment; filename=test.png",
+                                    "content-disposition: attachment; filename=".$article['slug'].".png",
                                     "content-type: image/png",
                                 ),
                                 CURLOPT_POSTFIELDS => $data,
