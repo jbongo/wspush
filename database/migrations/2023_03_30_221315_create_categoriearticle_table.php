@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategorieinternesTable extends Migration
+class CreateCategoriearticleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateCategorieinternesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categorieinternes', function (Blueprint $table) {
+        Schema::create('categoriearticle', function (Blueprint $table) {
             $table->id();
-            $table->string("nom")->nullable();         
-            $table->integer('categoriearticle_id')->nullable();
-            $table->integer("siteinterne_id")->nullable();         
-            $table->integer("wp_id")->nullable();         
-            $table->string("url")->nullable();           
+            $table->string('nom')->nullable();
             $table->boolean('est_archive')->default(false);
             $table->timestamps();
         });
@@ -32,6 +28,6 @@ class CreateCategorieinternesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categorieinternes');
+        Schema::dropIfExists('categoriearticle');
     }
 }

@@ -17,6 +17,7 @@ class CreateCategorieexternesTable extends Migration
             $table->id();
             $table->string("nom")->nullable();         
             $table->string("url")->nullable();         
+            $table->integer('categoriearticle_id')->nullable();
             $table->integer('siteexterne_id')->nullable();
             $table->boolean('est_archive')->default(false);
 

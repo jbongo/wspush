@@ -17,6 +17,7 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->integer('categorieexterne_id')->nullable();
             $table->integer('siteexterne_id')->nullable();
+            $table->integer('categoriearticle_id')->nullable();
             $table->integer('client_id')->nullable();
             $table->string('titre')->nullable();
             $table->text('description')->nullable();

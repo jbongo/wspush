@@ -28,4 +28,14 @@ class Categorieexterne extends Model
     {
         return $this->belongsToMany(Categorieinterne::class);
     }
+
+    /**
+     * Get the categoriearticle that owns the Categorieexterne
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function categoriearticle()
+    {
+        return $this->belongsTo(Categoriearticle::class);
+    }
 }
