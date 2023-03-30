@@ -18,8 +18,8 @@ class CreateArticleCategorieinterneTable extends Migration
         Schema::create('article_categorieinterne', function (Blueprint $table) {
             $table->id();
             $table->primary(['categorieinterne_id','article_id'])->nullable();
-            $table->foreignIdFor(Categorieinterne::class);
-            $table->foreignIdFor(Article::class);
+            // $table->foreignIdFor(Categorieinterne::class);
+            // $table->foreignIdFor(Article::class);
             $table->integer("articlerenomme_id")->nullable();         
             $table->integer("siteinterne_id")->nullable();         
             $table->integer("titre_article")->nullable();         

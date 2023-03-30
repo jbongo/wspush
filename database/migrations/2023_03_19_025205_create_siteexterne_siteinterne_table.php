@@ -19,8 +19,8 @@ class CreateSiteexterneSiteinterneTable extends Migration
         Schema::create('siteexterne_siteinterne', function (Blueprint $table) {
             $table->id();
             $table->primary(['siteexterne_id','siteinterne_id']);
-            $table->foreignIdFor(Siteexterne::class);
-            $table->foreignIdFor(Siteinterne::class);
+            // $table->foreignIdFor(Siteexterne::class);
+            // $table->foreignIdFor(Siteinterne::class);
             $table->timestamps();
         });
     }
