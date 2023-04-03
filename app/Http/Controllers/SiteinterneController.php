@@ -10,6 +10,7 @@ use App\Models\Categorieinterne;
 use App\Models\Categorieexterne;
 use App\Models\CategorieexterneCategorieinterne;
 use App\Models\ArticleCategorieinterne;
+use App\Models\Categoriearticle;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 
@@ -24,8 +25,10 @@ class SiteinterneController extends Controller
     {
         $sites = Siteinterne::where('est_archive', false)->get();
         $pays = Pays::all();
+        $categories = Categoriearticle::where([['est_archive',false]])->get();
 
-        return view('siteinterne.index', compact('sites','pays'));
+
+        return view('siteinterne.index', compact('sites','pays','categories'));
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Siteexterne;
 use App\Models\Pays;
+use App\Models\Categoriearticle;
 use Illuminate\Support\Facades\Crypt;
 
 class SiteexterneController extends Controller
@@ -18,8 +19,10 @@ class SiteexterneController extends Controller
     {
         $sites = Siteexterne::where('est_archive', false)->get();
         $pays = Pays::all();
+        $categories = Categoriearticle::where([['est_archive',false]])->get();
 
-        return view('siteexterne.index', compact('sites','pays'));
+
+        return view('siteexterne.index', compact('sites','pays','categories'));
     }
 
     /**

@@ -109,7 +109,7 @@
                                     <td>
                                         <a  class="text-success modifier" data-bs-toggle="modal" data-bs-target="#editModal"
                                             
-                                            data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pay->nom}}" data-selecteur_lien="{{$site->selecteur_lien}}"
+                                            data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pay->id}}" data-selecteur_lien="{{$site->selecteur_lien}}"
                                             data-selecteur_titre="{{$site->selecteur_titre}}" data-selecteur_contenu="{{$site->selecteur_contenu}}"
                                             data-selecteur_image="{{$site->selecteur_image}}" data-est_wordpress="{{$site->est_wordpress}}" data-image_affiche_css="{{$site->image_affiche_css}}"
                                             data-image_affiche_css="{{$site->image_affiche_css}}" data-href="{{route('site_externe.update', Crypt::encrypt($site->id))}}"
@@ -213,8 +213,8 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="selecteur_titre" class="form-label">L'image s'affiche avec (style="background-image") ? </label>
-                                            <select name="est_wordpress" class="form-control" id="est_wordpress" required>                                                
+                                            <label for="image_affiche_css" class="form-label">L'image s'affiche avec (style="background-image") ? </label>
+                                            <select name="image_affiche_css" class="form-control" id="image_affiche_css" required>                                                
                                                 <option value="Non">Non</option>                                               
                                                 <option value="Oui">Oui</option>                                               
                                             </select>

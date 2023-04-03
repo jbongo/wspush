@@ -82,8 +82,53 @@
                                                     </div>
                                                 @endif
                                             </div>
-                                           
-                                          
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="mb-3">
+                                                <label for="categoriearticle_id" class="form-label">Catégorie</label>
+                                                <select name="categoriearticle_id" id="categoriearticle_id"  class="form-select" >   
+                                                                                                     
+                                                    <option value="{{$categorieinterne->categoriearticle->id}}">{{$categorieinterne->categoriearticle->nom}}</option>
+                                                    
+                                                    @foreach ($categoriearticles as $categoriearticle)                                                        
+                                                        <option value="{{$categoriearticle->id}}">{{$categoriearticle->nom}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if ($errors->has('categoriearticle_id'))
+                                                  <br>
+                                                    <div class="alert alert-danger" role="alert">
+                                                        <i class="dripicons-wrong me-2"></i> <strong>{{$errors->first('categoriearticle_id')}}</strong> 
+                                                    </div>
+                                                @endif
+                                            </div> 
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="wp_id" class="form-label">ID de la catégorie *</label>
+                                                <input type="text" value="{{old('wp_id') ? old('wp_id') : $categorieinterne->wp_id}}"  class="form-control" name="wp_id" id="wp_id"  required>
+                                                @if ($errors->has('wp_id'))
+                                                <br>
+                                                  <div class="alert alert-danger" role="alert">
+                                                      <i class="dripicons-wrong me-2"></i> <strong>{{$errors->first('wp_id')}}</strong> 
+                                                  </div>
+                                              @endif
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="url" class="form-label">URL de la catégorie *</label>
+                                                <input type="text" value="{{old('url') ? old('url') : $categorieinterne->url}}"  class="form-control" name="url" id="url"  required>
+                                                @if ($errors->has('url'))
+                                                <br>
+                                                  <div class="alert alert-danger" role="alert">
+                                                      <i class="dripicons-wrong me-2"></i> <strong>{{$errors->first('url')}}</strong> 
+                                                  </div>
+                                              @endif
+                                            </div>
                                         </div>
                                         
                                     </div>

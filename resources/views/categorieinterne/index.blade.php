@@ -121,19 +121,60 @@
                             
                                 @csrf
 
-                                <div class="row autre_champs" style="margin-top: 20px">
-                                    <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-7">
                                         <div class="mb-3">
-                                            <label for="nom" class="form-label">Nom *</label>
-                                            <input type="text"  class="form-control" name="nom" id="nom"  required>
+                                            <label for="categorie_cree" class="form-label">La catégorie a t'elle déjà été créée sur le site ?</label>
+                                            <select name="categorie_cree" id="categorie_cree" class="form-select">
+                                                <option value="non">non</option>
+                                                <option value="oui">oui</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <input type="hidden"  class="form-control" name="siteinterne_id" id="siteinterne_id" value="{{$siteinterne->id}}"  required>
-                                    
                                 </div>
+                                <input type="hidden"  class="form-control" name="siteinterne_id" id="siteinterne_id" value="{{$siteinterne->id}}"  required>
 
 
-                              
+                                <div class="row " style="margin-top: 20px">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="nom_categorie" class="form-label">Nom de la catégorie *</label>
+                                            <input type="text"  class="form-control" name="nom" id="nom_categorie"  required>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="categoriearticle_id" class="form-label">Catégorie</label>
+                                            <select name="categoriearticle_id" id="categoriearticle_id"  class="form-select" >                                                    
+                                                
+                                                @foreach ($categoriearticles as $categoriearticle)                                                        
+                                                    <option value="{{$categoriearticle->id}}">{{$categoriearticle->nom}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div> 
+                                    </div>
+    
+                                </div>
+                                <div class="row categorie_cree" style="margin-top: 20px">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="wp_id" class="form-label">ID de la catégorie *</label>
+                                            <input type="text"  class="form-control" name="wp_id" id="wp_id"  required>
+                                        </div>
+                                    </div>
+    
+                                </div>
+                                <div class="row categorie_cree" style="margin-top: 20px">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="url" class="form-label">URL de la catégorie *</label>
+                                            <input type="text"  class="form-control" name="url" id="url"  required>
+                                        </div>
+                                    </div>
+    
+                                </div>
+    
+                                
                               
                               
                                                                     
@@ -222,6 +263,31 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
+{{-- Ajout d'une catégorie--}}
+<script>
+    $('.categorie_cree').hide();
+
+    $('.add_categorie').on( 'click',function (e) {
+
+        let that = $(this);
+        $('#nom_site').text(that.data('nom')) ;
+        $('#siteinterne_id').val(that.data('site_id')) ;
+
+    });
+
+    $('#categorie_cree').change(function(e){
+
+    let cate = $('#categorie_cree').val();
+    if(cate == "oui"){
+        $('.categorie_cree').show();
+    }else{
+        $('.categorie_cree').hide();
+    }
+
+
+})
+</script>
+
 {{-- Modification d'une catégorie --}}
 <script>
     $('.modifier').on( 'click',function (e) {
@@ -235,7 +301,6 @@
 
         let siteinterneId = that.data('siteinterne_id') ;
 
-console.log(siteinterneId);
         $('#edit_siteinterne_id option[value='+siteinterneId+']').attr('selected','selected');
 
         let currentFormAction = that.data('href');

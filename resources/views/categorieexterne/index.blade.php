@@ -98,7 +98,7 @@
                                         <a  class="text-success modifier" data-bs-toggle="modal" data-bs-target="#editModal"
                                             
                                             data-nom="{{$categorie->nom}}" data-url="{{$categorie->url}}" data-siteexterne_id="{{$categorie->siteexterne_id}}"
-                                            data-href="{{route('categorie_externe.update', Crypt::encrypt($categorie->id))}}"
+                                            data-categoriearticle_id="{{$categorie->categoriearticle->id}}" data-href="{{route('categorie_externe.update', Crypt::encrypt($categorie->id))}}"
                                             title="Modifier" ><i class="mdi mdi-lead-pencil"></i></a>
                                             {{-- 
                                             <a href="{{route('article.show', Crypt::encrypt($categorie->id))}}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"><i class="mdi mdi-eye-outline"></i></a>
@@ -143,6 +143,17 @@
                                             <label for="url" class="form-label">Url *</label>
                                             <input type="url" class="form-control" name="url" id="url"  required >
                                         </div>      
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="categoriearticle_id" class="form-label">Catégorie</label>
+                                            <select name="categoriearticle_id" id="categoriearticle_id"  class="form-select" >                                                    
+                                                
+                                                @foreach ($categoriearticles as $categoriearticle)                                                        
+                                                    <option value="{{$categoriearticle->id}}">{{$categoriearticle->nom}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div> 
                                     </div>
                                 </div>
 
@@ -210,6 +221,17 @@
                                         <input type="url" class="form-control" name="url" id="edit_url"  required >
                                     </div>      
                                 </div>
+                                <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="edit_categoriearticle_id" class="form-label">Catégorie</label>
+                                            <select name="categoriearticle_id" id="edit_categoriearticle_id"  class="form-select" >                                                    
+                                                
+                                                @foreach ($categoriearticles as $categoriearticle)                                                        
+                                                    <option value="{{$categoriearticle->id}}">{{$categoriearticle->nom}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div> 
+                                    </div>
                             </div>
 
                             @if($site_id != null)
@@ -298,9 +320,10 @@
         
 
         let siteexterneId = that.data('siteexterne_id') ;
-
-console.log(siteexterneId);
         $('#edit_siteexterne_id option[value='+siteexterneId+']').attr('selected','selected');
+
+        let categoriearticleId = that.data('categoriearticle_id') ;
+        $('#edit_categoriearticle_id option[value='+categoriearticleId+']').attr('selected','selected');
 
         let currentFormAction = that.data('href');
         $('#form-edit').attr('action', currentFormAction) ;
@@ -311,8 +334,7 @@ console.log(siteexterneId);
         
 
 <script>
-//  Activation de simulation 
- 
+//  Activation de simulation  
 
 $(".activer_simulation").click(function(){
  

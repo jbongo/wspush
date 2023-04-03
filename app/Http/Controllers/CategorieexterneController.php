@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Categorieexterne;
 use App\Models\Siteexterne;
+use App\Models\Categoriearticle;
 use Illuminate\Support\Facades\Crypt;
 
 class CategorieexterneController extends Controller
@@ -27,8 +28,9 @@ class CategorieexterneController extends Controller
         }
 
         $sites = Siteexterne::where([['est_archive', false], ['est_actif', true]])->get();
+        $categoriearticles = Categoriearticle::where([['est_archive',false]])->get();
 
-        return view('categorieexterne.index', compact('categories','sites','site_id'));
+        return view('categorieexterne.index', compact('categories','sites','site_id','categoriearticles'));
     }
 
     /**
@@ -59,6 +61,7 @@ class CategorieexterneController extends Controller
         $categorie = Categorieexterne::create([
             "nom"=> $request->nom,
             "siteexterne_id"=> $request->siteexterne_id,
+            "categoriearticle_id"=> $request->categoriearticle_id,
             "url"=> $request->url,
            
         ]);
@@ -114,7 +117,8 @@ class CategorieexterneController extends Controller
              
         $categorie->nom = $request->nom;
         $categorie->url = $request->url;
-
+        $categorie->categoriearticle_id = $request->categoriearticle_id;
+        
         $categorie->update();
         return  redirect()->back()->with('ok', 'Catégorie modifiée');
 

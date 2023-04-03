@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Categorieexterne;
+use App\Models\Categoriearticle;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 
@@ -31,7 +32,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $categories = Categorieexterne::where([['est_archive',false]])->get();
+        $categories = Categoriearticle::where([['est_archive',false]])->get();
 
         return view('article.add',compact('categories'));  
         

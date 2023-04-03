@@ -7,6 +7,7 @@ use App\Models\Categorieinterne;
 use App\Models\Categorieexterne;
 use App\Models\Siteinterne;
 use App\Models\Siteexterne;
+use App\Models\Categoriearticle;
 use App\Models\Pays;
 use App\Models\CategorieexterneCategorieinterne;
 use App\Models\SiteexterneSiteinterne;
@@ -25,12 +26,13 @@ class CategorieinterneController extends Controller
     public function index($site_id)
     {
         $site_id = Crypt::decrypt($site_id);
+        $categoriearticles = Categoriearticle::where([['est_archive',false]])->get();
         $categories = Categorieinterne::where('siteinterne_id', $site_id)->get();
         $siteinterne = Siteinterne::where('id', $site_id)->first();
 
         
 
-        return view('categorieinterne.index', compact('categories','siteinterne','site_id'));
+        return view('categorieinterne.index', compact('categories','categoriearticles','siteinterne','site_id'));
     }
 
     /**
@@ -100,6 +102,7 @@ class CategorieinterneController extends Controller
             $categorieinterne = Categorieinterne::create([
                 "nom"=> $request->nom,
                 "siteinterne_id"=> $request->siteinterne_id,
+                "categoriearticle_id"=> $request->categoriearticle_id,
                 "wp_id"=> $resp['id'],
                 "url"=> $resp['link'],
             ]);
@@ -109,6 +112,7 @@ class CategorieinterneController extends Controller
             $categorieinterne = Categorieinterne::create([
                 "nom"=> $request->nom,
                 "siteinterne_id"=> $request->siteinterne_id,
+                "categoriearticle_id"=> $request->categoriearticle_id,
                 "wp_id"=> $request->wp_id,
                 "url"=> $request->url,
             ]);
@@ -149,6 +153,7 @@ class CategorieinterneController extends Controller
     {
       
         $categorieinterne = Categorieinterne::where('id', Crypt::decrypt($categorieinterne_id))->first();
+        $categoriearticles = Categoriearticle::where([['est_archive',false]])->get();
 
         if($pays == "all"){
             $siteexternes =  Siteexterne::where('est_archive', false)->get();
@@ -169,7 +174,7 @@ class CategorieinterneController extends Controller
         $pays = Pays::all();
         $url = "/categorie-interne/edit/$categorieinterne_id";
 
-        return view('categorieinterne.edit', compact('categorieinterne','siteexternes', 'pays','paysSelect','url'));
+        return view('categorieinterne.edit', compact('categorieinterne','categoriearticles','siteexternes', 'pays','paysSelect','url'));
       
     }
 
@@ -189,11 +194,20 @@ class CategorieinterneController extends Controller
         CategorieexterneCategorieinterne::where('categorieinterne_id',Crypt::decrypt($categorieinterne_id) )->delete();
         SiteexterneSiteinterne::where('siteinterne_id',$siteinterne->id )->delete();
         
-        $nom = $request->nom;
+        $categorieinterne->nom = $request->nom;
+        $categorieinterne->wp_id = $request->wp_id;
+        $categorieinterne->url = $request->url;
+        $categorieinterne->categoriearticle_id = $request->categoriearticle_id;
+
+        $categorieinterne->update();
+
         $req = $request->all();
 
         unset($req['_token']);
         unset($req['nom']);
+        unset($req['wp_id']);
+        unset($req['url']);
+        unset($req['categoriearticle_id']);
 
 
         

@@ -145,7 +145,7 @@
                                     <td>
                                         <a  class="text-success modifier" data-bs-toggle="modal" data-bs-target="#editModal"
                                             
-                                            data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pay->nom}}" data-login="{{$site->login}}" data-passwordx="{{$site->password}}"
+                                            data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pay->id}}" data-login="{{$site->login}}" data-passwordx="{{$site->password}}"
                                             data-href="{{route('site_interne.update', Crypt::encrypt($site->id))}}" data-site_id="{{$site->id}}"  data-est_diffuse_auto = {{$site->est_diffuse_auto}}
                                             title="Modifier" ><i class="mdi mdi-lead-pencil"></i></a>
                                             {{-- 
@@ -359,11 +359,22 @@
                             <input type="hidden" class="form-control" name="siteinterne_id" id="siteinterne_id"  required >
 
                             <div class="row " style="margin-top: 20px">
-                                <div class="col-lg-6">
+                                <div class="col-6">
                                     <div class="mb-3">
                                         <label for="nom_categorie" class="form-label">Nom de la catégorie *</label>
                                         <input type="text"  class="form-control" name="nom" id="nom_categorie"  required>
                                     </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label for="categoriearticle_id" class="form-label">Catégorie</label>
+                                        <select name="categoriearticle_id" id="categoriearticle_id"  class="form-select" >                                                    
+                                            
+                                            @foreach ($categories as $categoriearticle)                                                        
+                                                <option value="{{$categoriearticle->id}}">{{$categoriearticle->nom}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div> 
                                 </div>
 
                             </div>

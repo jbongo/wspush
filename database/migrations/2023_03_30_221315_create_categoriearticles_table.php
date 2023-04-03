@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoriearticleTable extends Migration
+class CreateCategoriearticlesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCategoriearticleTable extends Migration
      */
     public function up()
     {
-        Schema::create('categoriearticle', function (Blueprint $table) {
+        Schema::create('categoriearticles', function (Blueprint $table) {
             $table->id();
             $table->string('nom')->nullable();
             $table->boolean('est_archive')->default(false);
