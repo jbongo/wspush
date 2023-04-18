@@ -18,6 +18,7 @@ class CreateArticlerenommesTable extends Migration
             $table->integer('article_id')->nullable();
             $table->integer('categorieexterne_id')->nullable();
             $table->integer('siteexterne_id')->nullable();
+            $table->integer("langue_id")->nullable();  
             $table->integer('client_id')->nullable();
             $table->string('titre')->nullable();
             $table->text('description')->nullable();

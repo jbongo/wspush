@@ -17,6 +17,7 @@ class CreateSiteinternesTable extends Migration
             $table->id();
             $table->integer('client_id')->nullable();
             $table->integer("pay_id")->nullable();
+            $table->integer("langue_id")->nullable();  
             $table->string('nom')->nullable();
             $table->string('login')->nullable();
             $table->string('password')->nullable();

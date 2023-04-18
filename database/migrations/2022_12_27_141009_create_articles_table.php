@@ -18,14 +18,16 @@ class CreateArticlesTable extends Migration
             $table->integer('categorieexterne_id')->nullable();
             $table->integer('siteexterne_id')->nullable();
             $table->integer('categoriearticle_id')->nullable();
+            $table->integer("langue_id")->nullable();  
             $table->integer('client_id')->nullable();
             $table->string('titre')->nullable();
             $table->text('description')->nullable();
-            $table->text('image')->nullable();
+            $table->longText('image')->nullable();
             $table->text('url')->nullable();
             $table->boolean('est_brouillon')->default(false);
             $table->boolean('est_archive')->default(false);
             $table->boolean('est_publie')->default(false);
+            $table->boolean('est_scrappe')->default(true);
             $table->date('date_publication')->nullable();
             $table->timestamps();
         });

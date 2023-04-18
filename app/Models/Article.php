@@ -17,7 +17,7 @@ class Article extends Model
      /**
      * retournes la catégorie de l'article
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function categorieexterne()
     {
@@ -32,6 +32,26 @@ class Article extends Model
     public function categoriearticle()
     {
         return $this->belongsTo(Categoriearticle::class);
+    }
+
+    
+    /**
+     *Retourne les photos de l'article
+     *
+     */
+    public function images(){
+
+        return $this->hasMany(Image::class);
+    }
+
+    /**
+     * retournes la langue de l'article
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function langue()
+    {
+        return $this->belongsTo(Langue::class);
     }
 
      /**

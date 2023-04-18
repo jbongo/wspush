@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('css')
-   
+
+<link href="{{asset("assets/css/dropzone.css")}}" rel="stylesheet" type="text/css" />
+<link href="{{asset("assets/css/dropzone-custom.css")}}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
@@ -11,7 +13,7 @@
         <div class="col-12">
             <div class="page-title-box">
                 <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
+                    <ol class="breadcrumb m-0"> 
                         <li class="breadcrumb-item"><a href="{{route('article.index')}}">Article</a></li>
                         <li class="breadcrumb-item active">Ajouter</li>
                     </ol>
@@ -91,9 +93,8 @@
                            
                         </div>
 
-                    <form action="{{route('article.store')}}" method="post" class="dropzone" id="drop" data-plugin="dropzone" data-previews-container="#file-previews"
-                        data-upload-preview-template="#uploadPreviewTemplate">
-
+                    <form action="{{route('article.store')}}" method="post"  enctype="multipart/form-data">
+                        @csrf
                         <div class="modal-content">
                             <div class="modal-header">
                                 {{-- <h4 class="modal-title" id="">Modifier l'article</h4> --}}
@@ -111,7 +112,7 @@
                                         <div class="col-8">
                                             <div class="col-12">
                                                 <div class="mb-3">
-                                                    <label for="titre" class="form-label">Titre</label>
+                                                    <label for="titre" class="form-label">Titre *</label>
                                                     <input type="text" class="form-control" name="titre" value="{{old('titre')}} " id="titre"  required>
                                                     @if ($errors->has('titre'))
                                                       <br>
@@ -122,7 +123,9 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <textarea rows="50" name="contenu">
+                                                <label for="titre" class="form-label">Contenu  *</label>
+
+                                                <textarea rows="50" name="contenu" required>
                                              
                                                 </textarea>
                                             </div>
@@ -132,11 +135,22 @@
                                         <div class="col-4">
                                             <div class="col-12">
                                                 <div class="mb-3">
-                                                    <label for="categorie_id" class="form-label">Catégorie</label>
-                                                    <select name="categorie_id" id="categorie_id"  class="form-select" >                                                    
-                                                        
+                                                    <label for="categorie_id" class="form-label">Catégorie *</label>
+                                                    <select name="categorie_id" id="categorie_id"  class="form-select" required>                                                    
+                                                        <option value=""></option>
                                                         @foreach ($categories as $categorie)                                                        
                                                             <option value="{{$categorie->id}}">{{$categorie->nom}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div> 
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label for="langue_id" class="form-label">Langue de l'article *</label>
+                                                    <select name="langue_id" id="langue_id"  class="form-select" required >                                                    
+                                                        <option value=""></option>                                                        
+                                                        @foreach ($langues as $langue)                                                        
+                                                            <option value="{{$langue->id}}">{{$langue->nom}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div> 
@@ -146,51 +160,25 @@
                                                 <label for="images" class="form-label">Image(s)</label>
 
                                                 <div class="fallback" >
-                                                    <input name="images" type="file"   multiple />
+                                                    <input name="images[]" class=" btn btn-danger image-multiple" accept="image/*" type="file"   multiple />
                                                 </div>
-                                            
-                                                <div class="dz-message needsclick"   style="border:dashed rgb(121, 119, 119);">
-                                                    <i class="h1 text-muted dripicons-cloud-upload"></i>
-                                                    <h3>Déposez les images ici ou cliquez pour les télécharger.</h3>
-                                                    <span class="text-muted font-13">(<strong>Les images s'ajouteront de façon aléatoire sur les sites</strong>)</span>
-                                                </div>
-
-
-                                                                                                
-                                                <!-- Preview -->
-                                                <div class="dropzone-previews mt-3" id="file-previews"></div>
-
-                                                <!-- file preview template -->
-                                                <div class="d-none" id="uploadPreviewTemplate">
-                                                    <div class="card mt-1 mb-0 shadow-none border">
-                                                        <div class="p-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-auto">
-                                                                    <img data-dz-thumbnail src="#" class="avatar-sm rounded bg-light" alt="">
-                                                                </div>
-                                                                <div class="col ps-0">
-                                                                    <a href="javascript:void(0);" class="text-muted fw-bold" data-dz-name></a>
-                                                                    <p class="mb-0" data-dz-size></p>
-                                                                </div>
-                                                                <div class="col-auto">
-                                                                    <!-- Button -->
-                                                                    <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
-                                                                        <i class="dripicons-cross"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                     
                                             </div>
+
+                           
+                                            
                                         </div>
                                     </div>
+                                    
+                                    
                                                                         
                             </div>
-                            <div class="modal-footer">
-                                <a  class="btn btn-light" href="{{route('article.index')}}">Annuler</a>
-                                <button type="submit" class="btn btn-success">Enregistrer</button>
+                            <div class="modal-footer"  style="position: fixed;bottom: 10px; margin: 0;  left: 50%; z-index:1 ;" >
+                                <a  class="btn btn-light btn-lg " href="{{route('article.index')}}">Annuler</a>
+                                <button type="submit" class="btn btn-dark btn-flat btn-addon btn-lg ">Enregistrer</button>
                             </div>
+
+                           
                         </div>
                     </form> 
            
@@ -220,28 +208,8 @@
 @endsection
 
 @section('script')
-<script src={{asset("assets/js/vendor/dropzone.min.js")}}></script>
-<!-- init js -->
-<script src={{asset("assets/js/ui/component.fileupload.js")}}></script>
 
-<script>
-// Dropzone.options.drop = {
-//     acceptedFiles: 'image/*'
-// };
-Dropzone.options.drop = { // camelized version of the `id`
-    paramName: "file", // The name that will be used to transfer the file
-    maxFilesize: 2, // MB
-    acceptedFiles: 'image/*',
-    accept: function(file, done) {
-      if (file.name != "justinbieber.jpg") {
-        done("Naha, you don't.");
-        console.log("ddddddddddd");
-      }
-      else { console.log("errrrr"); done(); }
-    }
-  };
 
-</script>
 <script src="https://cdn.tiny.cloud/1/ieugu2pgq0vkrn7vrhnp69zprqpp5xfwh9iewe7v24gtdj8f/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>

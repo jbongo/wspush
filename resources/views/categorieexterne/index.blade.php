@@ -336,65 +336,6 @@
 <script>
 //  Activation de simulation  
 
-$(".activer_simulation").click(function(){
- 
- let that = $(this);
- 
- Swal.fire({
-     title: 'Vraiment Activer ?',
-     text: "",
-     icon: 'warning',
-     showCancelButton: true,
-     confirmButtonColor: '#3085d6',
-     cancelButtonColor: '#d33',
-     confirmButtonText: 'Oui',
-     cancelButtonText: 'Non',
- }).then((result) => {
-     if (result.isConfirmed) {
-         
-         $.ajax({
-             type: "GET",
-            
-             url: that.attr('data-href'),
-            
-             // data: data,
-             success: function(data) {
-                 console.log(data);
-                 
-                 Swal.fire(
-                   'Simulation Activée!',
-                   '',
-                   'success'
-                 )
-                 .then(function() {
-                     location.reload(true)
-                 })
-             },
-             error: function(data) {
-                 console.log(data);
-                 
-                 swal(
-                     'Echec',
-                     'La simulation n\'a pas été activée :)',
-                     'error'
-                 );
-             }
-         });
-        
-     }else{
-     
-         Swal.fire(
-           'Annulé!',
-           '',
-           'error'
-         )
-     }
- })
-
-});
-
-
-
  
  </script>
  

@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Categorieexterne;
 use App\Models\Categoriearticle;
+use App\Models\Langue;
+use App\Models\Image;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Response;
 
 class ArticleController extends Controller
 {
@@ -18,7 +21,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::where('est_archive', false)->orderBy('id','desc')->latest()->take(100)->get();
+        $articles = Article::where([['est_archive', false],['est_scrappe', true]])->orderBy('id','desc')->latest()->take(100)->get();
   
         // dd($articles);
         
@@ -33,8 +36,9 @@ class ArticleController extends Controller
     public function create()
     {
         $categories = Categoriearticle::where([['est_archive',false]])->get();
+        $langues = Langue::where([['est_archive',false]])->get();
 
-        return view('article.add',compact('categories'));  
+        return view('article.add',compact('categories', 'langues'));  
         
     }
 
@@ -46,8 +50,119 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+     
+        $request->validate([
+            "titre"=> "required|unique:articles|string",
+            "contenu"=> "required|string",
+            "categorie_id"=> "required|string",
+            "langue_id"=> "required|string",
+
+        ]);
+
+
+       $article =  Article::create([           
+            "titre"=> $request->titre ,
+            "description"=> $request->contenu ,
+            "categoriearticle_id"=> $request->categorie_id ,
+            "langue_id"=> $request->langue_id,
+            "est_scrappe"=> false
+        ]);
+
+
+        // Récupérer les fichiers d'images
+        $images = $request->file('images');
+
+        // Parcourir chaque image et les enregistrer
+        foreach($images as $image) {
+
+       
+            $filename = $image->getClientOriginalName(); // Récupérer le nom du fichier
+            $extension = $image->getClientOriginalExtension(); // Récupérer l'extension du fichier
+            $slug = $this->to_slug($article->titre);
+            $picture = $slug."-".rand(1,1000).".".$extension; // Renommer le fichier avec une date et l'ancien nom de fichier
+            $destinationPath = public_path('/images-articles'); // Définir le dossier de destination des images
+            $image->move($destinationPath, $picture); // Déplacer le fichier dans le dossier de destination
+
+            Image::create([
+                "article_id" => $article->id,
+                "filename" => $picture,
+            
+            ]);
+        }
+
+       return redirect()->route('article.edit',  Crypt::encrypt($article->id));
     }
+
+    /**
+     * Modifier un article
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $article_id)
+    {
+
+        $article = Article::where('id', Crypt::decrypt($article_id))->first();
+
+        if($request->titre != $article->titre){
+            $request->validate([
+                "titre"=> "required|unique:articles|string",
+                "contenu"=> "required|string",
+                "categorie_id"=> "required|string",
+                "langue_id"=> "required|string",
+    
+            ]);
+        }else{
+            $request->validate([
+                "contenu"=> "required|string",
+                "categorie_id"=> "required|string",
+                "langue_id"=> "required|string",
+    
+            ]);
+        }
+       
+
+
+        $article->categoriearticle_id =  $request->categorie_id;
+        $article->langue_id =  $request->langue_id;
+        $article->titre =  $request->titre;
+        $article->description =  $request->contenu;
+        
+        $article->update();
+
+
+
+
+        // Récupérer les fichiers d'images
+        $images = $request->file('images');
+
+        if($images != null){
+
+            // Parcourir chaque image et les enregistrer
+            foreach($images as $image) {
+
+        
+                $filename = $image->getClientOriginalName(); // Récupérer le nom du fichier
+                $extension = $image->getClientOriginalExtension(); // Récupérer l'extension du fichier
+                $slug = $this->to_slug($article->titre);
+                $picture = $slug."-".rand(1,1000).".".$extension; // Renommer le fichier avec une date et l'ancien nom de fichier
+                $destinationPath = public_path('/images-articles'); // Définir le dossier de destination des images
+                $image->move($destinationPath, $picture); // Déplacer le fichier dans le dossier de destination
+
+                Image::create([
+                    "article_id" => $article->id,
+                    "filename" => $picture,
+                
+                ]);
+            }
+
+        }
+  
+        return redirect()->back()->with('ok','Article modifié');
+
+    }
+
 
     /**
      * Display the specified resource.
@@ -72,6 +187,122 @@ class ArticleController extends Controller
         $categories = Categorieexterne::where([['est_archive',false], ['siteexterne_id', $article->siteexterne_id]])->get();
         return view('article.edit', compact('article', 'categories'));
     }
+
+    /**
+    * Show the form for editing the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+   public function editNoScrap($article_id)
+   {
+        $article = Article::where('id', Crypt::decrypt($article_id))->first();
+     
+        $categories = Categoriearticle::where([['est_archive',false]])->get();
+        $langues = Langue::where([['est_archive',false]])->get();
+
+        return view('article.edit_no_scrap',compact('categories', 'langues', 'article'));  
+   }
+
+
+   
+    ///////// ########## GESTION DES images D'UN article 
+    
+     
+    
+        // sauvegarde des images de l'article 
+        public function savePhoto(Request $request, $article_id){
+        
+            $images = $request->file('file');
+             
+            
+            
+            if (!is_array($images)) {
+                $images = [$images];
+            }
+            
+           
+            
+           
+                for ($i = 0; $i < count($images); $i++) {
+                    $photo = $images[$i];
+
+                  
+                    
+                    $filename = $image->getClientOriginalName(); // Récupérer le nom du fichier
+                    $extension = $image->getClientOriginalExtension(); // Récupérer l'extension du fichier
+                    $slug = $this->to_slug($article->titre);
+                    $picture = $slug."-".rand(1,1000).".".$extension; // Renommer le fichier avec une date et l'ancien nom de fichier
+                    $destinationPath = public_path('/images-articles'); // Définir le dossier de destination des images
+                    $image->move($destinationPath, $picture); // Déplacer le fichier dans le dossier de destination
+
+                    // $img = Image::make($photo);
+                    
+                    Image::create([
+                        "article_id" => $article_id,                      
+                        "filename"=> $picture,
+                   
+    
+                    ]);
+                         //dd($images);
+                }
+            return Response::json([
+                'message' => 'Image sauvegardée'
+            ], 200);
+        }
+    
+        
+        // Suppression d'une photo pendant l'upload
+        public function destroyImage(Request $request)
+        {
+     
+            $uploaded_image = Image::where('id', $request->image_id)->first();
+     
+            if (empty($uploaded_image)) {
+                return Response::json(['message' => 'desolé cette photo n\'existe pas'], 400);
+            }
+            
+            $destinationPath = public_path('/images-articles');
+
+            $file_path =  $destinationPath . '/' . $uploaded_image->filename;
+          
+     
+            if (file_exists($file_path)) {
+                unlink($file_path);
+            }
+     
+        
+     
+            if (!empty($uploaded_image)) {
+                $uploaded_image->delete();
+            }
+     
+            return Response::json(['message' => 'Fiichier supprimé'], 200);
+        }
+    
+        // public function deletePhoto($id){
+    
+        //     $photo = articlephoto::where('id', $id)->first();
+        //     $photo->delete();
+        //     return back()->with('ok', __("Photo supprimée"));
+        // }
+    
+    /** Fonction de téléchargement des images de l'article document
+    * @author jean-philippe
+    * @param  App\Models\Image
+    * @return \Illuminate\Http\Response
+    **/ 
+    public function getImage( $image_id){
+    
+        $image = Image::where('id',Crypt::decrypt($image_id))->firstorfail();
+    
+        $path = public_path('images-articles\\'.$image->filename) ;
+        return response()->download($path);
+    }
+    
+    
+    
+    
 
     /**
      * Publier un article
@@ -193,30 +424,7 @@ class ArticleController extends Controller
         return view('article.edit', compact('article', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $article_id)
-    {
 
-        $article = Article::where('id', Crypt::decrypt($article_id))->first();
-
-        $article->categorieexterne_id =  $request->categorie_id;
-        $article->titre =  $request->titre;
-        $article->description =  $request->contenu;
-        
-        // $article->image =  $request->imageUrl;
-        
-
-        $article->update();
-
-        return redirect()->back()->with('ok','Article modifié');
-
-    }
 
     /**
      * Remove the specified resource from storage.
