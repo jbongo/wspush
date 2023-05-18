@@ -436,7 +436,7 @@
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label for="nb_article" class="form-label">Nombre d'articles à récupérer * </label>
-                                        <input type="number" min="1" max="100" class="form-control" name="nb_article" id="nb_article"  required>
+                                        <input type="number" min="1" max="100" value="100" class="form-control" name="nb_article" id="nb_article"  required>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -463,7 +463,7 @@
 
                             </div>
 
-                            
+                            <span class="text-danger" style="font-size: 13px">Nb: * Date début > Date de fin</span>
                                  
                     </div>
                     <div class="modal-footer">

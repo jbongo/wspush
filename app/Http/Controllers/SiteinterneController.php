@@ -114,15 +114,6 @@ class SiteinterneController extends Controller
         set_time_limit(0);
 
 
-// "nb_article" => "12"
-//   "siteinterne_id" => null
-//   "date_deb" => "2023-05-18"
-//   "date_fin" => "2023-05-18"
-        // On récupère le nombre d'annonces à récupérer 
-
-        // On récupère la date de debut et de fin des articles
-
-
 
         $siteinterne = Siteinterne::where('id', Crypt::decrypt($site_id))->first();
         
@@ -206,15 +197,15 @@ class SiteinterneController extends Controller
                     [
                         'status' => 'publish',
                         'per_page' => $request->nb_article,
-                        'after' => $request->date_deb."T00:00:00",
-                        'before' => $request->date_fin."T00:00:00",
+                        'before' => $request->date_deb."T00:00:00",
+                        'after' => $request->date_fin."T00:00:00",
                     ]
             );
 
         // dd(date(DATE_ISO8601, strtotime('2021-12-30 23:21:46')));
             $articles = json_decode($resp1,true);
 
-            // dd($articles);
+            dd($articles);
 
             $nb_article = 0;
 
