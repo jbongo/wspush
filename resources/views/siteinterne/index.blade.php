@@ -28,10 +28,11 @@
             <div class="card widget-inline">
                 <div class="card-body p-0">
                     <div class="row g-0">
-                        
+                        @can('permission', 'ajouter-site')
                         <div class="col-sm-2 mr-14 ">
                             <a href="{{route('article.add')}}" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addModal"><i class="uil-plus"></i> Ajouter</a>
                         </div>
+                        @endcan
                         @if(session('ok'))
                         <div class="col-6">
                             <div class="alert alert-success alert-dismissible bg-success text-white text-center border-0 fade show" role="alert">
@@ -64,12 +65,12 @@
               
     
                     <div class="table-responsive">
-                    <table class="table table-centered w-100 dt-responsive nowrap" id="action-achete-datatable">
+                    <table class="table table-centered w-100 dt-responsive nowrap" id="site-datatable">
                             <thead class="table-lightx" style="background-color: #17a2b8; color:#fff;">
                                 <tr>
-                                    <th scope="col">Pays</th>
                                     <th scope="col">Nom</th>
                                     <th scope="col">Url</th>
+                                    <th scope="col">Pays</th>
                                     <th scope="col">Alimenter</th>
                                     <th scope="col">Catégories</th>
                                     <th scope="col">Sites Sources</th>
@@ -85,30 +86,30 @@
                             @foreach ($sites as $site)
                                                            
                                 <tr>
-                                   
-                        
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 ms-2 fw-bold " style="font-size: 16px">{{$site->pay->nom}}</div>
-                                            
-                                        </div>
-                                    </td>
                                     <td>
                                         <div class="d-flex align-items-center">                                            
-                                            <p class="mb-0 text-muted">{{$site->nom}}</p>
+                                            <p class="flex-grow-1 ms-2 fw-bold">{{$site->nom}}</p>
                                         </div> 
                                     </td>
-                                     <td>
+                                    <td>
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1 ms-2 fw-bold"><span class="text-danger">{{$site->url}}</span></div>
                                         </div> 
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1 ms-2  " style="font-size: 16px">{{$site->pay->nom}}</div>
+                                            
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
                                                                                    
                                             <p class="inbox-item-date">
-                                                <a  href="{{route('site_interne.alimenter',Crypt::encrypt($site->id))}}" type="button" class="btn btn-sm btn-secondary px-1 py-0">
-                                                     <i class='uil uil-eye font-14'></i> </a>
+                                             
+                                                <button data-href="{{route('site_interne.alimenter',Crypt::encrypt($site->id))}}"  type="button" class="btn btn-sm btn-danger px-1 py-0 alimenter"
+                                                data-site_id="{{$site->id}}" data-nom="{{$site->nom}}"  data-bs-toggle="modal" data-bs-target="#alimenterModal"   >
+                                                    <i data-bs-toggle="tooltip" data-bs-placement="top" title="Alimenter le site en articles" class='uil uil-plus font-14'></i> </button>
                                             </p>
                                     
                                         </div> 
@@ -143,11 +144,17 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a  class="text-success modifier" data-bs-toggle="modal" data-bs-target="#editModal"
-                                            
-                                            data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pay->id}}" data-login="{{$site->login}}" data-passwordx="{{$site->password}}"
-                                            data-href="{{route('site_interne.update', Crypt::encrypt($site->id))}}" data-site_id="{{$site->id}}"  data-est_diffuse_auto = {{$site->est_diffuse_auto}}
-                                            title="Modifier" ><i class="mdi mdi-lead-pencil"></i></a>
+                                        @can('permission', 'modifier-site')
+                                            <a  class="text-success modifier" data-bs-toggle="modal" data-bs-target="#editModal" style="cursor: pointer;"
+                                                
+                                                data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pay->id}}" data-login="{{$site->login}}" data-passwordx="{{$site->password}}"
+                                                data-href="{{route('site_interne.update', Crypt::encrypt($site->id))}}" data-site_id="{{$site->id}}"  data-est_diffuse_auto = {{$site->est_diffuse_auto}}
+                                                title="Modifier" ><i class="mdi mdi-lead-pencil"></i></a>
+
+                                        @else                                 
+                                            <a  class="text-secondary" style="cursor: no-drop;" data-bs-toggle="tooltip" data-bs-placement="top" title="Permission non accordée" ><i class="mdi mdi-lead-pencil"></i></a>
+                                        @endcan
+                                        
                                             {{-- 
                                             <a href="{{route('article.show', Crypt::encrypt($site->id))}}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"><i class="mdi mdi-eye-outline"></i></a>
                                             <a href="{{route('article.archiver', Crypt::encrypt($site->id))}}" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Dupliquer l'action"><i class="mdi mdi-content-duplicate"></i></a> --}}
@@ -338,7 +345,7 @@
             <form action="{{route('categorie_interne.store')}}" method="post">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="addActionModalLabel">Ajouter une catégorie à <span id="nom_site"></span></h3>
+                        <h3 class="modal-title" id="addActionModalLabel">Ajouter une catégorie à <span class="nom_site"></span></h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -356,7 +363,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" class="form-control" name="siteinterne_id" id="siteinterne_id"  required >
+                            <input type="hidden" class="form-control siteinterne_id" name="siteinterne_id" id=""  required >
 
                             <div class="row " style="margin-top: 20px">
                                 <div class="col-6">
@@ -412,6 +419,63 @@
 
 
     
+     <!-- Modal Alimenter site -->
+     <div class="modal fade" id="alimenterModal" tabindex="-1" aria-labelledby="addActionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <form action="#" id="form-alimenter" target="_blank" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="addActionModalLabel">Alimenter en articles <span class="nom_site"></span></h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                            @csrf
+                       
+                            <div class="row " style="margin-top: 20px">
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label for="nb_article" class="form-label">Nombre d'articles à récupérer * </label>
+                                        <input type="number" min="1" max="100" class="form-control" name="nb_article" id="nb_article"  required>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                   
+                                </div>
+
+                            </div>
+
+                            {{-- <input type="hidden" class="form-control siteinterne_id" name="siteinterne_id" id=""  required > --}}
+
+                            <div class="row " style="margin-top: 20px">
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label for="date_deb" class="form-label">date de début *</label>
+                                        <input type="date" max="{{date('Y-m-d')}}"  class="form-control" name="date_deb" id="date_deb"  required>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label for="date_fin" class="form-label">date de fin *</label>
+                                        <input type="date" max="{{date('Y-m-d')}}"  class="form-control" name="date_fin" id="date_fin"  required>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            
+                                 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Valider</button>
+                    </div>
+                </div>
+            </form> 
+        </div>
+    </div>
+
+    
 </div> <!-- End Content -->
 <style>
     .border-action {
@@ -464,8 +528,21 @@
     $('.add_categorie').on( 'click',function (e) {
 
         let that = $(this);
-        $('#nom_site').text(that.data('nom')) ;
-        $('#siteinterne_id').val(that.data('site_id')) ;
+        $('.nom_site').text(that.data('nom')) ;
+        $('.siteinterne_id').val(that.data('site_id')) ;
+
+    });
+
+    $('.alimenter').on( 'click',function (e) {
+
+        let that = $(this);
+        $('.nom_site').text(that.data('nom')) ;
+
+        // $('.siteinterne_id').val(that.data('site_id')) ;
+
+        let currentFormAction = that.data('href');
+        $('#form-alimenter').attr('action', currentFormAction) ;
+   
 
     });
 
@@ -559,7 +636,7 @@ $(".activer_simulation").click(function(){
     $(document).ready(function()
     {
         "use strict";
-        $("#action-achete-datatable").
+        $("#site-datatable").
             DataTable(
             {
             language:{paginate:{previous:"<i class='mdi mdi-chevron-left'>",

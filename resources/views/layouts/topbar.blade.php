@@ -190,11 +190,15 @@
                   
 
                     <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <a href="javascript:void(0);" onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();"  class="dropdown-item notify-item">
                         <i class="mdi mdi-logout me-1"></i>
                         <span>Se déconnecter</span>
                     </a>
 
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </div>
             </li>
 

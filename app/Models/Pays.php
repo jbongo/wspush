@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Pays extends Model
 {
@@ -17,8 +18,20 @@ class Pays extends Model
      */
     public function siteinternes()
     {
-        return $this->hasMany(Siteinterne::class);
+        return $this->hasMany(Siteinterne::class,'pay_id','id');
     }
+
+    /**
+     * Get all of the siteinternes for the Pays
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function siteinternesClient()
+    {
+      
+        return $this->hasMany(Siteinterne::class,'pay_id','id')->where('client_id', Auth::user()->id);
+    }
+
 
      /**
      * Get all of the siteexternes for the Pays
@@ -27,6 +40,6 @@ class Pays extends Model
      */
     public function siteexternes()
     {
-        return $this->hasMany(Siteexterne::class);
+        return $this->hasMany(Siteexterne::class,'pay_id','id');
     }
 }

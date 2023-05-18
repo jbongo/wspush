@@ -55,7 +55,7 @@ class Categorieinterne extends Model
 
     
     /**
-     * Retourne true si la catégorie est liè à une catégorie externe
+     * Retourne true si l'article est publié sur le siteinterne
      */
     function haveArticle($article_id)
     {

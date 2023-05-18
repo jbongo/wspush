@@ -63,91 +63,109 @@
               
     
                     <div class="table-responsive">
-                    <table class="table table-centered w-100 dt-responsive nowrap" id="action-achete-datatable">
-                            <thead class="table-lightx" style="background-color: #17a2b8; color:#fff;">
-                                <tr>
-                                    <th scope="col">Date d'ajout</th>
-                                    <th scope="col">Heure d'ajout</th>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Titre</th>
-                                    <th scope="col">Catégorie</th>
-                                    <th scope="col">Statut</th>
-                                    <th scope="col">Site</th>
-                                    
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            
-                          
-                            
-                            <tbody>
-                            
-                            @foreach ($articles as $article)
-                                                           
-                                <tr>
-                                   
-                                    <td>
-                                        <div class="d-flex align-items-center" class="img-wrapper">
-                                            <div class="flex-grow-1 ms-2 fw-bold"><span class="text-secondary">{{$article->created_at->format('Y-m-d')}}</span></div>
-                                          
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center" class="img-wrapper">
-                                            <div class="flex-grow-1 ms-2 fw-bold"><span class="text-secondary">{{$article->created_at->format('h:i')}}</span></div>
-                                          
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center" class="img-wrapper">
-                                            <a href="{{route('article.edit', Crypt::encrypt($article->id))}}" >
-                                                 <img src="{{$article->image}}" style=" border-radius: 3px;" height="50px" width="60px" alt=""> </a>                                            
-                                        </div>
-                                    </td>
-
-
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 ms-2 fw-bold " style="font-size: 16px">
-                                                <a href="{{route('article.edit', Crypt::encrypt($article->id))}}" class="text-secondary" > {{substr($article->titre,0,50)}}...</a>
-                                            </div>
-                                            
-                                        </div>
-                                    </td>
-                                     <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 ms-2 fw-bold"><span class="text-danger">{{$article->categorieexterne->nom}}</span></div>
-                                        </div> 
-                                    </td>
-                                     <td>
-                                        <div class="d-flex align-items-center">                                            
-                                            <p class="mb-0 text-muted">@if($article->est_publie == true) Publié @else Non publié @endif</p>
-                                        </div> 
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 ms-2 fw-bold"> <span class="text-primary">
-                                                <a href="{{$article->siteexterne->url}}" target="_blank" > 
-                                                {{$article->siteexterne->nom}}</span><i class="mdi mdi-arrow-top-right-bold-box-outline"></i></a></div>
-                                        </div> 
-                                    </td>
-                                 <td>
-                                        <a href="{{route('article.edit', Crypt::encrypt($article->id))}}" class="text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"><i class="mdi mdi-lead-pencil"></i></a>
-{{-- 
-                                        <a href="{{route('article.show', Crypt::encrypt($article->id))}}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"><i class="mdi mdi-eye-outline"></i></a>
-                                        <a href="{{route('article.archiver', Crypt::encrypt($article->id))}}" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Dupliquer l'action"><i class="mdi mdi-content-duplicate"></i></a> --}}
-
-                                      
+                        <ul class="nav nav-tabs nav-bordered mb-3">
+                            <li class="nav-item">
+                                <a href="#article-interne" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                                    <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                                    <span class="d-none d-md-block">Articles internes</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('article.index_externe')}}"  class="nav-link ">
+                                    {{-- <a href="#article-externe" data-bs-toggle="tab" aria-expanded="true" class="nav-link "> --}}
+                                    <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                                    <span class="d-none d-md-block">Articles externes</span>
+                                </a>
+                            </li>
+                           
+                        </ul>
+                        
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="article-interne">
+                              
                                 
-                                    </td>
+                                 
+                                <table class="table table-centered w-100 dt-responsive nowrap" id="action-achete-datatable">
+                                    <thead class="table-lightx" style="background-color: #69075a; color:#fff;">
+                                        <tr>
+                                            <th scope="col">Image</th>
+                                            <th scope="col">Titre</th>
+                                            <th scope="col">Catégorie</th>
+                                            <th scope="col">Date de création</th>
+                                            <th scope="col">Statut</th>
+                               
+                                            
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
                                     
+                                  
                                     
-                                </tr> <!-- end tr -->
-
-                            @endforeach
-    
-                            </tbody>
-                        </table>
+                                    <tbody>
+                                    
+                                    @foreach ($articles as $article)
+                                                                   
+                                        <tr>
+                                           
+                                      
+                                            <td>
+                                                <div class="d-flex align-items-center" class="img-wrapper">
+                                                    <a href="{{route('article.edit_no_scrap', Crypt::encrypt($article->id))}}" >
+                                                         <img src="{{$article->images[0]->filename}}" style=" border-radius: 3px;" height="50px" width="60px" alt=""> </a>                                            
+                                                </div>
+                                            </td>
+                                
+                                
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 ms-2 fw-bold " style="font-size: 16px">
+                                                        <a href="{{route('article.edit_no_scrap', Crypt::encrypt($article->id))}}" class="text-secondary" > {{substr($article->titre,0,50)}}...</a>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </td>
+                                             <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 ms-2 fw-bold"><span class="text-danger">{{$article->categoriearticle->nom}}</span></div>
+                                                </div> 
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center" class="img-wrapper">
+                                                    <div class="flex-grow-1 ms-2 fw-bold"><span class="text-secondary">{{$article->created_at->format('d/m/Y')}}</span></div>
+                                                  
+                                                </div>
+                                            </td>
+                                           
+                                             <td>
+                                                <div class="d-flex align-items-center">                                            
+                                                    @if($article->est_publie == true)<p class="mb-0 text-success">  Publié  </p> @else <p class="mb-0  text-secondary"> Non publié </p>  @endif
+                                                </div> 
+                                            </td>
+                                       
+                                         <td>
+                                                <a href="{{route('article.edit_no_scrap', Crypt::encrypt($article->id))}}" class="text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"><i class="mdi mdi-lead-pencil"></i></a>
+                                {{-- 
+                                                <a href="{{route('article.show', Crypt::encrypt($article->id))}}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"><i class="mdi mdi-eye-outline"></i></a>
+                                                <a href="{{route('article.archiver', Crypt::encrypt($article->id))}}" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Dupliquer l'action"><i class="mdi mdi-content-duplicate"></i></a> --}}
+                                
+                                              
+                                        
+                                            </td>
+                                            
+                                            
+                                        </tr> <!-- end tr -->
+                                
+                                    @endforeach
+                                
+                                    </tbody>
+                                </table>
+                               
+                            </div>
+                            <div class="tab-pane " id="article-externe">
+                              
+                            </div>
+                          
+                        </div>
                     </div>
                 </div>
             </div>

@@ -109,9 +109,20 @@ class SiteinterneController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function alimenter($site_id)
+    public function alimenter(Request $request, $site_id)
     {
         set_time_limit(0);
+
+
+// "nb_article" => "12"
+//   "siteinterne_id" => null
+//   "date_deb" => "2023-05-18"
+//   "date_fin" => "2023-05-18"
+        // On récupère le nombre d'annonces à récupérer 
+
+        // On récupère la date de debut et de fin des articles
+
+
 
         $siteinterne = Siteinterne::where('id', Crypt::decrypt($site_id))->first();
         
@@ -194,8 +205,9 @@ class SiteinterneController extends Controller
             $resp1 = Http::get("$domaineExterne/wp-json/wp/v2/posts",
                     [
                         'status' => 'publish',
-                        'per_page' => 100,
-                        'before' => "2021-12-30T00:00:00",
+                        'per_page' => $request->nb_article,
+                        'after' => $request->date_deb."T00:00:00",
+                        'before' => $request->date_fin."T00:00:00",
                     ]
             );
 

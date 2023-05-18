@@ -87,9 +87,10 @@
                                             <div class="mb-3">
                                                 <label for="categoriearticle_id" class="form-label">Catégorie</label>
                                                 <select name="categoriearticle_id" id="categoriearticle_id"  class="form-select" >   
-                                                                                                     
-                                                    <option value="{{$categorieinterne->categoriearticle->id}}">{{$categorieinterne->categoriearticle->nom}}</option>
                                                     
+                                                    @if($categorieinterne->categoriearticle != null)
+                                                    <option value="{{$categorieinterne->categoriearticle->id}}">{{$categorieinterne->categoriearticle->nom}}</option>
+                                                    @endif
                                                     @foreach ($categoriearticles as $categoriearticle)                                                        
                                                         <option value="{{$categoriearticle->id}}">{{$categoriearticle->nom}}</option>
                                                     @endforeach

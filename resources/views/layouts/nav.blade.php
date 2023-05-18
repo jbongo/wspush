@@ -62,37 +62,64 @@ switch ($curent_url[1]) {
     <ul class="side-nav">
 
         <li class="side-nav-item">
-            <a  href="" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
-                <i class="uil-home-alt"></i>
-                <span class="badge bg-info rounded-pill float-end">4</span>
+            <a  href="{{route('home')}}" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                <i class="uil-dashboard"></i>
                 <span> Tableau de bord </span>
             </a>
           
         </li>           
 
+        @can("permission", "afficher-utilisateur")
         <li class="side-nav-item">
-            <a  href="#" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
-                <i class="uil uil-auto-flash"></i>
+            <a  href="{{route('utilisateur.index')}}" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
+                <i class="uil uil-user-plus"></i>
                 <span> Utilisateurs </span>
             </a>
         </li>
+         @endcan
+
+        @can("permission", "afficher-droit")
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#droits" aria-expanded="false" aria-controls="droits" class="side-nav-link">
+                <i class="uil-folder-lock"></i>
+                <span> Droits </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="droits">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{route('role.index')}}">Rôles</a>
+                    </li>
+                    <li>
+                        <a href="{{route('permission.index')}}">Permissions</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        @endcan
+
+        @can("permission", "afficher-client")
         <li class="side-nav-item">
             <a  href="#" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
-                <i class="uil uil-wallet"></i>         
+                <i class="uil uil-award-alt"></i>         
                 <span> Clients </span>
             </a>
         </li>
+        @endcan
 
+        @can("permission", "afficher-site")
         <li class="side-nav-item">
             <a  href="{{route('site_interne.index')}}"aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
-                <i class="uil uil-wallet"></i>         
+                <i class="uil uil-globe"></i>         
                 <span> Sites </span>
             </a>
         </li>
+        @endcan
 
+        @can("permission", "afficher-site-source")
         <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="{{$li_simulations}}" aria-controls="sidebarBaseUI" class="side-nav-link">
-                <i class="uil-wallet"></i>
+                <i class="uil-globe"></i>
                 <span> Sites Externes </span>
                 <span class="menu-arrow"></span>
             </a>
@@ -102,12 +129,10 @@ switch ($curent_url[1]) {
                     <li class="{{$li_ordre_simule_algo1}}">
                         <a href="{{route('site_externe.index')}}">Tous les sites </a>
                     </li>
-                    <li class="{{$li_ordre_simule_algo1}}">
-                        <a href="{{route('site_externe.add')}}">Ajouter </a>
-                    </li>
-                    <li class="{{$li_ordre_simule_algo1}}">
+                  
+                    {{-- <li class="{{$li_ordre_simule_algo1}}">
                         <a href="{{route('categorie_externe.index')}}">Catégories </a>
-                    </li>
+                    </li> --}}
                     <li class="{{$li_ordre_simule_algo1}}">
                         <a href="{{route('scrap.index_selecteur')}}">Tests sélecteurs </a>
                     </li>
@@ -115,11 +140,14 @@ switch ($curent_url[1]) {
                 </ul>
             </div>
         </li>
+        @endcan
   
+
+        @can("permission", "afficher-article")
 
         <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="{{$li_simulations}}" aria-controls="sidebarBaseUI" class="side-nav-link">
-                <i class="uil-wallet"></i>
+                <i class="uil-auto-flash"></i>
                 <span> Articles </span>
                 <span class="menu-arrow"></span>
             </a>
@@ -128,24 +156,23 @@ switch ($curent_url[1]) {
                     
                     <li class="{{$li_ordre_simule_algo1}}">
                         <a href="{{route('article.index')}}">Tous les articles </a>
-                    </li>
-                    <li class="{{$li_ordre_simule_algo1}}">
-                        <a href="{{route('article.add')}}">Ajouter </a>
-                    </li>
+                    </li>                  
                     <li class="{{$li_ordre_simule_algo1}}">
                         <a href="">Catégories </a>
                     </li>
                 </ul>
             </div>
         </li>
+        @endcan
         
+        @can("permission", "afficher-parametre")
         <li class="side-nav-item">
             <a  href="#" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
                 <i class="uil uil-bright"></i>
                 <span> Paramètres </span>
             </a>
         </li>
-
+        @endcan
         
     </ul>
 

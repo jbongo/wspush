@@ -8,6 +8,11 @@ use App\Http\Controllers\SiteexterneController;
 use App\Http\Controllers\CategorieexterneController;
 use App\Http\Controllers\CategorieinterneController;
 use App\Http\Controllers\SiteinterneController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,9 +24,11 @@ use App\Http\Controllers\SiteinterneController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->middleware(['auth']);
+// Home
+Route::controller(HomeController::class)->group(function (){
+    Route::get('/', 'index')->name('home')->middleware(['auth']);
+});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -56,7 +63,7 @@ Route::controller(SiteinterneController::class)->group(function (){
     Route::get('/site-internes', 'index')->name('site_interne.index')->middleware(['auth']);
     Route::get('/site-interne/add', 'create')->name('site_interne.add')->middleware(['auth']);
     Route::get('/site-interne/edit/{site_id}', 'edit')->name('site_interne.edit')->middleware(['auth']);
-    Route::get('/site-interne/alimenter/{site_id}', 'alimenter')->name('site_interne.alimenter')->middleware(['auth']);
+    Route::post('/site-interne/alimenter/{site_id}', 'alimenter')->name('site_interne.alimenter')->middleware(['auth']);
     Route::get('/site-interne/join-site-externe/{site_id}', 'joinSiteexterne')->name('site_interne.join_site_externe')->middleware(['auth']);
     Route::post('/site-interne/store', 'store')->name('site_interne.store')->middleware(['auth']);
     Route::post('/site-interne/update/{site_id}', 'update')->name('site_interne.update')->middleware(['auth']);
@@ -75,11 +82,13 @@ Route::controller(CategorieinterneController::class)->group(function (){
 // Articles
 Route::controller(ArticleController::class)->group(function (){
     Route::get('/articles', 'index')->name('article.index')->middleware(['auth']);
+    Route::get('/articles-externes', 'indexExterne')->name('article.index_externe')->middleware(['auth']);
     Route::get('/article/add', 'create')->name('article.add')->middleware(['auth']);
     Route::get('/article/edit/{article_id}', 'edit')->name('article.edit')->middleware(['auth']);
     Route::get('/article/edit-no-scrap/{article_id}', 'editNoScrap')->name('article.edit_no_scrap')->middleware(['auth']);
     Route::get('/article/edit-renomme/{article_id}', 'editRenomme')->name('article.edit_renomme')->middleware(['auth']);
-    Route::get('/article/publier/{article_id}', 'publier')->name('article.publier')->middleware(['auth']);
+    Route::get('/article/publier-article-externe/{article_id}', 'publierArticleExterne')->name('article.publier_article_externe')->middleware(['auth']);
+    Route::get('/article/publier-article-interne/{article_id}', 'publierArticleInterne')->name('article.publier_article_interne')->middleware(['auth']);
     Route::post('/article/store', 'store')->name('article.store')->middleware(['auth']);
     Route::post('/article/update/{article_id}', 'update')->name('article.update')->middleware(['auth']);
 
@@ -105,5 +114,33 @@ Route::controller(ScrapController::class)->group(function (){
 });
 
 
+// Rôles 
+Route::controller(RoleController::class)->group(function (){
+    Route::get('/roles', 'index')->name('role.index')->middleware(['auth']);
+    Route::post('/role/ajouter', 'store')->name('role.store')->middleware(['auth']);
+    Route::post('/role/desarchiver/{roleId}', 'unarchive')->name('role.unarchive')->middleware(['auth']);
+    Route::post('/role/modifier/{roleId}', 'update')->name('role.update')->middleware(['auth']);
+    Route::put('/role/archiver/{roleId}', 'archive')->name('role.archive')->middleware(['auth']);
+    Route::get('/role/permissions/{roleId}', 'permissions')->name('role.permissions')->middleware(['auth']);
+    Route::post('/role/permissions/{roleId}', 'updatePermissions')->name('role.update_permissions')->middleware(['auth']);
+});
+
+
+// Utilisateur
+Route::controller(UserController::class)->group(function (){
+    Route::get('/utilisateurs', 'index')->name('utilisateur.index')->middleware(['auth']);
+    Route::post('/utilisateur/ajouter', 'store')->name('utilisateur.store')->middleware(['auth']);
+    Route::post('/utilisateur/modifier/{utilisateurId}', 'update')->name('utilisateur.update')->middleware(['auth']);
+    Route::post('/utilisateur/desarchiver/{utilisateurId}', 'unarchive')->name('utilisateur.unarchive')->middleware(['auth']);
+    Route::post('/utilisateur/archiver/{utilisateurId}', 'archive')->name('utilisateur.archive')->middleware(['auth']);
+});
+Route::controller(PermissionController::class)->group(function (){
+    Route::get('/permissions', 'index')->name('permission.index')->middleware(['auth']);
+    Route::post('/permission/ajouter', 'store')->name('permission.store')->middleware(['auth']);
+    Route::post('/permission/desarchiver/{roleId}', 'unarchive')->name('permission.unarchive')->middleware(['auth']);
+    Route::post('/permission/modifier/{permission_id}', 'update')->name('permission.update')->middleware(['auth']);
+    Route::post('/permission/modifier', 'updateRolePermission')->name('permission_role.update')->middleware(['auth']);
+    Route::put('/permission/archiver/{roleId}', 'archive')->name('permission.archive')->middleware(['auth']);
+});
 
 require __DIR__.'/auth.php';

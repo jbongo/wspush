@@ -113,7 +113,7 @@
                                             <div class="col-12">
                                                 <div class="mb-3">
                                                     <label for="titre" class="form-label">Titre *</label>
-                                                    <input type="text" class="form-control" name="titre" value="{{old('titre')}} " id="titre"  required>
+                                                    <input type="text" class="form-control" name="titre" value="{{old('titre')}}" id="titre"  required>
                                                     @if ($errors->has('titre'))
                                                       <br>
                                                         <div class="alert alert-danger" role="alert">
@@ -123,11 +123,9 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <label for="titre" class="form-label">Contenu  *</label>
+                                                <label for="contenu"  class="form-label">Contenu  *</label>
 
-                                                <textarea rows="50" name="contenu" required>
-                                             
-                                                </textarea>
+                                                <textarea rows="50" id="contenu"  name="contenu" required> </textarea>
                                             </div>
                                         </div>
 
@@ -214,7 +212,7 @@
 
 <script>
     tinymce.init({
-      selector: 'textarea',
+      selector: '#contenu',
       plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
       toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
     });

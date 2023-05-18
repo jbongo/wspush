@@ -6,11 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Categorieexterne;
 use App\Models\Categoriearticle;
+use App\Models\Siteinterne;
+use App\Models\Categorieinterne;
 use App\Models\Langue;
 use App\Models\Image;
+use App\Models\Pays;
+use App\Models\ArticleCategorieinterne;
+
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Response;
+use Auth;
 
 class ArticleController extends Controller
 {
@@ -21,12 +27,29 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::where([['est_archive', false],['est_scrappe', true]])->orderBy('id','desc')->latest()->take(100)->get();
+        $articles = Article::where([['est_archive', false],['est_scrappe', false]])->orderBy('id','desc')->latest()->take(100)->get();
   
         // dd($articles);
         
         return view('article.index', compact('articles'));  
     }
+
+        /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexExterne()
+    {
+        $articles = Article::where([['est_archive', false],['est_scrappe', true]])->orderBy('id','desc')->latest()->take(100)->get();  
+        
+        return view('article.index_externe', compact('articles'));  
+    }
+
+
+   
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -59,10 +82,13 @@ class ArticleController extends Controller
             "langue_id"=> "required|string",
 
         ]);
+        // dd($request->all());
 
 
        $article =  Article::create([           
             "titre"=> $request->titre ,
+            "client_id"=> Auth::user()->client_id ,
+            "user_id"=> Auth::user()->id,
             "description"=> $request->contenu ,
             "categoriearticle_id"=> $request->categorie_id ,
             "langue_id"=> $request->langue_id,
@@ -86,12 +112,12 @@ class ArticleController extends Controller
 
             Image::create([
                 "article_id" => $article->id,
-                "filename" => $picture,
+                "filename" => $destinationPath."/".$picture,
             
             ]);
         }
 
-       return redirect()->route('article.edit',  Crypt::encrypt($article->id));
+       return redirect()->route('article.edit_no_scrap',  Crypt::encrypt($article->id));
     }
 
     /**
@@ -152,7 +178,7 @@ class ArticleController extends Controller
 
                 Image::create([
                     "article_id" => $article->id,
-                    "filename" => $picture,
+                    "filename" => $destinationPath."/".$picture,
                 
                 ]);
             }
@@ -201,9 +227,31 @@ class ArticleController extends Controller
         $categories = Categoriearticle::where([['est_archive',false]])->get();
         $langues = Langue::where([['est_archive',false]])->get();
 
-        return view('article.edit_no_scrap',compact('categories', 'langues', 'article'));  
-   }
+        $allSiteinternes = Siteinterne::where([["langue_id", $article->langue_id], ['est_archive', false], ['client_id', Auth::user()->client_id]])->get();
 
+        $siteSelected = array();
+        foreach ($article->categorieinternes as $cat ) {
+            $siteSelected[] = strval($cat->siteinterne_id);
+        }
+
+        $allVal = array();
+        $pays_ids = array();
+
+        foreach ($allSiteinternes as $all ) {
+            $allVal[] = strval($all->id);
+            $pays_ids[] = strval($all->pay_id);
+        }
+
+
+   
+        $pays = Pays::whereIn('id', $pays_ids)->get();
+
+        
+        $siteSelected = json_encode($siteSelected);
+        $allVal = json_encode($allVal);
+        // dd($siteSelected);
+        return view('article.edit_no_scrap',compact('categories', 'langues', 'article', 'pays','allSiteinternes', 'siteSelected','allVal'));  
+   }
 
    
     ///////// ########## GESTION DES images D'UN article 
@@ -302,15 +350,173 @@ class ArticleController extends Controller
     
     
     
-    
 
     /**
-     * Publier un article
+     * Publier un article interne
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function publier($article_id)
+    public function publierArticleInterne(Request $request, $article_id)
+    {
+        $article = Article::where('id', Crypt::decrypt($article_id))->first();
+        
+
+        $categorieinternes = Categorieinterne::where('categoriearticle_id', $article->categoriearticle_id)->whereIn('siteinterne_id', $request->siteinternes)->get();
+      
+        
+        foreach ($categorieinternes as $categorieinterne) {
+            
+            try {
+                    
+                $siteinterne = $categorieinterne->siteinterne;
+                $domaine = $siteinterne->url;
+
+                $response = Http::post("$domaine/wp-json/jwt-auth/v1/token", [
+                    'username' => $siteinterne->login,
+                    'password' => $siteinterne->password,
+                ]);
+        
+                
+               
+                $token = $response->json()['token'] ;
+
+                // On réccupère une image de façon aléatoire  parmis les images des articles
+                $images = Image::where('article_id', $article->id)->get();
+                $nbImages = sizeof($images);
+
+                $id =  rand(0, $nbImages-1);
+                
+                $curl = curl_init();
+        // return $images[$id];
+                $data = file_get_contents($images[$id]->filename);
+
+            
+                $filename = $this->to_slug($article->titre);
+
+                curl_setopt_array($curl, array(
+                CURLOPT_URL => "$domaine/wp-json/wp/v2/media",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_HTTPHEADER => array(
+                    "authorization: Bearer $token",
+                    "cache-control: no-cache",
+                    "content-disposition: attachment; filename=$filename.png",
+                    "content-type: image/png",
+                ),
+                CURLOPT_POSTFIELDS => $data,
+                CURLOPT_USERAGENT => "Mozilla/5.0 (Windows; U; Windows NT 6.1; fr; rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13",
+                ));
+        
+                $response = curl_exec($curl);
+                $err = curl_error($curl);
+        
+                curl_close($curl);
+        
+                if ($err) {
+                    echo "cURL Error #:" . $err;
+                } else {
+        
+                    $fileResponse = json_decode($response,true);
+                    if($fileResponse == null) dd($response);
+          
+                    // On vérifie si l'article est déjà publié sur le site
+
+                    if($categorieinterne->haveArticle($article->id)){
+                     
+                        $articleCategorieinterne = ArticleCategorieinterne::where([['article_id', $article->id], ['categorieinterne_id', $categorieinterne->id]])->first();
+   
+                        $resp = Http::withToken($token)
+                        ->post("$domaine/wp-json/wp/v2/posts/$articleCategorieinterne->postwp_id",
+            
+                                [
+                                'title' => $article->titre,
+                                'content' => $article->description,
+                                'categories' => $categorieinterne->wp_id,
+                                // 'date' => '2023-01-22T15:04:52',
+                                // 'slug' => 'this-best-article',
+                                'status' => 'publish',
+                                'featured_media' => $fileResponse == null ? null : $fileResponse['id'] // ID de l'image téléchargée
+                                ]
+                        );
+
+                        // return $resp;
+                        
+                    }else{
+                        $resp = Http::withToken($token)
+                        ->post("$domaine/wp-json/wp/v2/posts",
+            
+                                [
+                                'title' => $article->titre,
+                                'content' => $article->description,
+                                'categories' => $categorieinterne->wp_id,
+                                // 'date' => '2023-01-22T15:04:52',
+                                // 'slug' => 'this-best-article',
+                                'status' => 'publish',
+                                'featured_media' => $fileResponse == null ? null : $fileResponse['id'] // ID de l'image téléchargée
+                                ]
+                        );
+            
+                    
+                        $resp = json_decode($resp,true);
+
+                        if($resp != null){
+
+                            $article->categorieinternes()->attach($categorieinterne->id, 
+                                ['siteinterne_id' => $siteinterne->id,
+                                'postwp_id' => $resp['id'],
+                                'est_publie_auto' => false] 
+                            );
+                        }
+
+
+                    }
+
+                    
+                    
+                }
+            } catch (\Exception $th) {
+                echo "Erreur : $th";
+                return redirect()->back()->with('nok','Article Non Publié');
+            
+            }
+
+        }
+
+        if($request->publier_sur != "allsite"){
+
+            $article->est_publie_tous_site = false;
+        }else{
+
+            $article->est_publie_tous_site = true;
+
+        }
+
+        $article->est_publie = true;
+
+        $article->update();
+        
+
+        return "article publié"; 
+        
+        return redirect()->back()->with('ok','Article Publié');
+
+
+        return view('article.edit', compact('article', 'categories'));
+    }
+    
+
+    /**
+     * Publier un article externe
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function publierArticleExterne($article_id)
     {
         $article = Article::where('id', Crypt::decrypt($article_id))->first();
         

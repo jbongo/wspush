@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="col-4">
                                     @if($article->est_publie == false)
-                                        <a href="{{route('article.publier', Crypt::encrypt($article->id))}}" type="button"
+                                        <a href="{{route('article.publier_article_externe', Crypt::encrypt($article->id))}}" type="button"
                                             class="btn btn-danger" ><i class="uil-plus"></i> Publier</a>
                                     @else
                                         <a href="" type="button"

@@ -18,6 +18,7 @@ class CreateArticlesTable extends Migration
             $table->integer('categorieexterne_id')->nullable();
             $table->integer('siteexterne_id')->nullable();
             $table->integer('categoriearticle_id')->nullable();
+            $table->integer("user_id")->nullable();  
             $table->integer("langue_id")->nullable();  
             $table->integer('client_id')->nullable();
             $table->string('titre')->nullable();
@@ -28,6 +29,7 @@ class CreateArticlesTable extends Migration
             $table->boolean('est_archive')->default(false);
             $table->boolean('est_publie')->default(false);
             $table->boolean('est_scrappe')->default(true);
+            $table->boolean('est_publie_tous_site')->default(true);
             $table->date('date_publication')->nullable();
             $table->timestamps();
         });
