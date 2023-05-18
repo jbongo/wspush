@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Client;
+use App\Models\Pays;
+use App\Models\Langue;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 
@@ -20,10 +22,12 @@ class ClientController extends Controller
 
         $clients = User::orderBy('nom', 'asc')->get();
         $roles = Role::all();
+        $pays = Pays::all();
+        $langues = Langue::all();
         $clients = Client::all();
 
     
-        return view('client.index', compact('clients', 'roles','clients'));
+        return view('client.index', compact('clients', 'roles','clients','pays','langues'));
     }
 
 
@@ -33,25 +37,26 @@ class ClientController extends Controller
 
     public function store(Request $request){
 
+  
         
         $request->validate([
-            'email' => 'email|required|unique:users,email',
-            'nom' => 'string|required',
-            'client_id' => 'string|required',
-            'role_id' => 'string|required',
+            'email' => 'email|required|unique:clients',
+            'raison_sociale' => 'string|required',
+            'pays_id' => 'required',
+            'langue_id' => 'required',
         ]);
 
 
-        User::create([
-            "nom" => $request->nom,
-            "prenom" => $request->prenom,
-            "email" => $request->email,
-            "password" =>  Hash::make($request->password),
-            "client_id" => $request->client_id,
-            "role_id" => $request->role_id,
+        Client::create([
+            "raison_sociale" => $request->raison_sociale,
+            "contact1" => $request->contact1,
+            "contact2" => $request->contact2,
+            "email" => $request->email,          
+            "pay_id" => $request->pays_id,
+            "langue_id" => $request->langue_id,
         ]);
 
-        return redirect()->route('client.index')->with('message', 'Nouvel client ajouté');
+        return redirect()->route('client.index')->with('message', 'Nouveau client ajouté');
     }
 
      /**
@@ -61,28 +66,32 @@ class ClientController extends Controller
     public function update(Request $request, $clientId){
 
 
-        $client = User::where('id', Crypt::decrypt($clientId))->first();
+        $client = Client::where('id', Crypt::decrypt($clientId))->first();
         
 
 
         if($client->email != $request->email){
             $request->validate([
-                'email' => 'string|required|unique:users,email',
-                'nom' => 'string|required',
-                'client_id' => 'string|required',
-                'role_id' => 'string|required',
+                'email' => 'email|required|unique:clients',
+
             ]);
         }
 
-        $client->nom = $request->nom;
-        $client->prenom = $request->prenom;
-        $client->email = $request->email;
-        $client->client_id = $request->client_id;
-        $client->role_id = $request->role_id;
+        $request->validate([              
+            'pays_id' => 'required',
+            'langue_id' => 'required',
+        ]);
 
-        if($request->password  != null){
-            $client->password = Hash::make($request->password);
-        }
+         
+
+        $client->raison_sociale = $request->raison_sociale;
+        $client->contact1 = $request->contact1;
+        $client->contact2 = $request->contact2;
+        $client->email = $request->email;
+        $client->pay_id = $request->pays_id;
+        $client->langue_id = $request->langue_id;
+
+       
         $client->update();
       
         return redirect()->route('client.index')->with('message', 'Client modifié');
@@ -94,8 +103,8 @@ class ClientController extends Controller
 
     public function archive($clientId){
 
-        $client = User::where('id', $clientId)->first();
-        $client->archive = true;
+        $client = Client::where('id', $clientId)->first();
+        $client->est_archive = true;
         $client->update();
         return $client->id;
         // return redirect()->route('client.index')->with('message', 'Rôle archivé');
@@ -108,8 +117,8 @@ class ClientController extends Controller
 
     public function unarchive($clientId){
 
-        $client = User::where('id', $clientId)->first();
-        $client->archive = false;
+        $client = Client::where('id', $clientId)->first();
+        $client->est_archive = false;
         $client->update();
         return $client->id;
         // return redirect()->route('client.index')->with('message', 'Rôle désarchivé');

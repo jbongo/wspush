@@ -2,6 +2,8 @@
     @section('css')
     <link href="{{asset('assets/css/vendor/dataTables.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/vendor/responsive.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('assets/dist/css/bootstrap-select.css') }}">
+
     @endsection
 @section('content')
 <div class="content">
@@ -64,10 +66,11 @@
                             <thead class="table-lightx" style="background-color: #17a2b8; color:#fff;">
                                 <tr>
                                 
-                                    <th>Nom</th>
-                                    <th>Prénom(s)</th>
+                                    <th>Raison sociale ou Nom</th>
                                     <th>Email</th>
-                                    <th>Rôle</th>
+                                    <th>Contact</th>
+                                    <th>Pays</th>
+                                    <th>Langue</th>
                                     <th>Statut</th>
 
                                     <th style="width: 125px;">Action</th>
@@ -79,20 +82,23 @@
                                 
                                 <tr>
                                     
-                                    <td><a href="#" class="text-body fw-bold">{{$client->nom}}</a> </td>
-                                    <td><a href="#" class="text-body fw-bold">{{$client->prenom}}</a> </td>
+                                    <td><a href="#" class="text-body fw-bold">{{$client->raison_sociale}}</a> </td>
                                     <td><a href="#" class="text-body fw-bold">{{$client->email}}</a> </td>
+                                    <td><a href="#" class="text-body fw-bold">{{$client->contact1}} - {{$client->contact2}}</a> </td>
                                     <td>
-                                      <span class="text-danger">{{$client->nom}}</span>
+                                      <span class="text-danger">{{$client->pay->nom}}</span>
                                     </td>
                                     <td>
-                                        @if($client->archive == false) <span class="badge bg-success">Actif</span>
+                                        <span class="text-danger">{{$client->langue->nom}}</span>
+                                    </td>
+                                    <td>
+                                        @if($client->est_archive == false) <span class="badge bg-success">Actif</span>
                                         @else<span class="badge bg-warning">Archivé</span>@endif
                                     </td>
                                     <td>
                                         {{-- <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a> --}}
-                                        <a data-href="{{route('client.update', Crypt::encrypt($client->id))}}" data-nom="{{$client->nom}}" data-prenom="{{$client->prenom}}" data-email="{{$client->email}}"
-                                            data-client_id="{{$client->client_id}}"  data-role_id="{{$client->role_id}}" 
+                                        <a data-href="{{route('client.update', Crypt::encrypt($client->id))}}" data-raison_sociale="{{$client->raison_sociale}}" data-contact1="{{$client->contact1}}" data-contact2="{{$client->contact2}}"
+                                            data-email="{{$client->email}}" data-pays_id="{{$client->pay_id}}"  data-langue_id="{{$client->langue_id}}" 
                                             data-bs-toggle="modal" data-bs-target="#edit-modal" class="action-icon edit-client text-success"> <i class="mdi mdi-square-edit-outline"></i></a>
                                         @if($client->archive == false)
                                         <a data-href="{{route('client.archive', $client->id)}}" style="cursor: pointer;" class="action-icon archive-client text-warning"> <i class="mdi mdi-archive-arrow-down"></i></a>
@@ -128,13 +134,13 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-floating mb-3">
-                            <input type="text" name="nom" value="{{old('nom') ? old('nom') : ''}}" class="form-control" id="floatingInput" >
-                            <label for="floatingInput">Nom</label>
-                            @if ($errors->has('nom'))
+                            <input type="text" name="raison_sociale" value="{{old('raison_sociale') ? old('raison_sociale') : ''}}" class="form-control" id="raison_sociale"  required>
+                            <label for="raison_sociale">Raison sociale</label>
+                            @if ($errors->has('raison_sociale'))
                                 <br>
                                 <div class="alert alert-warning text-secondary " role="alert">
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <strong>{{$errors->first('nom')}}</strong> 
+                                    <strong>{{$errors->first('raison_sociale')}}</strong> 
                                 </div>
                             @endif
                         </div>
@@ -142,23 +148,7 @@
 
                     <div class="col-6">
                         <div class="form-floating mb-3">
-                            <input type="text" name="prenom" value="{{old('prenom') ? old('prenom') : ''}}" class="form-control" id="prenom" >
-                            <label for="prenom">Prénom</label>
-                            @if ($errors->has('prenom'))
-                                <br>
-                                <div class="alert alert-warning text-secondary " role="alert">
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <strong>{{$errors->first('prenom')}}</strong> 
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-floating mb-3">
-                            <input type="text" name="email" value="{{old('email') ? old('email') : ''}}" class="form-control" id="email" >
+                            <input type="email" name="email" value="{{old('email') ? old('email') : ''}}" class="form-control" id="email"  required>
                             <label for="email">Email</label>
                             @if ($errors->has('email'))
                                 <br>
@@ -170,85 +160,88 @@
                         </div>
                     </div>
 
+                
+                </div>
+
+                <div class="row">
                     <div class="col-6">
                         <div class="form-floating mb-3">
-                            <label for="password">Mot de passe</label>
-                            <div class="input-group input-group-merge">
-                                <input type="password" name="password" value="{{old('password') ? old('password') : ''}}" class="form-control" id="password" >
-                                <div class="input-group-text" data-password="false">
-                                    <span class="password-eye"></span>
-                                </div>
-                            </div>
+                            <select class="selectpicker form-control" name="pays_id" id="pays_id"    data-live-search="true" required>
+                                <option value="">Pays du client</option>
+
+                                @foreach ($pays as $pay)
+                                    <option value="{{$pay->id}}"  data-tokens="{{$pay->nom}}"> {{$pay->nom}}</option>
+                                @endforeach
+                            </select>
+                            {{-- <label for="pays_id">Pays du client</label> --}}
                            
-                            @if ($errors->has('password'))
+                            @if ($errors->has('pays_id'))
                                 <br>
                                 <div class="alert alert-warning text-secondary " role="alert">
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <strong>{{$errors->first('password')}}</strong> 
+                                    <strong>{{$errors->first('pays_id')}}</strong> 
                                 </div>
                             @endif
                         </div>
-                    </div>
-                </div>
+                    </div>        
 
-                <div class="row">
                     <div class="col-6">
                         <div class="form-floating mb-3">
-                          <select name="role_id" id="role_id" class="form-select" required>
-
-                            @foreach ($roles as $role)
-                                <option value="{{$role->id}}"> {{$role->nom}}</option>
-                            @endforeach
-                          </select>
-                            <label for="role_id">Rôle</label>
-                            @if ($errors->has('role_id'))
+           
+                            <select class="form-control selectpicker" name="langue_id" id="langue_id" data-live-search="true" required>
+                                <option value="">Langue du client</option>
+                                @foreach ($langues as $langue)
+                                    <option value="{{$langue->id}}"> {{$langue->nom}}</option>
+                                @endforeach
+                            </select>
+                            {{-- <label for="langue_id">Langue du client</label> --}}
+                            @if ($errors->has('langue_id'))
                                 <br>
                                 <div class="alert alert-warning text-secondary " role="alert">
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <strong>{{$errors->first('role_id')}}</strong> 
+                                    <strong>{{$errors->first('langue_id')}}</strong> 
                                 </div>
                             @endif
                         </div>
                     </div>
+
+                
+                </div>
+
+
+
+                <div class="row">
                     
                     <div class="col-6">
                         <div class="form-floating mb-3">
-                          <select name="client_id" id="client_id" class="form-select" required>
-                            <option value=""></option>
-                            @foreach ($clients as $client)
-                                <option value="{{$client->id}}"> {{$client->raison_sociale}}</option>
-                            @endforeach
-                          </select>
-                            <label for="client_id">Client</label>
-                            @if ($errors->has('client_id'))
+                            <input type="text" name="contact1" value="{{old('contact1') ? old('contact1') : ''}}" class="form-control" id="contact1" >
+                            <label for="contact1">Téléphone 1</label>
+                            @if ($errors->has('contact1'))
                                 <br>
                                 <div class="alert alert-warning text-secondary " role="alert">
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <strong>{{$errors->first('client_id')}}</strong> 
+                                    <strong>{{$errors->first('contact1')}}</strong> 
                                 </div>
                             @endif
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-6">
-                        <div class="form-check form-checkbox-secondary mb-3">
-                            <label class="form-check-label" for="mail">Envoyer un mail de réinitialisation du mot de passe</label>
-                            <input type="checkbox" name="mail" id="mail" class="form-check-input ">
-                            @if ($errors->has('mail'))
+                        <div class="form-floating mb-3">
+                            <input type="text" name="contact2" value="{{old('contact2') ? old('contact2') : ''}}" class="form-control" id="contact1" >
+                            <label for="contact2">Téléphone 2</label>
+                            @if ($errors->has('contact2'))
                                 <br>
                                 <div class="alert alert-warning text-secondary " role="alert">
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <strong>{{$errors->first('mail')}}</strong> 
+                                    <strong>{{$errors->first('contact2')}}</strong> 
                                 </div>
                             @endif
                         </div>
                     </div>
-                    
-                   
+
                 </div>
 
+    
         
 
             </div>
@@ -263,6 +256,13 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<style>
+    .form-floating>.form-control:focus, .form-floating>.form-control:not(:placeholder-shown) {
+        padding-top: 0.01rem;
+        height: 65px;
+        padding-bottom: 0.625rem;
+    }
+</style>
 
     {{-- Modification d'un client --}}
     <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
@@ -280,13 +280,13 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-floating mb-3">
-                            <input type="text" name="nom" value="{{old('nom') ? old('nom') : ''}}" class="form-control" id="edit-nom" >
-                            <label for="edit-nom">Nom</label>
-                            @if ($errors->has('nom'))
+                            <input type="text" name="raison_sociale" value="{{old('raison_sociale') ? old('raison_sociale') : ''}}" class="form-control" id="edit-raison_sociale"  required>
+                            <label for="edit-raison_sociale">Raison sociale</label>
+                            @if ($errors->has('raison_sociale'))
                                 <br>
                                 <div class="alert alert-warning text-secondary " role="alert">
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <strong>{{$errors->first('nom')}}</strong> 
+                                    <strong>{{$errors->first('raison_sociale')}}</strong> 
                                 </div>
                             @endif
                         </div>
@@ -294,23 +294,7 @@
 
                     <div class="col-6">
                         <div class="form-floating mb-3">
-                            <input type="text" name="prenom" value="{{old('prenom') ? old('prenom') : ''}}" class="form-control" id="edit-prenom" >
-                            <label for="edit-prenom">Prénom</label>
-                            @if ($errors->has('prenom'))
-                                <br>
-                                <div class="alert alert-warning text-secondary " role="alert">
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <strong>{{$errors->first('prenom')}}</strong> 
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-floating mb-3">
-                            <input type="text" name="email" value="{{old('email') ? old('email') : ''}}" class="form-control" id="edit-email" >
+                            <input type="email" name="email" value="{{old('email') ? old('email') : ''}}" class="form-control" id="edit-email"  required>
                             <label for="edit-email">Email</label>
                             @if ($errors->has('email'))
                                 <br>
@@ -322,84 +306,88 @@
                         </div>
                     </div>
 
+                
+                </div>
+
+                <div class="row">
                     <div class="col-6">
                         <div class="form-floating mb-3">
-                            <label for="password">Mot de passe</label>
-                            <div class="input-group input-group-merge">
-                                <input type="password" name="password" value="" class="form-control" id="edit-password" autocomplete="new-password">
-                                <div class="input-group-text" data-password="false">
-                                    <span class="password-eye"></span>
-                                </div>
-                            </div>
+                            <select class=" form-select" name="pays_id" id="edit-pays_id"    data-live-search="true" required>
+                                {{-- <option value="">Pays du client</option> --}}
+
+                                @foreach ($pays as $pay)
+                                    <option value="{{$pay->id}}"  data-tokens="{{$pay->nom}}"> {{$pay->nom}}</option>
+                                @endforeach
+                            </select>
+                            <label for="pays_id">Pays du client</label>
                            
-                            @if ($errors->has('password'))
+                            @if ($errors->has('pays_id'))
                                 <br>
                                 <div class="alert alert-warning text-secondary " role="alert">
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <strong>{{$errors->first('password')}}</strong> 
+                                    <strong>{{$errors->first('pays_id')}}</strong> 
                                 </div>
                             @endif
                         </div>
-                    </div>
-                </div>
+                    </div>        
 
-                <div class="row">
                     <div class="col-6">
                         <div class="form-floating mb-3">
-                          <select name="role_id" id="edit-role_id" class="form-select" required>
-
-                            @foreach ($roles as $role)
-                                <option value="{{$role->id}}"> {{$role->nom}}</option>
-                            @endforeach
-                          </select>
-                            <label for="edit-role_id">Rôle</label>
-                            @if ($errors->has('role_id'))
+           
+                            <select class="form-select " name="langue_id" id="edit-langue_id" data-live-search="true" required>
+                                {{-- <option value="">Langue du client</option> --}}
+                                @foreach ($langues as $langue)
+                                    <option value="{{$langue->id}}"> {{$langue->nom}}</option>
+                                @endforeach
+                            </select>
+                            <label for="langue_id">Langue du client</label>
+                            @if ($errors->has('langue_id'))
                                 <br>
                                 <div class="alert alert-warning text-secondary " role="alert">
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <strong>{{$errors->first('role_id')}}</strong> 
+                                    <strong>{{$errors->first('langue_id')}}</strong> 
                                 </div>
                             @endif
                         </div>
                     </div>
+
+                
+                </div>
+
+
+
+                <div class="row">
                     
                     <div class="col-6">
                         <div class="form-floating mb-3">
-                          <select name="client_id" id="edit-client_id" class="form-select" required>
-                            <option value=""></option>
-                            @foreach ($clients as $client)
-                                <option value="{{$client->id}}"> {{$client->raison_sociale}}</option>
-                            @endforeach
-                          </select>
-                            <label for="edit-client_id">Client</label>
-                            @if ($errors->has('client_id'))
+                            <input type="text" name="contact1" value="{{old('contact1') ? old('contact1') : ''}}" class="form-control" id="edit-contact1" >
+                            <label for="edit-contact1">Téléphone 1</label>
+                            @if ($errors->has('contact1'))
                                 <br>
                                 <div class="alert alert-warning text-secondary " role="alert">
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <strong>{{$errors->first('client_id')}}</strong> 
+                                    <strong>{{$errors->first('contact1')}}</strong> 
                                 </div>
                             @endif
                         </div>
                     </div>
+                    <div class="col-6">
+                        <div class="form-floating mb-3">
+                            <input type="text" name="contact2" value="{{old('contact2') ? old('contact2') : ''}}" class="form-control" id="edit-contact1" >
+                            <label for="edit-contact2">Téléphone 2</label>
+                            @if ($errors->has('contact2'))
+                                <br>
+                                <div class="alert alert-warning text-secondary " role="alert">
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <strong>{{$errors->first('contact2')}}</strong> 
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-check form-checkbox-secondary mb-3">
-                            <label class="form-check-label" for="edit-mail">Envoyer un mail de réinitialisation du mot de passe</label>
-                            <input type="checkbox" name="mail" id="edit-mail" class="form-check-input ">
-                            @if ($errors->has('mail'))
-                                <br>
-                                <div class="alert alert-warning text-secondary " role="alert">
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <strong>{{$errors->first('mail')}}</strong> 
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                    
-                   
-                </div>
+    
 
             </div>
             <div class="modal-footer">
@@ -424,6 +412,7 @@
 <script src="{{asset('assets/js/vendor/dataTables.bootstrap5.js')}}"></script>
 {{-- <script src="{{asset('assets/js/vendor/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/responsive.bootstrap5.min.js')}}"></script> --}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
 
 {{-- Modification d'un client --}}
 <script>
@@ -431,22 +420,25 @@
 $('.edit-client').click(function (e) {
 
         let that = $(this);
-        let currentNom = that.data('nom');
-        let currentPrenom = that.data('prenom');
+        let currentRaisonSociale = that.data('raison_sociale');
+        let currentContact1 = that.data('contact1');
+        let currentContact2 = that.data('contact2');
         let currentEmail = that.data('email');
 
-        let currentClientId = that.data('client_id');
-        let currentRoleId = that.data('role_id');
+        let currentPaysId = that.data('pays_id');
+        let currentLangueId = that.data('langue_id');
 
-    
+ 
         let currentFormAction = that.data('href');
-        $('#edit-nom').val(currentNom) ;
-        $('#edit-prenom').val(currentPrenom) ;
+        $('#edit-raison_sociale').val(currentRaisonSociale) ;
+        $('#edit-contact1').val(currentContact1) ;
+        $('#edit-contact2').val(currentContact2) ;
         $('#edit-email').val(currentEmail) ;
-        $('#edit-client_id option[value='+currentClientId+']').attr("selected",true);
-        $('#edit-role_id option[value='+currentRoleId+']').attr("selected",true);
+        $('#edit-pays_id option[value='+currentPaysId+']').attr("selected",true);
+        $('#edit-langue_id option[value='+currentLangueId+']').attr("selected",true);
         $('#form-edit').attr('action', currentFormAction) ;
 
+   
 })
 
 </script>

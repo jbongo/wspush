@@ -475,18 +475,30 @@
                             })
                             .done(function(data) {
                               
-                                console.log(data);                                          
+                                console.log(data);    
+                                
+                                if(data == "nok"){
+
+                                    Swal.fire(
+                                        'Article non publié!',
+                                        'Aucun des sites sélectionnés ne possède la catégorie de l\'article',
+                                        'error'
+                                    )
+
+                                }else{
+                                    Swal.fire(
+                                        'Article publié!',
+                                        '',
+                                        'success'
+                                    )
+                                    .then(function() {
+                                        location.reload(true)
+                                    })
+                                }
 
                             })
 
-                            Swal.fire(
-                                'Article publié!',
-                                '',
-                                'success'
-                            )
-                            .then(function() {
-                                location.reload(true)
-                            })
+                          
                         // swalWithBootstrapButtons.fire(
                         //     'Publié!',
                         //     'Article publié.',

@@ -364,7 +364,7 @@ class ArticleController extends Controller
 
         $categorieinternes = Categorieinterne::where('categoriearticle_id', $article->categoriearticle_id)->whereIn('siteinterne_id', $request->siteinternes)->get();
       
-        
+        if(sizeof($categorieinternes) == 0) return "nok";
         foreach ($categorieinternes as $categorieinterne) {
             
             try {
