@@ -12,7 +12,7 @@
             <div class="page-title-box">
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="{{route('categorie_interne.index',Crypt::encrypt($categorieinterne->siteinterne_id))}}">Titres</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('categorie_interne.index',Crypt::encrypt($categorieinterne->siteinterne_id))}}">Catégories internes</a></li>
                         <li class="breadcrumb-item active">Détails</li>
                     </ol>
                 </div>
@@ -25,7 +25,7 @@
     <!-- end page title --> 
 
     
-  
+  {{-- {{dd($categorieinterne->siteinterne_id)}} --}}
     <!-- end row-->
 
 
@@ -36,7 +36,7 @@
                     <div class="row g-0">
                         
                         <div class="col-sm-2 mr-14 ">
-                            <a href="{{route('categorie_interne.index',Crypt::encrypt($categorieinterne->siteinterne_id))}}" type="button" class="btn btn-outline-primary"><i class="uil-arrow-left"></i> Retour</a>
+                            <a href="{{route('categorie_interne.index',Crypt::encrypt($categorieinterne->siteinterne_id))}}" type="button" class="btn btn-outline-secondary"><i class="uil-arrow-left"></i> Retour</a>
                         </div>
                         @if(session('ok'))
                         <div class="col-6">
@@ -162,7 +162,9 @@
                                                                     <td>
                                                                         <label for="{{$categorieexterne->id}}" style="margin-left: 5px">{{$categorieexterne->nom}}</label>
                                                                         <input type="checkbox" @if($categorieinterne->HaveCategorieexterne($categorieexterne->id)) checked @endif 
-                                                                            name="{{$categorieexterne->id}}" id="{{$categorieexterne->id}}"></td>
+                                                                            name="{{$categorieexterne->id}}" id="{{$categorieexterne->id}}">
+                                                                        
+                                                                    </td>
                                                                 </tr>
                                                             @endforeach
                             

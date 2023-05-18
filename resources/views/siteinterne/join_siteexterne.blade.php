@@ -12,17 +12,15 @@
             <div class="page-title-box">
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="{{route('categorie_interne.index',Crypt::encrypt($site->id))}}">Titres</a></li>
-                        <li class="breadcrumb-item active">Détails</li>
+                        <li class="breadcrumb-item"><a href="{{route('site_interne.index')}}">Sites internes</a></li>
+                        <li class="breadcrumb-item active">Sites sources</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Modifier la catégorie  <span class="text-danger"> {{$site->nom}} </span> </h4>
+                <h4 class="page-title">Choisir les sites sources de <span class="text-danger"> {{$site->nom}} </span> </h4>
             </div>
         </div>
     </div>
     <!-- end page title --> 
-
-    
   
     <!-- end row-->
 
@@ -34,7 +32,7 @@
                     <div class="row g-0">
                         
                         <div class="col-sm-2 mr-14 ">
-                            <a href="{{route('categorie_interne.index',Crypt::encrypt($site->siteinterne_id))}}" type="button" class="btn btn-outline-primary"><i class="uil-arrow-left"></i> Retour</a>
+                            <a href="{{route('categorie_interne.index',Crypt::encrypt($site->id))}}" type="button" class="btn btn-outline-secondary"><i class="uil-arrow-left"></i> Retour</a>
                         </div>
                         @if(session('ok'))
                         <div class="col-6">
@@ -113,9 +111,9 @@
                                     
                                                                         
                             </div>
-                            <div class="modal-footer">
-                                <a  class="btn btn-light" href="{{route('categorie_interne.index',Crypt::encrypt($site->siteinterne_id))}}">Annuler</a>
-                                <button type="submit" class="btn btn-success">Modifier</button>
+                            <div class="modal-footer" style="position: fixed;bottom: 10px; margin: 0;  left: 50%; z-index:1 ;">
+                                <a  class="btn btn-light btn-lg" href="{{route('categorie_interne.index',Crypt::encrypt($site->siteinterne_id))}}">Annuler</a>
+                                <button type="submit" class="btn btn-success btn-lg">Modifier</button>
                             </div>
                         </div>
                     </form> 

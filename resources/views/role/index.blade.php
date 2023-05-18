@@ -12,8 +12,7 @@
             <div class="page-title-box">
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">eCommerce</a></li>
+                                 
                         <li class="breadcrumb-item active">Rôles</li>
                     </ol>
                 </div>
@@ -24,7 +23,7 @@
     <!-- end page title --> 
 
     <div class="row">
-        <div class="col-12">
+        <div class="col-6">
             <div class="card">
                 <div class="card-body">
                 <div class="row mb-2">
@@ -68,7 +67,7 @@
                                 
                                     <th>Rôles</th>
                                     <th>Statut</th>
-                                    <th>Permissions</th>
+                                    {{-- <th>Permissions</th> --}}
 
                                     <th style="width: 125px;">Action</th>
                                 </tr>
@@ -84,10 +83,10 @@
                                         @if($role->archive == false) <span class="badge bg-success">Actif</span>
                                         @else<span class="badge bg-warning">Archivé</span>@endif
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         <a href="{{route('role.permissions', Crypt::encrypt($role->id) )}} " style="cursor: pointer;" class="action-icon text-primary"> <i class="mdi mdi-folder-lock"></i></a>
                                         
-                                    </td>
+                                    </td> --}}
                                     <td>
                                         {{-- <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a> --}}
                                         <a data-href="{{route('role.update', $role->id)}}" data-value="{{$role->nom}}" data-bs-toggle="modal" data-bs-target="#edit-modal" class="action-icon edit-role text-success"> <i class="mdi mdi-square-edit-outline"></i></a>

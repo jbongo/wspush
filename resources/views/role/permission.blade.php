@@ -1,7 +1,12 @@
-@include('layouts.header')
-@include('layouts.nav')
+@extends('layouts.app')
+@section('css')
+    <link href="{{asset('assets/css/vendor/dataTables.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/css/vendor/responsive.bootstrap5.css')}}" rel="stylesheet" type="text/css" />
+@endsection
 
-<div class="content-page">
+@section('content')
+
+
     <div class="content">
         
        <!-- start page title -->
@@ -184,11 +189,7 @@
     </div><!-- /.modal -->
 
 
-
-</div> <!-- content-page -->
-
-
-
+@endsection
 
 @section('js')
 
@@ -350,4 +351,4 @@ $('.edit-role').click(function (e) {
 
 </script>
 @endsection
-@include('layouts.footer')
+{{-- @include('layouts.footer') --}}

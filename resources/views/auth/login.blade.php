@@ -2,10 +2,10 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Connexion | WSPUHS</title>
+        <title>Connexion | Maxilium</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="WSPUHS" name="description" />
-        <meta content="WSPUHS" name="author" />
+        <meta content="Maxilium" name="description" />
+        <meta content="Maxilium" name="author" />
         <!-- App favicon -->
         <link rel="shortcut icon" href="assets/images/favicon.ico">
         
@@ -23,10 +23,10 @@
                         <div class="card">
 
                             <!-- Logo -->
-                            <div class="card-header pt-4 pb-4 text-center bg-primary">
+                            <div class="card-header pt-4 pb-4 text-center bg-secondary">
                                 <a href="#" style="color: #fff; font-size:25px; font-weight: bold;">
                                     {{-- <span><img src="assets/images/logo.png" alt="" height="18"></span> --}}
-                                    WSPUHS
+                                    Maxilium
                                 </a>
                             </div>
 
@@ -68,7 +68,7 @@
                                     </div>
 
                                     <div class="mb-3 mb-0 text-center">
-                                        <button class="btn btn-primary" type="submit"> Se connecter </button>
+                                        <button class="btn btn-warning" type="submit"> Se connecter </button>
                                     </div>
 
                                 </form>
@@ -87,7 +87,7 @@
         <!-- end page -->
 
         <footer class="footer footer-alt">
-           <script>document.write(new Date().getFullYear())</script> © WSPUHS
+           <script>document.write(new Date().getFullYear())</script> © Maxilium
         </footer>
 
         <!-- bundle -->

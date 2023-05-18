@@ -25,11 +25,12 @@ class CategorieinterneController extends Controller
      */
     public function index($site_id)
     {
+       
         $site_id = Crypt::decrypt($site_id);
+
         $categoriearticles = Categoriearticle::where([['est_archive',false]])->get();
         $categories = Categorieinterne::where('siteinterne_id', $site_id)->get();
         $siteinterne = Siteinterne::where('id', $site_id)->first();
-
         
 
         return view('categorieinterne.index', compact('categories','categoriearticles','siteinterne','site_id'));

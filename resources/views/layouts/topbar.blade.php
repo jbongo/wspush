@@ -42,7 +42,7 @@
                     <h5 class="m-0">
                         <span class="float-end">
                             <a href="javascript: void(0);" class="text-dark">
-                                <small>Clear All</small>
+                                <small>Tout supprimer</small>
                             </a>
                         </span>Notification
                     </h5>
@@ -50,9 +50,9 @@
 
                 <div class="px-3" style="max-height: 300px;" data-simplebar>
 
-                    <h5 class="text-muted font-13 fw-normal mt-0">Today</h5>
+                    {{-- <h5 class="text-muted font-13 fw-normal mt-0">Today</h5> --}}
                     <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
+                    {{-- <a href="javascript:void(0);" class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
                         <div class="card-body">
                             <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>   
                             <div class="d-flex align-items-center">
@@ -67,10 +67,10 @@
                                 </div>
                               </div>
                         </div>
-                    </a>
+                    </a> --}}
 
                     <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item p-0 notify-item card read-noti shadow-none mb-2">
+                    {{-- <a href="javascript:void(0);" class="dropdown-item p-0 notify-item card read-noti shadow-none mb-2">
                         <div class="card-body">
                             <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>   
                             <div class="d-flex align-items-center">
@@ -85,11 +85,11 @@
                                 </div>
                               </div>
                         </div>
-                    </a>
+                    </a> --}}
+{{-- 
+                    <h5 class="text-muted font-13 fw-normal mt-0">Yesterday</h5> --}}
 
-                    <h5 class="text-muted font-13 fw-normal mt-0">Yesterday</h5>
-
-                    <!-- item-->
+                    {{-- <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item p-0 notify-item card read-noti shadow-none mb-2">
                         <div class="card-body">
                             <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>   
@@ -105,9 +105,9 @@
                                 </div>
                               </div>
                         </div>
-                    </a>
+                    </a> --}}
 
-                    <h5 class="text-muted font-13 fw-normal mt-0">30 Dec 2021</h5>
+                    {{-- <h5 class="text-muted font-13 fw-normal mt-0">30 Dec 2021</h5>
 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item p-0 notify-item card read-noti shadow-none mb-2">
@@ -125,10 +125,10 @@
                                 </div>
                               </div>
                         </div>
-                    </a>
+                    </a> --}}
 
                      <!-- item-->
-                     <a href="javascript:void(0);" class="dropdown-item p-0 notify-item card read-noti shadow-none mb-2">
+                     {{-- <a href="javascript:void(0);" class="dropdown-item p-0 notify-item card read-noti shadow-none mb-2">
                         <div class="card-body">
                             <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>   
                             <div class="d-flex align-items-center">
@@ -143,7 +143,7 @@
                                 </div>
                               </div>
                         </div>
-                    </a>
+                    </a> --}}
 
                     <div class="text-center">
                         <i class="mdi mdi-dots-circle mdi-spin text-muted h3 mt-0"></i>
@@ -151,9 +151,9 @@
                 </div>
 
                 <!-- All-->
-                <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item border-top border-light py-2">
+                {{-- <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item border-top border-light py-2">
                     Tout afficher
-                </a>
+                </a> --}}
 
                 </div>
             </li>

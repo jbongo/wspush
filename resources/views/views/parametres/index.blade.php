@@ -34,7 +34,7 @@
                     <div class="row g-0">
                         
                         <div class="col-sm-4  mr-14 ">
-                            {{-- <a href="{{route('action.index')}}" type="button" class="btn btn-outline-primary"><i class="uil-arrow-left"></i> Retour</a> --}}
+                            {{-- <a href="{{route('action.index')}}" type="button" class="btn btn-outline-secondary"><i class="uil-arrow-left"></i> Retour</a> --}}
                             <h4 class="modal-title" id="addActionModalLabel"> Modification de vos paramètres </h4>
                             
                         </div>

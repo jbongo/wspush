@@ -205,7 +205,7 @@ class SiteinterneController extends Controller
         // dd(date(DATE_ISO8601, strtotime('2021-12-30 23:21:46')));
             $articles = json_decode($resp1,true);
 
-            dd($articles);
+            // dd($articles);
 
             $nb_article = 0;
 

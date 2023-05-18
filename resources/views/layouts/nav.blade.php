@@ -100,7 +100,7 @@ switch ($curent_url[1]) {
 
         @can("permission", "afficher-client")
         <li class="side-nav-item">
-            <a  href="#" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
+            <a  href="{{route('client.index')}}" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
                 <i class="uil uil-award-alt"></i>         
                 <span> Clients </span>
             </a>

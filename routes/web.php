@@ -12,6 +12,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -134,6 +135,18 @@ Route::controller(UserController::class)->group(function (){
     Route::post('/utilisateur/desarchiver/{utilisateurId}', 'unarchive')->name('utilisateur.unarchive')->middleware(['auth']);
     Route::post('/utilisateur/archiver/{utilisateurId}', 'archive')->name('utilisateur.archive')->middleware(['auth']);
 });
+
+// Clients
+Route::controller(ClientController::class)->group(function (){
+    Route::get('/clients', 'index')->name('client.index')->middleware(['auth']);
+    Route::post('/client/ajouter', 'store')->name('client.store')->middleware(['auth']);
+    Route::post('/client/modifier/{clientId}', 'update')->name('client.update')->middleware(['auth']);
+    Route::post('/client/desarchiver/{clientId}', 'unarchive')->name('client.unarchive')->middleware(['auth']);
+    Route::post('/client/archiver/{clientId}', 'archive')->name('client.archive')->middleware(['auth']);
+});
+
+
+// Permissions
 Route::controller(PermissionController::class)->group(function (){
     Route::get('/permissions', 'index')->name('permission.index')->middleware(['auth']);
     Route::post('/permission/ajouter', 'store')->name('permission.store')->middleware(['auth']);
