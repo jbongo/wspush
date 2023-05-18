@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\models\Role;
-use App\models\Permissiongroup;
+use App\Models\Role;
+use App\Models\Permissiongroup;
 
 use Crypt;
 
