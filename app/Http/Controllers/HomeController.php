@@ -16,6 +16,7 @@ class HomeController extends Controller
         $user = Auth::user();
         $siteinternes = $user->role->nom == "Super-Admin" ? Siteinterne::where('est_archive',false)->get() : Siteinterne::where([['client_id', $user->client_id], ['est_archive', false]])->get();
         $pays_id = array();
+        dd($siteinternes);
         foreach ($siteinternes as $siteinterne) {
           $pays_id[] = $siteinterne->pay_id;
         }
