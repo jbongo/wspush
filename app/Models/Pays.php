@@ -29,7 +29,7 @@ class Pays extends Model
     public function siteinternesClient()
     {
       
-        return $this->hasMany(Siteinterne::class,'pay_id','id')->where('client_id', Auth::user()->id);
+        return $this->hasMany(Siteinterne::class,'pay_id','id')->where('client_id', Auth::user()->client_id);
     }
 
 
