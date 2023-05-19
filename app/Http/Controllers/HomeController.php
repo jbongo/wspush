@@ -14,12 +14,12 @@ class HomeController extends Controller
 
         
         $user = Auth::user();
-        $siteinternes = $user->role == "Super-admin" ? Siteinterne::where('est_archive',false)->get() : Siteinterne::where([['client_id', $user->client_id], ['est_archive', false]])->get();
+        $siteinternes = $user->role->nom == "Super-Admin" ? Siteinterne::where('est_archive',false)->get() : Siteinterne::where([['client_id', $user->client_id], ['est_archive', false]])->get();
         $pays_id = array();
         foreach ($siteinternes as $siteinterne) {
           $pays_id[] = $siteinterne->pay_id;
         }
-        $pays = Pays::whereIn('id', $pays_id)->get();
+        $pays = Pays::whereIn('id', $pays_id)->orderBy('nom')->get();
 
         // $paySite = array();
         // foreach ($pays as $pay) {
