@@ -178,7 +178,7 @@
                                                 <a href="{{route('action.edit', Crypt::encrypt($action->id))}}" class="btn btn-danger " data-bs-toggle="tooltip" data-bs-placement="top" title="Ajouter les paliers"> Paramètres</a>
                                             </div>                                        
                                         @else                                       
-                                            <a href="{{route('action.edit', Crypt::encrypt($action->id))}}" class="text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"><i class="mdi mdi-lead-pencil"></i></a>
+                                            <a href="{{route('action.edit', Crypt::encrypt($action->id))}}" class="text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"><i class="mdi mdi-square-edit-outline"></i></a>
 
                                             <a href="{{route('action.show', Crypt::encrypt($action->id))}}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"><i class="mdi mdi-eye-outline"></i></a>
                                             <a href="{{route('action.dupliquer', Crypt::encrypt($action->id))}}" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Dupliquer l'action"><i class="mdi mdi-content-duplicate"></i></a>

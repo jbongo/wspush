@@ -71,9 +71,9 @@
                                     <th scope="col">Nom</th>
                                     <th scope="col">Url</th>
                                     <th scope="col">Pays</th>
-                                    <th scope="col">Alimenter</th>
+                                    @can('permission', 'alimenter-site') <th scope="col">Alimenter</th> @endcan
                                     <th scope="col">Catégories</th>
-                                    <th scope="col">Sites Sources</th>
+                                    {{-- <th scope="col">Sites Sources</th> --}}
                                     <th scope="col">Statut</th>                                    
                                     <th scope="col">Actions</th>
                                 </tr>
@@ -102,6 +102,7 @@
                                             
                                         </div>
                                     </td>
+                                    @can('permission', 'alimenter-site')
                                     <td>
                                         <div class="d-flex align-items-center">
                                                                                    
@@ -113,22 +114,28 @@
                                             </p>
                                     
                                         </div> 
-                                    </td>    
+                                    </td> 
+                                    @endcan 
+                                      
                                     <td>
                                         <div class="d-flex align-items-center">
-                                                                                   
+                                            @can('permission', 'afficher-categorie-interne')                                      
                                             <p class="inbox-item-date">
                                                 <a  href="{{route('categorie_interne.index',Crypt::encrypt($site->id))}}" type="button" class="btn btn-sm btn-success px-1 py-0">
                                                      <i class='uil uil-eye font-14'></i> </a>
                                             </p>
+                                            @endcan
+                                            @can('permission', 'ajouter-categorie-interne')                                      
+
                                             <p class="inbox-item-date" style="margin-left: 5px" >
                                                 <button href="{{route('categorie_interne.add',$site->id)}}"  type="button" class="btn btn-sm btn-primary px-1 py-0 add_categorie"
                                                     data-site_id="{{$site->id}}" data-nom="{{$site->nom}}"  data-bs-toggle="modal" data-bs-target="#editCategorieModal"   >
                                                      <i data-bs-toggle="tooltip" data-bs-placement="top" title="Ajouter une nouvelle catégorie" class='uil uil-plus font-14'></i> </button>
                                             </p>
+                                            @endcan
                                         </div> 
                                     </td>                                
-                                    <td>
+                                    {{-- <td>
                                         <div class="d-flex align-items-center">
                                                                                    
                                             <p class="inbox-item-date">
@@ -137,7 +144,7 @@
                                             </p>
                                            
                                         </div> 
-                                    </td>     
+                                    </td>      --}}
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <h5 class="text-danger my-0">@if($site->est_actif == true)  Actif @else Désactivé @endif </h5>
@@ -149,10 +156,10 @@
                                                 
                                                 data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pay->id}}" data-login="{{$site->login}}" data-passwordx="{{$site->password}}"
                                                 data-href="{{route('site_interne.update', Crypt::encrypt($site->id))}}" data-site_id="{{$site->id}}"  data-est_diffuse_auto = {{$site->est_diffuse_auto}}
-                                                title="Modifier" ><i class="mdi mdi-lead-pencil"></i></a>
+                                                title="Modifier" ><i class="mdi mdi-square-edit-outline"></i></a>
 
                                         @else                                 
-                                            <a  class="text-secondary" style="cursor: no-drop;" data-bs-toggle="tooltip" data-bs-placement="top" title="Permission non accordée" ><i class="mdi mdi-lead-pencil"></i></a>
+                                            <a  class="text-secondary" style="cursor: no-drop;" data-bs-toggle="tooltip" data-bs-placement="top" title="Permission non accordée" ><i class="mdi mdi-square-edit-outline"></i></a>
                                         @endcan
                                         
                                             {{-- 

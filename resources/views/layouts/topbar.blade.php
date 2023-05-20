@@ -165,7 +165,7 @@
                         <img src="{{asset('assets/images/users/avatar-1.jpg')}}" alt="user-image" class="rounded-circle">
                     </span>
                     <span>
-                        <span class="account-user-name">Admin</span>
+                        <span class="account-user-name">{{Auth::user()->nom}} {{Auth::user()->prenom}}</span>
                        
                     </span>
                 </a>

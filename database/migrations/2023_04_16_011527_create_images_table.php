@@ -17,6 +17,7 @@ class CreateImagesTable extends Migration
             $table->id();
             $table->integer('article_id');
             $table->text('filename');
+            $table->text('url');
     
             $table->timestamps();
         });

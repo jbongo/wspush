@@ -62,10 +62,11 @@
             <div class="card">
                 <div class="card-body">
                  <div class="row mb-2">
+                    @can('permission', 'ajouter-permission')
                      <div class="col-sm-5">
                          <a href="javascript:void(0);" class="btn btn-primary mb-2"  data-bs-toggle="modal" data-bs-target="#standard-modal"><i class="mdi mdi-plus-circle me-2"></i> Ajouter permission</a>
                      </div>
-                     
+                     @endcan
                  </div>
                  <div class="row">
                  
@@ -130,9 +131,11 @@
                                         @endforeach
                                         
                                         <td>
+                                        @can('permission', 'modifier-permission')
+
                                             <a data-href="{{route('permission.update', $permission->id)}}" data-nom="{{$permission->nom}}" data-description="{{$permission->description}}"
                                                 data-permissiongroup="{{$permission->permissiongroup->nom}}" data-permissiongroup_id="{{$permission->permissiongroup_id}}" data-bs-toggle="modal" data-bs-target="#edit-modal" class="action-icon edit-role text-success"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                            
+                                        @endcan    
                                         </td>
                                 
                                     </tr>
@@ -142,8 +145,10 @@
                                 
                             </tbody>
                         </table>
+                        @can('permission', 'modifier-permission')
+
                         <button style="position: fixed;bottom: 10px; margin: 0;  left: 50%; z-index:1 ;" type="submit" class="btn btn-success btn-lg">Enregistrer</button>
-                        
+                        @endcan
                         </form>
                     </div>
                 </div> <!-- end card-body-->

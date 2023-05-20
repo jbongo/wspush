@@ -27,9 +27,12 @@
             <div class="card">
                 <div class="card-body">
                 <div class="row mb-2">
+                    @can('permission', 'ajouter-role')
+
                     <div class="col-sm-5">
                         <a href="javascript:void(0);" class="btn btn-primary mb-2"  data-bs-toggle="modal" data-bs-target="#standard-modal"><i class="mdi mdi-plus-circle me-2"></i> Nouveau rôle</a>
                     </div>
+                    @endcan
                     <div class="col-sm-7">
                         
                     </div><!-- end col-->
@@ -89,12 +92,19 @@
                                     </td> --}}
                                     <td>
                                         {{-- <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a> --}}
-                                        <a data-href="{{route('role.update', $role->id)}}" data-value="{{$role->nom}}" data-bs-toggle="modal" data-bs-target="#edit-modal" class="action-icon edit-role text-success"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                        @if($role->archive == false)
-                                        <a data-href="{{route('role.archive', $role->id)}}" style="cursor: pointer;" class="action-icon archive-role text-warning"> <i class="mdi mdi-archive-arrow-down"></i></a>
-                                        @else
-                                        <a data-href="{{route('role.unarchive', $role->id)}}" style="cursor: pointer;" class="action-icon unarchive-role text-success"> <i class="mdi mdi-archive-arrow-up"></i></a>
-                                        @endif
+                                        @can('permission', 'modifier-role')
+                                            <a data-href="{{route('role.update', $role->id)}}" data-value="{{$role->nom}}" data-bs-toggle="modal" data-bs-target="#edit-modal" class="action-icon edit-role text-success"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                        @else 
+                                            <a class="text-secondary" style="cursor: no-drop;" data-bs-toggle="tooltip" data-bs-placement="top" title="Permission non accordée" ><i class="mdi mdi-square-edit-outline"></i></a>
+                                        @endcan
+
+                                        @can('permission', 'archiver-role')
+                                            @if($role->archive == false)
+                                            <a data-href="{{route('role.archive', $role->id)}}" style="cursor: pointer;" class="action-icon archive-role text-warning"> <i class="mdi mdi-archive-arrow-down"></i></a>
+                                            @else
+                                            <a data-href="{{route('role.unarchive', $role->id)}}" style="cursor: pointer;" class="action-icon unarchive-role text-success"> <i class="mdi mdi-archive-arrow-up"></i></a>
+                                            @endif
+                                        @endcan
                                     </td>
                                 </tr>
                                 @endforeach

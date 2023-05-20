@@ -29,10 +29,12 @@
             <div class="card widget-inline">
                 <div class="card-body p-0">
                     <div class="row g-0">
+                        @can('permission', 'ajouter-categorie-source')
                         
                         <div class="col-sm-2 mr-14 ">
                             <a href="{{route('article.add')}}" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addModal"><i class="uil-plus"></i> Ajouter</a>
                         </div>
+                        @endcan
                         @if(session('ok'))
                         <div class="col-6">
                             <div class="alert alert-success alert-dismissible bg-success text-white text-center border-0 fade show" role="alert">
@@ -95,15 +97,19 @@
                                     </td>
                                     
                                     <td>
+                                        @can('permission', 'modifier-categorie-source')
+
                                         <a  class="text-success modifier" data-bs-toggle="modal" data-bs-target="#editModal"
                                             
                                             data-nom="{{$categorie->nom}}" data-url="{{$categorie->url}}" data-siteexterne_id="{{$categorie->siteexterne_id}}"
                                             data-categoriearticle_id="{{$categorie->categoriearticle->id}}" data-href="{{route('categorie_externe.update', Crypt::encrypt($categorie->id))}}"
-                                            title="Modifier" ><i class="mdi mdi-lead-pencil"></i></a>
+                                            title="Modifier" ><i class="mdi mdi-square-edit-outline"></i></a>
                                             {{-- 
                                             <a href="{{route('article.show', Crypt::encrypt($categorie->id))}}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"><i class="mdi mdi-eye-outline"></i></a>
                                             <a href="{{route('article.archiver', Crypt::encrypt($categorie->id))}}" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Dupliquer l'action"><i class="mdi mdi-content-duplicate"></i></a> --}}
-                                
+                                        @else 
+                                        <a  class="text-secondary" style="cursor: no-drop;" data-bs-toggle="tooltip" data-bs-placement="top" title="Permission non accordée" ><i class="mdi mdi-square-edit-outline"></i></a>
+                                        @endcan
                                     </td>
 
                                 </tr> <!-- end tr -->

@@ -270,7 +270,7 @@
                                                             <div
                                                                 style="margin: auto; width:70%; border: 1px solid white; padding-bottom: 50px; cursor: move;">
                                                             
-                                                                    <p><img src="{{$image->filename}}"
+                                                                    <p><img src="/images-articles/{{$image->filename}}"
                                                                             alt="" width="100%" height="70px">
                                                                     </p>
                                                                

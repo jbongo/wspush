@@ -75,7 +75,7 @@
                                     <a href="javascript:void(0);" onclick="getOrdre({{$ordre->id}})" data-bs-toggle="modal" data-bs-target="#vendreActionModal" class="btn w-100 btn-danger btnVendre"    title="Vendre"> Vendre</a>
                                 </div>
                                 <div class="col-4">
-                                    <a href="javascript:void(0);" onclick="getOrdreAchete({{$ordre->id}})" data-bs-toggle="modal" data-bs-target="#modifierActionAchatModal" class="btn w-100 btn-light text-success" data-bs-placement="top" title="Modifier"><i class="mdi mdi-lead-pencil"></i></a>
+                                    <a href="javascript:void(0);" onclick="getOrdreAchete({{$ordre->id}})" data-bs-toggle="modal" data-bs-target="#modifierActionAchatModal" class="btn w-100 btn-light text-success" data-bs-placement="top" title="Modifier"><i class="mdi mdi-square-edit-outline"></i></a>
                                 </div>
                                 <div class="col-4">
                                     <a href="javascript:void(0);" class="btn w-100 btn-light text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"><i class="mdi mdi-eye-outline"></i></a>

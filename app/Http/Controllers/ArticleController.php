@@ -112,7 +112,8 @@ class ArticleController extends Controller
 
             Image::create([
                 "article_id" => $article->id,
-                "filename" => $destinationPath."/".$picture,
+                "url" => $destinationPath."/".$picture,
+                "filename" => $picture,
             
             ]);
         }
@@ -178,7 +179,8 @@ class ArticleController extends Controller
 
                 Image::create([
                     "article_id" => $article->id,
-                    "filename" => $destinationPath."/".$picture,
+                    "url" => $destinationPath."/".$picture,
+                    "filename" => $picture,
                 
                 ]);
             }
@@ -259,48 +261,54 @@ class ArticleController extends Controller
      
     
         // sauvegarde des images de l'article 
-        public function savePhoto(Request $request, $article_id){
+        // public function savePhoto(Request $request, $article_id){
         
-            $images = $request->file('file');
+        //     $images = $request->file('file');
              
             
             
-            if (!is_array($images)) {
-                $images = [$images];
-            }
+        //     if (!is_array($images)) {
+        //         $images = [$images];
+        //     }
             
            
             
            
-                for ($i = 0; $i < count($images); $i++) {
-                    $photo = $images[$i];
+        //         for ($i = 0; $i < count($images); $i++) {
+        //             $photo = $images[$i];
 
                   
                     
-                    $filename = $image->getClientOriginalName(); // Récupérer le nom du fichier
-                    $extension = $image->getClientOriginalExtension(); // Récupérer l'extension du fichier
-                    $slug = $this->to_slug($article->titre);
-                    $picture = $slug."-".rand(1,1000).".".$extension; // Renommer le fichier avec une date et l'ancien nom de fichier
-                    $destinationPath = public_path('/images-articles'); // Définir le dossier de destination des images
-                    $image->move($destinationPath, $picture); // Déplacer le fichier dans le dossier de destination
+        //             $filename = $image->getClientOriginalName(); // Récupérer le nom du fichier
+        //             $extension = $image->getClientOriginalExtension(); // Récupérer l'extension du fichier
+        //             $slug = $this->to_slug($article->titre);
+        //             $picture = $slug."-".rand(1,1000).".".$extension; // Renommer le fichier avec une date et l'ancien nom de fichier
+        //             $destinationPath = public_path('/images-articles'); // Définir le dossier de destination des images
+        //             $image->move($destinationPath, $picture); // Déplacer le fichier dans le dossier de destination
 
-                    // $img = Image::make($photo);
+        //             // $img = Image::make($photo);
                     
-                    Image::create([
-                        "article_id" => $article_id,                      
-                        "filename"=> $picture,
+        //             Image::create([
+        //                 "article_id" => $article_id,                      
+        //                 "filename"=> $picture,
+        //                 "filename"=> $picture,
                    
     
-                    ]);
-                         //dd($images);
-                }
-            return Response::json([
-                'message' => 'Image sauvegardée'
-            ], 200);
-        }
+        //             ]);
+        //                  //dd($images);
+        //         }
+        //     return Response::json([
+        //         'message' => 'Image sauvegardée'
+        //     ], 200);
+        // }
     
         
-        // Suppression d'une photo pendant l'upload
+        
+    /**
+     * 
+     * Suppression d'une photo 
+     * @return \Illuminate\Http\Response
+    */
         public function destroyImage(Request $request)
         {
      
@@ -334,9 +342,10 @@ class ArticleController extends Controller
         //     $photo->delete();
         //     return back()->with('ok', __("Photo supprimée"));
         // }
+
+
     
     /** Fonction de téléchargement des images de l'article document
-    * @author jean-philippe
     * @param  App\Models\Image
     * @return \Illuminate\Http\Response
     **/ 

@@ -28,10 +28,11 @@
             <div class="card widget-inline">
                 <div class="card-body p-0">
                     <div class="row g-0">
-                        
+                        @can('permission', 'ajouter-site-source')
                         <div class="col-sm-2 mr-14 ">
                             <a href="{{route('article.add')}}" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addModal"><i class="uil-plus"></i> Ajouter</a>
                         </div>
+                        @endcan
                         @if(session('ok'))
                         <div class="col-6">
                             <div class="alert alert-success alert-dismissible bg-success text-white text-center border-0 fade show" role="alert">
@@ -61,7 +62,7 @@
                                     <th scope="col">Pays</th>
                                     <th scope="col">Nom</th>
                                     <th scope="col">Url</th>
-                                    <th scope="col">Catégories</th>
+                                    @can('permission', 'afficher-categorie-source') <th scope="col">Catégories</th> @endcan
                                     <th scope="col">Wordpress</th>
                                     <th scope="col">Statut</th>                                    
                                     <th scope="col">Actions</th>
@@ -93,11 +94,14 @@
                                             <div class="flex-grow-1 ms-2 fw-bold"><span class="text-danger">{{$site->url}}</span></div>
                                         </div> 
                                     </td>
+                                    @can('permission', 'afficher-categorie-source')
+
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <a href="{{route('categorie_externe.index',$site->id)}}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Voir les catégories"><i class="mdi mdi-eye-outline"></i></a>
                                         </div> 
                                     </td>
+                                    @endcan
                                     <td>
                                         <span class="text-default"><h5 class="text-success my-0">@if($site->est_wordpress == true)  Oui @else Non @endif</h5> </span> 
                                     </td>
@@ -107,17 +111,23 @@
                                         </div>
                                     </td>
                                     <td>
+                                        @can('permission', 'modifier-site-source')
+
                                         <a  class="text-success modifier" data-bs-toggle="modal" data-bs-target="#editModal"
                                             
                                             data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pay->id}}" data-selecteur_lien="{{$site->selecteur_lien}}"
                                             data-selecteur_titre="{{$site->selecteur_titre}}" data-selecteur_contenu="{{$site->selecteur_contenu}}"
                                             data-selecteur_image="{{$site->selecteur_image}}" data-est_wordpress="{{$site->est_wordpress}}" data-image_affiche_css="{{$site->image_affiche_css}}"
                                             data-image_affiche_css="{{$site->image_affiche_css}}" data-href="{{route('site_externe.update', Crypt::encrypt($site->id))}}"
-                                            title="Modifier" ><i class="mdi mdi-lead-pencil"></i></a>
+                                            title="Modifier" ><i class="mdi mdi-square-edit-outline"></i></a>
                                             {{-- 
                                             <a href="{{route('article.show', Crypt::encrypt($site->id))}}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"><i class="mdi mdi-eye-outline"></i></a>
                                             <a href="{{route('article.archiver', Crypt::encrypt($site->id))}}" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Dupliquer l'action"><i class="mdi mdi-content-duplicate"></i></a> --}}
-                                
+                                        @else
+
+                                            <a  class="text-secondary" style="cursor: no-drop;" data-bs-toggle="tooltip" data-bs-placement="top" title="Permission non accordée" ><i class="mdi mdi-square-edit-outline"></i></a>
+
+                                        @endcan
                                     </td>
 
                                 </tr> <!-- end tr -->

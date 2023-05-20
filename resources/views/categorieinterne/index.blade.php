@@ -32,8 +32,10 @@
                         
                         <div class="col-sm-2 mr-14 ">
                             <a href="{{route('site_interne.index')}}" type="button" class="btn btn-outline-secondary"><i class="uil-arrow-left"></i> Retour</a>
+                            @can('permission', 'ajouter-categorie-interne')                                      
 
-                            <a href="{{route('article.add')}}" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addModal"><i class="uil-plus"></i> Ajouter</a>
+                                <a href="{{route('article.add')}}" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addModal"><i class="uil-plus"></i> Ajouter</a>
+                            @endcan
                         </div>
                         @if(session('ok'))
                         <div class="col-6">
@@ -90,8 +92,14 @@
                                     </td>
                                     
                                     <td>
+                                        @can('permission', 'modifier-categorie-interne')                                      
+
                                         <a  class="text-success modifier" href="{{route('categorie_interne.edit', Crypt::encrypt($categorie->id))}}"
-                                            title="Modifier" ><i class="mdi mdi-lead-pencil"></i></a>
+                                            title="Modifier" ><i class="mdi mdi-square-edit-outline"></i></a>
+                                        @else 
+                                        <a  class="text-secondary" style="cursor: no-drop;" data-bs-toggle="tooltip" data-bs-placement="top" title="Permission non accordée" ><i class="mdi mdi-square-edit-outline"></i></a>
+
+                                        @endcan
                                             {{-- 
                                             <a href="{{route('article.show', Crypt::encrypt($categorie->id))}}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"><i class="mdi mdi-eye-outline"></i></a>
                                             <a href="{{route('article.archiver', Crypt::encrypt($categorie->id))}}" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Dupliquer l'action"><i class="mdi mdi-content-duplicate"></i></a> --}}

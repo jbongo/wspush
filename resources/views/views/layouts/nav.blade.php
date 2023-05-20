@@ -54,7 +54,7 @@ $nb_alerte = App\Models\Alerte::where('est_ouvert', false)->get()->count();
     <div class="leftbar-user">
         <a href="javascript: void(0);">
             <img src="{{asset('assets/images/users/avatar-1.jpg')}}" alt="user-image" height="42" class="rounded-circle shadow-sm">
-            <span class="leftbar-user-name">Admin</span>
+            <span class="leftbar-user-name">{{Auth::user()->nom}} {{Auth::user()->prenom}}</span>
         </a>
     </div>
 

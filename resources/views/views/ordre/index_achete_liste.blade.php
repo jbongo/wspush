@@ -68,7 +68,7 @@
                                     @if($ordre->est_vendu == false) <a href="javascript:void(0);" onclick="getOrdre({{$ordre->id}})" data-bs-toggle="modal" data-bs-target="#vendreActionModal" class="btn btn-danger btnVendre"    title="Vendre"> Vendre</a> @endif
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0);" onclick="getOrdreAchete({{$ordre->id}})" data-bs-toggle="modal" data-bs-target="#modifierActionAchatModal" class="text-success" data-bs-placement="top" title="Modifier"><i class="mdi mdi-lead-pencil"></i></a>
+                                    <a href="javascript:void(0);" onclick="getOrdreAchete({{$ordre->id}})" data-bs-toggle="modal" data-bs-target="#modifierActionAchatModal" class="text-success" data-bs-placement="top" title="Modifier"><i class="mdi mdi-square-edit-outline"></i></a>
                                     <a href="javascript:void(0);" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"><i class="mdi mdi-eye-outline"></i></a>
                             
                                 </td>

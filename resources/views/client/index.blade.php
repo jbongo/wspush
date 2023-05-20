@@ -28,9 +28,12 @@
             <div class="card">
                 <div class="card-body">
                 <div class="row mb-2">
+                    @can('permission', 'ajouter-client')
+
                     <div class="col-sm-5">
                         <a href="javascript:void(0);" class="btn btn-primary mb-2"  data-bs-toggle="modal" data-bs-target="#standard-modal"><i class="mdi mdi-plus-circle me-2"></i> Nouveau client</a>
                     </div>
+                    @endcan
                     <div class="col-sm-7">
                         
                     </div><!-- end col-->
@@ -97,14 +100,24 @@
                                     </td>
                                     <td>
                                         {{-- <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a> --}}
+                                        @can('permission', 'modifier-client')
+
                                         <a data-href="{{route('client.update', Crypt::encrypt($client->id))}}" data-raison_sociale="{{$client->raison_sociale}}" data-contact1="{{$client->contact1}}" data-contact2="{{$client->contact2}}"
                                             data-email="{{$client->email}}" data-pays_id="{{$client->pay_id}}"  data-langue_id="{{$client->langue_id}}" 
                                             data-bs-toggle="modal" data-bs-target="#edit-modal" class="action-icon edit-client text-success"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                        @if($client->archive == false)
-                                        <a data-href="{{route('client.archive', $client->id)}}" style="cursor: pointer;" class="action-icon archive-client text-warning"> <i class="mdi mdi-archive-arrow-down"></i></a>
                                         @else
-                                        <a data-href="{{route('client.unarchive', $client->id)}}" style="cursor: pointer;" class="action-icon unarchive-client text-success"> <i class="mdi mdi-archive-arrow-up"></i></a>
-                                        @endif
+                                            <a  class="text-secondary" style="cursor: no-drop;" data-bs-toggle="tooltip" data-bs-placement="top" title="Permission non accordée" ><i class="mdi mdi-square-edit-outline"></i></a>
+
+                                        @endcan
+
+                                        @can('permission', 'archiver-client')
+
+                                            @if($client->archive == false)
+                                            <a data-href="{{route('client.archive', $client->id)}}" style="cursor: pointer;" class="action-icon archive-client text-warning"> <i class="mdi mdi-archive-arrow-down"></i></a>
+                                            @else
+                                            <a data-href="{{route('client.unarchive', $client->id)}}" style="cursor: pointer;" class="action-icon unarchive-client text-success"> <i class="mdi mdi-archive-arrow-up"></i></a>
+                                            @endif
+                                        @endcan
                                     </td>
                                 </tr>
                                 @endforeach

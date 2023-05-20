@@ -28,10 +28,11 @@
             <div class="card widget-inline">
                 <div class="card-body p-0">
                     <div class="row g-0">
-                        
+                        @can('permission', 'ajouter-article')                        
                         <div class="col-sm-2 mr-14 ">
                             <a href="{{route('article.add')}}" type="button" class="btn btn-outline-primary"><i class="uil-plus"></i> Ajouter</a>
                         </div>
+                        @endcan
                         @if(session('ok'))
                         <div class="col-6">
                             <div class="alert alert-success alert-dismissible bg-success text-white text-center border-0 fade show" role="alert">
@@ -111,7 +112,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center" class="img-wrapper">
                                                     <a href="{{route('article.edit_no_scrap', Crypt::encrypt($article->id))}}" >
-                                                         <img src="{{$article->images[0]->filename}}" style=" border-radius: 3px;" height="50px" width="60px" alt=""> </a>                                            
+                                                         <img src="/images-articles/{{$article->images[0]->filename}}" style=" border-radius: 3px;" height="50px" width="60px" alt=""> </a>                                            
                                                 </div>
                                             </td>
                                 
@@ -143,8 +144,14 @@
                                             </td>
                                        
                                          <td>
-                                                <a href="{{route('article.edit_no_scrap', Crypt::encrypt($article->id))}}" class="text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"><i class="mdi mdi-lead-pencil"></i></a>
-                                {{-- 
+                                            @can('permission', 'modifier-article')                        
+
+                                                <a href="{{route('article.edit_no_scrap', Crypt::encrypt($article->id))}}" class="text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"><i class="mdi mdi-square-edit-outline"></i></a>
+                                                @else                                 
+                                                <a  class="text-secondary" style="cursor: no-drop;" data-bs-toggle="tooltip" data-bs-placement="top" title="Permission non accordée" ><i class="mdi mdi-square-edit-outline"></i></a>
+                                            @endcan
+                                
+                                                {{-- 
                                                 <a href="{{route('article.show', Crypt::encrypt($article->id))}}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"><i class="mdi mdi-eye-outline"></i></a>
                                                 <a href="{{route('article.archiver', Crypt::encrypt($article->id))}}" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Dupliquer l'action"><i class="mdi mdi-content-duplicate"></i></a> --}}
                                 

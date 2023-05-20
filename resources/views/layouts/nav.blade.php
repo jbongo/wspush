@@ -54,7 +54,7 @@ switch ($curent_url[1]) {
     <div class="leftbar-user">
         <a href="javascript: void(0);">
             <img src="{{asset('assets/images/users/avatar-1.jpg')}}" alt="user-image" height="42" class="rounded-circle shadow-sm">
-            <span class="leftbar-user-name">Admin</span>
+            <span class="leftbar-user-name">{{Auth::user()->nom}} {{Auth::user()->prenom}}</span>
         </a>
     </div>
 
@@ -133,10 +133,11 @@ switch ($curent_url[1]) {
                     {{-- <li class="{{$li_ordre_simule_algo1}}">
                         <a href="{{route('categorie_externe.index')}}">Catégories </a>
                     </li> --}}
+                @if(Auth::user()->role->nom == "Super-Admin")
                     <li class="{{$li_ordre_simule_algo1}}">
                         <a href="{{route('scrap.index_selecteur')}}">Tests sélecteurs </a>
                     </li>
-                    
+                @endif
                 </ul>
             </div>
         </li>
