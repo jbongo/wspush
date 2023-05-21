@@ -7,7 +7,7 @@
         <meta content="Maxilium" name="description" />
         <meta content="Maxilium" name="author" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
+        <link rel="shortcut icon" href="assets/images/logo.png">
         
         <!-- App css -->
         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />

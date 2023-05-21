@@ -2,11 +2,14 @@
 @php
 $curent_url = $_SERVER['REQUEST_URI']; 
 $curent_url = explode("/", $curent_url);
-$li_ordre_simule_algo1 = $li_ordre_simule_algo2 = $li_ordre_simule_algo3 =$li_ordre_simule_algo4= "";
+$li_home = $li_utilisateur = $li_client = $li_role = $li_permission = $li_site_interne = $li_site_source = $li_article = $li_categorie= $li_parametre = $li_test_selecteur = "";
 $li_simulations= "false";
 
 
-switch ($curent_url[1]) {
+switch ($curent_url[0]) {
+    case 'roles':       
+       $li_role = "menuitem-active";
+    break;
     case 'ordres-simule':       
         if(sizeof($curent_url) > 3){
            switch (substr($curent_url[3], 0,1)) {
@@ -15,16 +18,7 @@ switch ($curent_url[1]) {
                 $li_ordre_simule_algo2 = "menuitem-active";
                 $li_simulations= "true";
                 break;
-            case "3":
-                $li_ordre_simule_algo3 = "menuitem-active";
-                $li_simulations= "true";
-                
-                break;
-            case "4":
-                $li_ordre_simule_algo4 = "menuitem-active";
-                $li_simulations= "true";
-                
-                break;
+      
   
             default:
                 $li_ordre_simule_algo1 = "menuitem-active";
@@ -53,7 +47,7 @@ switch ($curent_url[1]) {
 
     <div class="leftbar-user">
         <a href="javascript: void(0);">
-            <img src="{{asset('assets/images/users/avatar-1.jpg')}}" alt="user-image" height="42" class="rounded-circle shadow-sm">
+            <img src="{{asset('assets/images/logo.png')}}" alt="user-image" height="35" class="rounded-circle shadow-sm">
             <span class="leftbar-user-name">{{Auth::user()->nom}} {{Auth::user()->prenom}}</span>
         </a>
     </div>
@@ -61,8 +55,8 @@ switch ($curent_url[1]) {
     <!--- Sidemenu -->
     <ul class="side-nav">
 
-        <li class="side-nav-item">
-            <a  href="{{route('home')}}" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+        <li class="side-nav-item {{$li_home}}">
+            <a  href="{{route('home')}}" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link ">
                 <i class="uil-dashboard"></i>
                 <span> Tableau de bord </span>
             </a>
@@ -70,7 +64,7 @@ switch ($curent_url[1]) {
         </li>           
 
         @can("permission", "afficher-utilisateur")
-        <li class="side-nav-item">
+        <li class="side-nav-item {{$li_utilisateur}}">
             <a  href="{{route('utilisateur.index')}}" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
                 <i class="uil uil-user-plus"></i>
                 <span> Utilisateurs </span>
@@ -79,7 +73,7 @@ switch ($curent_url[1]) {
          @endcan
 
         @can("permission", "afficher-droit")
-        <li class="side-nav-item">
+        <li class="side-nav-item ">
             <a data-bs-toggle="collapse" href="#droits" aria-expanded="false" aria-controls="droits" class="side-nav-link">
                 <i class="uil-folder-lock"></i>
                 <span> Droits </span>
@@ -87,10 +81,10 @@ switch ($curent_url[1]) {
             </a>
             <div class="collapse" id="droits">
                 <ul class="side-nav-second-level">
-                    <li>
+                    <li class="{{$li_role}}">
                         <a href="{{route('role.index')}}">Rôles</a>
                     </li>
-                    <li>
+                    <li class="{{$li_permission}}">
                         <a href="{{route('permission.index')}}">Permissions</a>
                     </li>
                 </ul>
@@ -99,7 +93,7 @@ switch ($curent_url[1]) {
         @endcan
 
         @can("permission", "afficher-client")
-        <li class="side-nav-item">
+        <li class="side-nav-item {{$li_client}}">
             <a  href="{{route('client.index')}}" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
                 <i class="uil uil-award-alt"></i>         
                 <span> Clients </span>
@@ -108,7 +102,7 @@ switch ($curent_url[1]) {
         @endcan
 
         @can("permission", "afficher-site")
-        <li class="side-nav-item">
+        <li class="side-nav-item {{$li_site_interne}}">
             <a  href="{{route('site_interne.index')}}"aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
                 <i class="uil uil-globe"></i>         
                 <span> Sites </span>
@@ -117,24 +111,22 @@ switch ($curent_url[1]) {
         @endcan
 
         @can("permission", "afficher-site-source")
-        <li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="{{$li_simulations}}" aria-controls="sidebarBaseUI" class="side-nav-link">
+        <li class="side-nav-item {{$li_site_source}}">
+            <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI" class="side-nav-link">
                 <i class="uil-globe"></i>
                 <span> Sites Externes </span>
                 <span class="menu-arrow"></span>
             </a>
-            <div class="collapse @if($li_simulations) show @endif" id="sidebarBaseUI">
+            <div class="collapse" id="sidebarBaseUI">
                 <ul class="side-nav-second-level">
                     
-                    <li class="{{$li_ordre_simule_algo1}}">
+                    <li class="{{$li_site_source}}">
                         <a href="{{route('site_externe.index')}}">Tous les sites </a>
                     </li>
                   
-                    {{-- <li class="{{$li_ordre_simule_algo1}}">
-                        <a href="{{route('categorie_externe.index')}}">Catégories </a>
-                    </li> --}}
+
                 @if(Auth::user()->role->nom == "Super-Admin")
-                    <li class="{{$li_ordre_simule_algo1}}">
+                    <li class="{{$li_test_selecteur}}">
                         <a href="{{route('scrap.index_selecteur')}}">Tests sélecteurs </a>
                     </li>
                 @endif
@@ -147,27 +139,27 @@ switch ($curent_url[1]) {
         @can("permission", "afficher-article")
 
         <li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="{{$li_simulations}}" aria-controls="sidebarBaseUI" class="side-nav-link">
+            <a data-bs-toggle="collapse" href="#sidebarBaseUIx" aria-expanded="false" aria-controls="sidebarBaseUIx" class="side-nav-link">
                 <i class="uil-auto-flash"></i>
                 <span> Articles </span>
                 <span class="menu-arrow"></span>
             </a>
-            <div class="collapse @if($li_simulations) show @endif" id="sidebarBaseUI">
+            <div class="collapse" id="sidebarBaseUIx">
                 <ul class="side-nav-second-level">
                     
-                    <li class="{{$li_ordre_simule_algo1}}">
+                    <li class="{{$li_article}}">
                         <a href="{{route('article.index')}}">Tous les articles </a>
                     </li>                  
-                    <li class="{{$li_ordre_simule_algo1}}">
+                    {{-- <li class="{{$li_article}}">
                         <a href="">Catégories </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </li>
         @endcan
         
         @can("permission", "afficher-parametre")
-        <li class="side-nav-item">
+        <li class="side-nav-item {{$li_parametre}}">
             <a  href="#" aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
                 <i class="uil uil-bright"></i>
                 <span> Paramètres </span>
@@ -218,7 +210,7 @@ body[data-layout=detached] .leftside-menu .side-nav .side-nav-link {
 }
 
 body[data-layout=detached] .leftside-menu .side-nav .menuitem-active>a {
-    color: #ffffff!important;
+    color: #eb7777!important;
 }
 
 body[data-layout=detached] .leftside-menu .side-nav .side-nav-forth-level li a, body[data-layout=detached] .leftside-menu .side-nav .side-nav-second-level li a, body[data-layout=detached] .leftside-menu .side-nav .side-nav-third-level li a {

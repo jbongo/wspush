@@ -5,11 +5,11 @@
         <!-- LOGO -->
         <a href="#" class="topnav-logo">
             <span class="topnav-logo-lg">
-                <img src="{{asset('assets/images/logo_sm.png')}}" alt="" height="16">
+                <img src="{{asset('assets/images/logo.png')}}" alt="" height="30">
                 <span style="color: #fff; font-size:20px; font-weight: bold;">Maxilium</span>
             </span>
             <span class="topnav-logo-sm">
-                <img src="{{asset('assets/images/logo_sm.png')}}" alt="" height="16">
+                <img src="{{asset('assets/images/logo.png')}}" alt="" height="30">
                 <span style="color: #fff; font-size:20px; font-weight: bold;">Maxilium</span>
                 
             </span>
@@ -162,7 +162,7 @@
                 <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" id="topbar-userdrop" href="#" role="button" aria-haspopup="true"
                     aria-expanded="false">
                     <span class="account-user-avatar"> 
-                        <img src="{{asset('assets/images/users/avatar-1.jpg')}}" alt="user-image" class="rounded-circle">
+                        <img src="{{asset('assets/images/logo.png')}}" alt="user-image" class="rounded-circle">
                     </span>
                     <span>
                         <span class="account-user-name">{{Auth::user()->nom}} {{Auth::user()->prenom}}</span>

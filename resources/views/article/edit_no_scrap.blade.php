@@ -103,8 +103,9 @@
 
                             <div class="row justify-content-between">
                                 <div class="col-3">
-                                    <span class="" style="font-style: italic"><a href="{{ $article->url }}"
-                                            target="_blank">Voir l'article original</a> </span>
+
+                                    {{-- <span class="" style="font-style: italic"><a href="{{ $article->url }}"
+                                            target="_blank">Voir l'article original</a> </span> --}}
                                 </div>
 
 
