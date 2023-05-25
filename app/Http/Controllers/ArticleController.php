@@ -255,53 +255,6 @@ class ArticleController extends Controller
         return view('article.edit_no_scrap',compact('categories', 'langues', 'article', 'pays','allSiteinternes', 'siteSelected','allVal'));  
    }
 
-   
-    ///////// ########## GESTION DES images D'UN article 
-    
-     
-    
-        // sauvegarde des images de l'article 
-        // public function savePhoto(Request $request, $article_id){
-        
-        //     $images = $request->file('file');
-             
-            
-            
-        //     if (!is_array($images)) {
-        //         $images = [$images];
-        //     }
-            
-           
-            
-           
-        //         for ($i = 0; $i < count($images); $i++) {
-        //             $photo = $images[$i];
-
-                  
-                    
-        //             $filename = $image->getClientOriginalName(); // Récupérer le nom du fichier
-        //             $extension = $image->getClientOriginalExtension(); // Récupérer l'extension du fichier
-        //             $slug = $this->to_slug($article->titre);
-        //             $picture = $slug."-".rand(1,1000).".".$extension; // Renommer le fichier avec une date et l'ancien nom de fichier
-        //             $destinationPath = public_path('/images-articles'); // Définir le dossier de destination des images
-        //             $image->move($destinationPath, $picture); // Déplacer le fichier dans le dossier de destination
-
-        //             // $img = Image::make($photo);
-                    
-        //             Image::create([
-        //                 "article_id" => $article_id,                      
-        //                 "filename"=> $picture,
-        //                 "filename"=> $picture,
-                   
-    
-        //             ]);
-        //                  //dd($images);
-        //         }
-        //     return Response::json([
-        //         'message' => 'Image sauvegardée'
-        //     ], 200);
-        // }
-    
         
         
     /**
@@ -336,14 +289,7 @@ class ArticleController extends Controller
             return Response::json(['message' => 'Fiichier supprimé'], 200);
         }
     
-        // public function deletePhoto($id){
-    
-        //     $photo = articlephoto::where('id', $id)->first();
-        //     $photo->delete();
-        //     return back()->with('ok', __("Photo supprimée"));
-        // }
-
-
+      
     
     /** Fonction de téléchargement des images de l'article document
     * @param  App\Models\Image
@@ -398,7 +344,7 @@ class ArticleController extends Controller
                 
                 $curl = curl_init();
         // return $images[$id];
-                $data = file_get_contents($images[$id]->filename);
+                $data = file_get_contents($images[$id]->url);
 
             
                 $filename = $this->to_slug($article->titre);

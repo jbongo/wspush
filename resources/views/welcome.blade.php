@@ -29,7 +29,7 @@
             <div class="card">
                 <div class="card-body row">
                     @foreach ($pays as $pay)
-                        <div class="col-2">
+                        <div class="col-xxl-2 col-lg-4" >
                             <div class="tab-pane show active" id="jstree-1-preview">
                                 <div id="jstree-1" class="jstree-1">
                                     <ul>
