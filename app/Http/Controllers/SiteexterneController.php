@@ -17,6 +17,8 @@ class SiteexterneController extends Controller
      */
     public function index()
     {
+        $this->authorize('permission', 'afficher-site-source');
+
         $sites = Siteexterne::where('est_archive', false)->get();
         $pays = Pays::all();
         $categories = Categoriearticle::where([['est_archive',false]])->get();
@@ -25,15 +27,7 @@ class SiteexterneController extends Controller
         return view('siteexterne.index', compact('sites','pays','categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -43,6 +37,8 @@ class SiteexterneController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('permission', 'ajouter-site-source');
+
         $request->validate([
             "nom"=> "required|unique:siteexternes|string",
             "url"=> "required|unique:siteexternes|string",
@@ -69,27 +65,7 @@ class SiteexterneController extends Controller
         return  redirect()->back()->with('ok', 'Site externe créé');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    
 
     /**
      * Update the specified resource in storage.
@@ -100,6 +76,7 @@ class SiteexterneController extends Controller
      */
     public function update(Request $request, $site_id)
     {
+        $this->authorize('permission', 'modifier-site-source');
        
         $site = Siteexterne::where('id', Crypt::decrypt($site_id))->first();
         
@@ -149,6 +126,7 @@ class SiteexterneController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->authorize('permission', 'supprimer-site-source');
+
     }
 }

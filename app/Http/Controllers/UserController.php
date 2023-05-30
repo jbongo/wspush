@@ -17,6 +17,8 @@ class UserController extends Controller
 
      public function index(){
 
+        $this->authorize('permission', 'afficher-utilisateur');
+
         $utilisateurs = User::orderBy('nom', 'asc')->get();
         $roles = Role::all();
         $clients = Client::all();
@@ -31,6 +33,7 @@ class UserController extends Controller
 
     public function store(Request $request){
 
+        $this->authorize('permission', 'ajouter-utilisateur');
         
         $request->validate([
             'email' => 'email|required|unique:users,email',
@@ -58,6 +61,7 @@ class UserController extends Controller
 
     public function update(Request $request, $utilisateurId){
 
+        $this->authorize('permission', 'modifier-utilisateur');
 
         $utilisateur = User::where('id', Crypt::decrypt($utilisateurId))->first();
         
@@ -92,11 +96,12 @@ class UserController extends Controller
 
     public function archive($utilisateurId){
 
+        $this->authorize('permission', 'archiver-utilisateur');
+
         $utilisateur = User::where('id', $utilisateurId)->first();
         $utilisateur->archive = true;
         $utilisateur->update();
         return $utilisateur->id;
-        // return redirect()->route('utilisateur.index')->with('message', 'Rôle archivé');
 
     }
 
@@ -106,11 +111,12 @@ class UserController extends Controller
 
     public function unarchive($utilisateurId){
 
+        $this->authorize('permission', 'archive-utilisateur');
+
         $utilisateur = User::where('id', $utilisateurId)->first();
         $utilisateur->archive = false;
         $utilisateur->update();
         return $utilisateur->id;
-        // return redirect()->route('utilisateur.index')->with('message', 'Rôle désarchivé');
 
     }
 

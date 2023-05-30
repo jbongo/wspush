@@ -25,6 +25,7 @@ class CategorieinterneController extends Controller
      */
     public function index($site_id)
     {
+        $this->authorize('permission', 'afficher-categorie-interne');
        
         $site_id = Crypt::decrypt($site_id);
 
@@ -36,15 +37,7 @@ class CategorieinterneController extends Controller
         return view('categorieinterne.index', compact('categories','categoriearticles','siteinterne','site_id'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+   
 
     /**
      * Store a newly created resource in storage.
@@ -55,7 +48,8 @@ class CategorieinterneController extends Controller
     public function store(Request $request)
     {
     
-// dd($request->all());
+        $this->authorize('permission', 'ajouter-categorie-interne');
+
         $request->validate([
             "nom"=> "required|string",           
         ]);
@@ -133,16 +127,6 @@ class CategorieinterneController extends Controller
     }
     
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -152,6 +136,7 @@ class CategorieinterneController extends Controller
      */
     public function edit($categorieinterne_id, $pays = null)
     {
+        $this->authorize('permission', 'modifier-categorie-interne');
       
         $categorieinterne = Categorieinterne::where('id', Crypt::decrypt($categorieinterne_id))->first();
         $categoriearticles = Categoriearticle::where([['est_archive',false]])->get();
@@ -179,6 +164,7 @@ class CategorieinterneController extends Controller
       
     }
 
+    
     /**
      * Update the specified resource in storage.
      *
@@ -188,6 +174,8 @@ class CategorieinterneController extends Controller
      */
     public function update(Request $request, $categorieinterne_id)
     {
+        $this->authorize('permission', 'modifier-categorie-interne');
+
         $categorieinterne = Categorieinterne::where('id', Crypt::decrypt($categorieinterne_id))->first();
         $siteinterne = $categorieinterne->siteinterne;
 
@@ -236,6 +224,7 @@ class CategorieinterneController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->authorize('permission', 'supprimer-categorie-interne');
+
     }
 }

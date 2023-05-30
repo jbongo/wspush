@@ -15,6 +15,8 @@ class PermissionController extends Controller
     */
 
     public function index(){
+
+        $this->authorize('permission', 'afficher-permission');
         
         $roles = Role::all();
         $permissionsGroups = Permissiongroup::all();
@@ -45,6 +47,7 @@ class PermissionController extends Controller
 
     public function store(Request $request){
         
+        $this->authorize('permission', 'ajouter-permission');
 
         $request->validate([
             "nom" => 'required',
@@ -67,6 +70,8 @@ class PermissionController extends Controller
 
     public function update(Request $request, $permission_id){
         
+        $this->authorize('permission', 'modifier-permission');
+
         $permission = Permission::where('id', $permission_id)->first();
         
         
@@ -96,6 +101,7 @@ class PermissionController extends Controller
     public function updateRolePermission(Request $request){
         
         
+        $this->authorize('permission', 'modifier-permission');
        
         $roles = Role::where('archive', false)->get();
 

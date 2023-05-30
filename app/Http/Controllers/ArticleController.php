@@ -27,6 +27,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
+        $this->authorize('permission', 'afficher-article');
+
         $articles = Article::where([['est_archive', false],['est_scrappe', false]])->orderBy('id','desc')->latest()->take(100)->get();
   
         // dd($articles);
@@ -41,6 +43,8 @@ class ArticleController extends Controller
      */
     public function indexExterne()
     {
+        $this->authorize('permission', 'afficher-article');
+
         $articles = Article::where([['est_archive', false],['est_scrappe', true]])->orderBy('id','desc')->latest()->take(100)->get();  
         
         return view('article.index_externe', compact('articles'));  
@@ -58,6 +62,8 @@ class ArticleController extends Controller
      */
     public function create()
     {
+        $this->authorize('permission', 'ajouter-article');
+
         $categories = Categoriearticle::where([['est_archive',false]])->get();
         $langues = Langue::where([['est_archive',false]])->get();
 
@@ -73,6 +79,7 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('permission', 'ajouter-article');
 
      
         $request->validate([
@@ -129,6 +136,8 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $article_id)
     {
+
+        $this->authorize('permission', 'modifier-article');
 
         $article = Article::where('id', Crypt::decrypt($article_id))->first();
 
@@ -192,16 +201,7 @@ class ArticleController extends Controller
     }
 
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -211,6 +211,8 @@ class ArticleController extends Controller
      */
     public function edit($article_id)
     {
+        $this->authorize('permission', 'modifier-article');
+
         $article = Article::where('id', Crypt::decrypt($article_id))->first();
         $categories = Categorieexterne::where([['est_archive',false], ['siteexterne_id', $article->siteexterne_id]])->get();
         return view('article.edit', compact('article', 'categories'));
@@ -224,6 +226,8 @@ class ArticleController extends Controller
     */
    public function editNoScrap($article_id)
    {
+        $this->authorize('permission', 'modifier-article');
+
         $article = Article::where('id', Crypt::decrypt($article_id))->first();
      
         $categories = Categoriearticle::where([['est_archive',false]])->get();
@@ -319,6 +323,7 @@ class ArticleController extends Controller
 
         $categorieinternes = Categorieinterne::where('categoriearticle_id', $article->categoriearticle_id)->whereIn('siteinterne_id', $request->siteinternes)->get();
       
+      
         if(sizeof($categorieinternes) == 0) return "nok";
         foreach ($categorieinternes as $categorieinterne) {
             
@@ -382,6 +387,7 @@ class ArticleController extends Controller
                     // On vérifie si l'article est déjà publié sur le site
 
                     if($categorieinterne->haveArticle($article->id)){
+                        // return "deja";
                      
                         $articleCategorieinterne = ArticleCategorieinterne::where([['article_id', $article->id], ['categorieinterne_id', $categorieinterne->id]])->first();
    
@@ -398,10 +404,47 @@ class ArticleController extends Controller
                                 'featured_media' => $fileResponse == null ? null : $fileResponse['id'] // ID de l'image téléchargée
                                 ]
                         );
+                        $resp = json_decode($resp,true);
 
-                        // return $resp;
+                      
+                       
+                    //    return $resp;
+                        // Si on ne retrouve pas l'articles sur le site distant, il a été supprimé
+
+                        // On publie un nouvel article
+                        if(array_key_exists("id",$resp) == false){
+                       
+                            $resp = Http::withToken($token)
+                            ->post("$domaine/wp-json/wp/v2/posts",
+                
+                                    [
+                                    'title' => $article->titre,
+                                    'content' => $article->description,
+                                    'categories' => $categorieinterne->wp_id,
+                                    // 'date' => '2023-01-22T15:04:52',
+                                    // 'slug' => 'this-best-article',
+                                    'status' => 'publish',
+                                    'featured_media' => $fileResponse == null ? null : $fileResponse['id'] // ID de l'image téléchargée
+                                    ]
+                            );
+                            
                         
+                            $resp = json_decode($resp,true);
+                            if($resp != null){
+
+                                $article->categorieinternes()->attach($categorieinterne->id, 
+                                    ['siteinterne_id' => $siteinterne->id,
+                                    'postwp_id' => $resp['id'],
+                                    'est_publie_auto' => false] 
+                                );
+                            }
+                        }
+                        
+
+
                     }else{
+                        // return "new";
+
                         $resp = Http::withToken($token)
                         ->post("$domaine/wp-json/wp/v2/posts",
             

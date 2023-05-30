@@ -184,8 +184,7 @@ class ScrapController extends Controller
      */
      public function testerSelecteur(Request $request, $type_selecteur){
 
-        // dd($request->all());
-
+    
         $url = $request->url;
         $client = new Client();
         
@@ -246,6 +245,8 @@ class ScrapController extends Controller
                   
                 $contenu = $crawler->filter($content_selector)->html();  
 
+              
+
                 if($contenu != null){
                     echo("CONTENU : ".$contenu." <br>");
 
@@ -269,8 +270,6 @@ class ScrapController extends Controller
                    
                 $crawler = $client->click($lien);
     
-                  
-             
                 
                 if($image_affiche_css == "oui"){
                     // Sélectionne la première élément avec un fond d'image

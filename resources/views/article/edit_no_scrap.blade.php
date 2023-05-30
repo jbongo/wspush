@@ -476,10 +476,7 @@
                             })
                             .done(function(data) {
                               
-                                console.log(data);
-                                return 0;
-                                console.log(data);    
-                                
+                             
                                 if(data == "nok"){
 
                                     Swal.fire(

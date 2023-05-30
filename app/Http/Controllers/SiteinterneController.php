@@ -23,6 +23,8 @@ class SiteinterneController extends Controller
      */
     public function index()
     {
+        $this->authorize('permission', 'afficher-site');
+
         $sites = Siteinterne::where('est_archive', false)->get();
         $pays = Pays::all();
         $categories = Categoriearticle::where([['est_archive',false]])->get();
@@ -31,15 +33,7 @@ class SiteinterneController extends Controller
         return view('siteinterne.index', compact('sites','pays','categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -49,6 +43,8 @@ class SiteinterneController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('permission', 'ajouter-site');
+
         $request->validate([
             "nom"=> "required|unique:siteinternes|string",
             "url"=> "required|unique:siteinternes|string",
@@ -91,16 +87,6 @@ class SiteinterneController extends Controller
         return view('siteinterne.join_siteexterne', compact('pays','site'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
 
      /**
@@ -113,6 +99,7 @@ class SiteinterneController extends Controller
     {
         set_time_limit(0);
 
+        $this->authorize('permission', 'alimenter-site');
 
 
         $siteinterne = Siteinterne::where('id', Crypt::decrypt($site_id))->first();
@@ -364,6 +351,7 @@ class SiteinterneController extends Controller
      */
     public function update(Request $request, $site_id)
     {
+        $this->authorize('permission', 'modifier-site');
 
             
        
@@ -412,5 +400,7 @@ class SiteinterneController extends Controller
     public function destroy($id)
     {
         //
+        $this->authorize('permission', 'supprimer-site');
+
     }
 }

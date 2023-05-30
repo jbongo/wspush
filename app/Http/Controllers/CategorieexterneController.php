@@ -18,12 +18,13 @@ class CategorieexterneController extends Controller
     public function index($site_id = null)
     {
 
+        $this->authorize('permission', 'afficher-categorie-source');
+
         if($site_id == null){
             $categories = Categorieexterne::all();
 
         }else{
             $categories = Categorieexterne::where('siteexterne_id', $site_id)->get();
-
 
         }
 
@@ -33,15 +34,7 @@ class CategorieexterneController extends Controller
         return view('categorieexterne.index', compact('categories','sites','site_id','categoriearticles'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+   
 
     /**
      * Store a newly created resource in storage.
@@ -51,6 +44,8 @@ class CategorieexterneController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('permission', 'ajouter-categorie-source');
+
         $request->validate([
             "nom"=> "required|string",
             "url"=> "required|unique:categorieexternes|string",
@@ -69,28 +64,7 @@ class CategorieexterneController extends Controller
         return  redirect()->back()->with('ok', 'Catégorie créée');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
+   
     /**
      * Update the specified resource in storage.
      *
@@ -100,6 +74,8 @@ class CategorieexterneController extends Controller
      */
     public function update(Request $request, $categorie_id)
     {
+
+        $this->authorize('permission', 'modifier-categorie-source');
 
         $categorie = Categorieexterne::where('id', Crypt::decrypt($categorie_id))->first();
 
@@ -133,5 +109,7 @@ class CategorieexterneController extends Controller
     public function destroy($id)
     {
         //
+        $this->authorize('permission', 'supprimer-categorie-source');
+
     }
 }

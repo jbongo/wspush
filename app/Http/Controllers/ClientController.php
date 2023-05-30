@@ -20,6 +20,8 @@ class ClientController extends Controller
 
     public function index(){
 
+        $this->authorize('permission', 'afficher-client');
+
         $clients = User::orderBy('nom', 'asc')->get();
         $roles = Role::all();
         $pays = Pays::all();
@@ -37,6 +39,7 @@ class ClientController extends Controller
 
     public function store(Request $request){
 
+        $this->authorize('permission', 'ajouter-client');
   
         
         $request->validate([
@@ -65,6 +68,7 @@ class ClientController extends Controller
 
     public function update(Request $request, $clientId){
 
+        $this->authorize('permission', 'modifier-client');
 
         $client = Client::where('id', Crypt::decrypt($clientId))->first();
         
@@ -103,6 +107,8 @@ class ClientController extends Controller
 
     public function archive($clientId){
 
+        $this->authorize('permission', 'archiver-client');
+
         $client = Client::where('id', $clientId)->first();
         $client->est_archive = true;
         $client->update();
@@ -117,11 +123,12 @@ class ClientController extends Controller
 
     public function unarchive($clientId){
 
+        $this->authorize('permission', 'archiver-client');
+
         $client = Client::where('id', $clientId)->first();
         $client->est_archive = false;
         $client->update();
         return $client->id;
-        // return redirect()->route('client.index')->with('message', 'Rôle désarchivé');
 
     }
 }

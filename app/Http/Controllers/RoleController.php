@@ -16,6 +16,8 @@ class RoleController extends Controller
 
      public function index(){
 
+        $this->authorize('permission', 'afficher-role');
+
         $roles = Role::all();
 
         return view('role.index', ['roles' => $roles]);
@@ -28,6 +30,7 @@ class RoleController extends Controller
 
     public function store(Request $request){
 
+        $this->authorize('permission', 'ajouter-role');
         
         $request->validate([
             'role' => 'string|required|unique:roles,nom',
@@ -47,6 +50,7 @@ class RoleController extends Controller
 
     public function update(Request $request, $roleId){
 
+        $this->authorize('permission', 'modifier-role');
 
         $role = Role::where('id', $roleId)->first();
         
@@ -67,6 +71,8 @@ class RoleController extends Controller
 
     public function archive($roleId){
 
+        $this->authorize('permission', 'archiver-role');
+
         $role = Role::where('id', $roleId)->first();
         $role->archive = true;
         $role->update();
@@ -80,6 +86,8 @@ class RoleController extends Controller
      */
 
     public function unarchive($roleId){
+
+        $this->authorize('permission', 'archiver-role');
 
         $role = Role::where('id', $roleId)->first();
         $role->archive = false;
