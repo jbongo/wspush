@@ -177,7 +177,7 @@ switch ($curent_url[0]) {
 
 </div>
 <!-- Left Sidebar End -->
-
+{{-- 
 <style>
     @media (min-width: 992px){
         body[data-layout=detached] .container-fluid, body[data-layout=detached] .container-lg, body[data-layout=detached] .container-md, body[data-layout=detached] .container-sm, body[data-layout=detached] .container-xl, body[data-layout=detached] .container-xxl {
@@ -230,4 +230,112 @@ body[data-layout=detached] .leftside-menu .side-nav .side-nav-forth-level li a:f
 body[data-layout=detached] .leftside-menu .side-nav .side-nav-link:active, body[data-layout=detached] .leftside-menu .side-nav .side-nav-link:focus, body[data-layout=detached] .leftside-menu .side-nav .side-nav-link:hover {
     color: #48b5e9!important;
 }
+</style> --}}
+
+
+
+<style>
+    body[data-layout=detached] .leftside-menu {
+
+        background: #263349 !important;
+        color: #fff;
+        margin-top: 0px;
+        min-width: 100px;
+
+        /* border-radius: 30px; */
+
+    }
+
+    body[data-layout=detached] .leftside-menu .side-nav .menuitem-active>a {
+        color: #fff !important;
+    }
+
+    body[data-layout=detached] .leftside-menu .side-nav .side-nav-forth-level li a,
+    body[data-layout=detached] .leftside-menu .side-nav .side-nav-second-level li a,
+    body[data-layout=detached] .leftside-menu .side-nav .side-nav-third-level li a {
+        color: #fff;
+    }
+
+    body[data-layout=detached] .leftside-menu .side-nav .side-nav-link {
+        color: #fff !important;
+    }
+
+
+    /* Couleur lien menus */
+    body[data-layout=detached] .leftside-menu .side-nav .side-nav-link:active,
+    body[data-layout=detached] .leftside-menu .side-nav .side-nav-link:focus,
+    body[data-layout=detached] .leftside-menu .side-nav .side-nav-link:hover {
+        color: #f9c851 !important;
+    }
+
+    /* Couleurs lien sous menus */
+    body[data-layout=detached] .leftside-menu .side-nav .side-nav-forth-level li a:focus,
+    body[data-layout=detached] .leftside-menu .side-nav .side-nav-forth-level li a:hover,
+    body[data-layout=detached] .leftside-menu .side-nav .side-nav-second-level li a:focus,
+    body[data-layout=detached] .leftside-menu .side-nav .side-nav-second-level li a:hover,
+    body[data-layout=detached] .leftside-menu .side-nav .side-nav-third-level li a:focus,
+    body[data-layout=detached] .leftside-menu .side-nav .side-nav-third-level li a:hover {
+        color: #f9c851 !important;
+    }
+
+
+    body[data-layout=detached] .leftside-menu .side-nav .menuitem-active>a {
+    color: #f9c851!important;
+}
+
+    body[data-layout=detached][data-leftbar-compact-mode=condensed] .side-nav .side-nav-item:hover .side-nav-link {
+        background: #263349;
+
+    }
+
+    @media (min-width: 992px) {
+
+        body[data-layout=detached] .container-fluid,
+        body[data-layout=detached] .container-lg,
+        body[data-layout=detached] .container-md,
+        body[data-layout=detached] .container-sm,
+        body[data-layout=detached] .container-xl,
+        body[data-layout=detached] .container-xxl {
+            max-width: 100%;
+        }
+    }
+
+
+/* POLICE DE CARACTERE */
+
+
+
+body {
+        font-size: 12px !important;
+
+    }
+
+    /* Menu */
+    .side-nav .side-nav-link {
+        font-size: 12px;
+    }
+
+    /* Sous menu */
+    .side-nav-forth-level li .side-nav-link,
+    .side-nav-forth-level li a,
+    .side-nav-second-level li .side-nav-link,
+    .side-nav-second-level li a,
+    .side-nav-third-level li .side-nav-link,
+    .side-nav-third-level li a {
+
+        font-size: 12px;
+    }
+
+    /* titre des pages */
+    .page-title-box .page-title {
+        font-size: 12px;
+    }
+
+    .btn {
+        font-size: 12px;
+    }
+
+    .dropdown-menu {
+        font-size: 12px;
+    }
 </style>
