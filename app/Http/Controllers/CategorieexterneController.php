@@ -31,7 +31,7 @@ class CategorieexterneController extends Controller
         $sites = Siteexterne::where([['est_archive', false], ['est_actif', true]])->get();
         $categoriearticles = Categoriearticle::where([['est_archive',false]])->get();
 
-        dd($categories);
+
         return view('categorieexterne.index', compact('categories','sites','site_id','categoriearticles'));
     }
 
