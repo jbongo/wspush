@@ -169,7 +169,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="wp_id" class="form-label">ID de la catégorie *</label>
-                                            <input type="text"  class="form-control" name="wp_id" id="wp_id"  required>
+                                            <input type="text"  class="form-control" name="wp_id" id="wp_id"  >
                                         </div>
                                     </div>
     
@@ -178,7 +178,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="url" class="form-label">URL de la catégorie *</label>
-                                            <input type="text"  class="form-control" name="url" id="url"  required>
+                                            <input type="text"  class="form-control" name="url" id="url"  >
                                         </div>
                                     </div>
     

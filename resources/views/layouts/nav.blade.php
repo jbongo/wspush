@@ -217,11 +217,7 @@ body[data-layout=detached] .leftside-menu .side-nav .side-nav-forth-level li a, 
     color: #c4d1dd;
 }
 
-body[data-layout=detached] .leftbar-user .leftbar-user-name {
 
-    color: #ffffff;
- 
-}
 
 body[data-layout=detached] .leftside-menu .side-nav .side-nav-forth-level li a:focus, body[data-layout=detached] .leftside-menu .side-nav .side-nav-forth-level li a:hover, body[data-layout=detached] .leftside-menu .side-nav .side-nav-second-level li a:focus, body[data-layout=detached] .leftside-menu .side-nav .side-nav-second-level li a:hover, body[data-layout=detached] .leftside-menu .side-nav .side-nav-third-level li a:focus, body[data-layout=detached] .leftside-menu .side-nav .side-nav-third-level li a:hover {
     color: #48b5e9;
@@ -260,6 +256,10 @@ body[data-layout=detached] .leftside-menu .side-nav .side-nav-link:active, body[
         color: #fff !important;
     }
 
+    /* Nom du user dans le menu gauche */
+    body[data-layout=detached] .leftbar-user .leftbar-user-name {
+    color: #ffffff; 
+}
 
     /* Couleur lien menus */
     body[data-layout=detached] .leftside-menu .side-nav .side-nav-link:active,
