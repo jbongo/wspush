@@ -163,7 +163,13 @@ class SiteinterneController extends Controller
                             ]);
 
             $categoriesSources = json_decode($resp,true);
+          
 
+            // si y'a un code d'erreur            
+            if(array_key_exists('code', $categoriesSources)){
+                continue;
+            }
+           
             $idsSources['id_externe'] = array();
             $idsSources['url_externe'] = array();
             foreach ($categoriesSources as $categoriesSource) {
