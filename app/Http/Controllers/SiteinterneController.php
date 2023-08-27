@@ -13,6 +13,7 @@ use App\Models\ArticleCategorieinterne;
 use App\Models\Categoriearticle;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 
 class SiteinterneController extends Controller
 {
@@ -25,7 +26,11 @@ class SiteinterneController extends Controller
     {
         $this->authorize('permission', 'afficher-site');
 
-        $sites = Siteinterne::where('est_archive', false)->get();
+        // $sites = Siteinterne::where('est_archive', false)->get();
+
+        $user = Auth::user();
+        $siteinternes = $user->role->nom == "Super-Admin" ? Siteinterne::where('est_archive',false)->get() : Siteinterne::where([['client_id', $user->client_id], ['est_archive', false]])->get();
+
         $pays = Pays::all();
         $categories = Categoriearticle::where([['est_archive',false]])->get();
 
