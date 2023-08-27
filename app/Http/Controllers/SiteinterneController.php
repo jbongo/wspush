@@ -29,7 +29,7 @@ class SiteinterneController extends Controller
         // $sites = Siteinterne::where('est_archive', false)->get();
 
         $user = Auth::user();
-        $siteinternes = $user->role->nom == "Super-Admin" ? Siteinterne::where('est_archive',false)->get() : Siteinterne::where([['client_id', $user->client_id], ['est_archive', false]])->get();
+        $sites = $user->role->nom == "Super-Admin" ? Siteinterne::where('est_archive',false)->get() : Siteinterne::where([['client_id', $user->client_id], ['est_archive', false]])->get();
 
         $pays = Pays::all();
         $categories = Categoriearticle::where([['est_archive',false]])->get();
