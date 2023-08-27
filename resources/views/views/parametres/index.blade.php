@@ -40,7 +40,7 @@
                         </div>
                         @if(session('ok'))
                         <div class="col-6">
-                            <div class="alert alert-success alert-dismissible bg-success text-white text-center border-0 fade show" role="alert">
+                            <div class="alert alert-success alert-dismissible text-center border-0 fade show" role="alert">
                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                                 <strong> {{session('ok')}}</strong>
                             </div>

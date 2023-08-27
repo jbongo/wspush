@@ -67,9 +67,9 @@
                     <div class="table-responsive">
                         <table class="table table-centered w-100 dt-responsive nowrap" id="user-datatable">
                             <thead class="table-lightx" style="background-color: #17a2b8; color:#fff;">
-                                <tr>
-                                
-                                    <th>Raison sociale ou Nom</th>
+                                <tr>                                
+                                    <th>Raison sociale / Nom</th>
+                                    <th>Utilisateurs</th>
                                     <th>Email</th>
                                     <th>Contact</th>
                                     <th>Pays</th>
@@ -80,15 +80,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($clients as $client)
-                                    
+                                @foreach ($clients as $client)                                    
                                 
                                 <tr>
                                     
                                     <td><a href="#" class="text-body fw-bold">{{$client->raison_sociale}}</a> </td>
+                                    <td><a href="#" class="btn btn-info btn-sm rounded-pill">{{$client->nbUsers()}} </a> </td>
                                     <td><a href="#" class="text-body fw-bold">{{$client->email}}</a> </td>
                                     <td><a href="#" class="text-body fw-bold">{{$client->contact1}} - {{$client->contact2}}</a> </td>
-                                    <td>
+                                                <td>
                                       <span class="text-danger">{{$client->pay->nom}}</span>
                                     </td>
                                     <td>

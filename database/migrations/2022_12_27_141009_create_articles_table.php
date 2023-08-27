@@ -30,6 +30,7 @@ class CreateArticlesTable extends Migration
             $table->boolean('est_publie')->default(false);
             $table->boolean('est_scrappe')->default(true);
             $table->boolean('est_publie_tous_site')->default(true);
+            $table->boolean('est_actif_variation')->default(true);
             $table->date('date_publication')->nullable();
             $table->timestamps();
         });

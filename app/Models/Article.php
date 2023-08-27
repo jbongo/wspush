@@ -234,4 +234,28 @@ class Article extends Model
         return strtolower(strtr($string, $table));
         
     }
+
+    /**
+     * Get all of the articlevariants for the Article
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function articlevariants()
+    {
+        return $this->hasMany(Articlevariant::class);
+    }
+
+      /**
+     * Get all of the articlevariants for the Article
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function randomArticlevariants()
+    {
+        $articleVariants = $this->articlevariants;
+        $size = sizeof($articleVariants) - 1;
+        $index = rand(0,$size);
+        return $articleVariants[$index];
+        
+    }
 }

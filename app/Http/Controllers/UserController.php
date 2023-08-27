@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\Client;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
+use Auth;
 
 class UserController extends Controller
 {
@@ -18,8 +19,12 @@ class UserController extends Controller
      public function index(){
 
         $this->authorize('permission', 'afficher-utilisateur');
+        if(Auth::user()->is_admin){
+            $utilisateurs = User::orderBy('nom', 'asc')->get();
+        }else{
+            $utilisateurs = User::where('client_id', Auth::user()->client_id)->orderBy('nom', 'asc')->get();
 
-        $utilisateurs = User::orderBy('nom', 'asc')->get();
+        }
         $roles = Role::all();
         $clients = Client::all();
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Articlevariant;
 use App\Models\Categorieexterne;
 use App\Models\Categoriearticle;
 use App\Models\Siteinterne;
@@ -99,34 +100,112 @@ class ArticleController extends Controller
             "description"=> $request->contenu ,
             "categoriearticle_id"=> $request->categorie_id ,
             "langue_id"=> $request->langue_id,
-            "est_scrappe"=> false
+            "est_scrappe"=> false,
+            "est_actif_variation" => $request->generer == "on" ? true : false
         ]);
 
 
         // Récupérer les fichiers d'images
         $images = $request->file('images');
 
+      
         // Parcourir chaque image et les enregistrer
-        foreach($images as $image) {
+        if($images != null){
+            foreach($images as $image) {
 
-       
-            $filename = $image->getClientOriginalName(); // Récupérer le nom du fichier
-            $extension = $image->getClientOriginalExtension(); // Récupérer l'extension du fichier
-            $slug = $this->to_slug($article->titre);
-            $picture = $slug."-".rand(1,1000).".".$extension; // Renommer le fichier avec une date et l'ancien nom de fichier
-            $destinationPath = public_path('/images-articles'); // Définir le dossier de destination des images
-            $image->move($destinationPath, $picture); // Déplacer le fichier dans le dossier de destination
-
-            Image::create([
-                "article_id" => $article->id,
-                "url" => $destinationPath."/".$picture,
-                "filename" => $picture,
             
-            ]);
+                    $filename = $image->getClientOriginalName(); // Récupérer le nom du fichier
+                    $extension = $image->getClientOriginalExtension(); // Récupérer l'extension du fichier
+                    $slug = $this->to_slug($article->titre);
+                    $picture = $slug."-".rand(1,1000).".".$extension; // Renommer le fichier avec une date et l'ancien nom de fichier
+                    $destinationPath = public_path('/images-articles'); // Définir le dossier de destination des images
+                    $image->move($destinationPath, $picture); // Déplacer le fichier dans le dossier de destination
+
+                    Image::create([
+                        "article_id" => $article->id,
+                        "url" => $destinationPath."/".$picture,
+                        "filename" => $picture,            
+                    ]);
+                }
+            }
+
+        if($article->est_actif_variation){
+            $this->genererVariantArticle($article->id);
+
         }
 
        return redirect()->route('article.edit_no_scrap',  Crypt::encrypt($article->id));
     }
+
+
+    /**
+     * Génération de variants d'articles
+     */
+    public function genererVariantArticle(int $article_id, $modification = false){
+
+
+        $article = Article::where('id', $article_id)->first();
+
+
+        $curl = curl_init();
+        // return $images[$id];
+        $data = '{
+            "model": "gpt-3.5-turbo",
+            "messages": [{"role": "user", "content": "donne moi une variante sous forme de titre d\'articles de la phrase suivante : '.$article->titre.'"}],
+            "temperature": 0.7,
+            "n": 10
+            }';
+
+        $token = "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";
+    
+
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.openai.com/v1/chat/completions",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_HTTPHEADER => array(
+            "authorization: Bearer $token",
+            "cache-control: no-cache",
+            "content-type: application/json",
+        ),
+        CURLOPT_POSTFIELDS => $data,
+        CURLOPT_USERAGENT => "Mozilla/5.0 (Windows; U; Windows NT 6.1; fr; rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13",
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return false;
+        } else {
+
+            $varianttitres = json_decode($response)->choices;
+         
+            Articlevariant::where('article_id', $article_id)->delete();
+
+            foreach ($varianttitres as $varianttitre) {
+                Articlevariant::create([
+                    'titre'=> trim($varianttitre->message->content,'"'),
+                    'article_id'=> $article_id,
+                ]);
+            }
+
+          
+        
+           return true ;
+        }
+    
+     
+    }
+
 
     /**
      * Modifier un article
@@ -139,7 +218,9 @@ class ArticleController extends Controller
 
         $this->authorize('permission', 'modifier-article');
 
+        
         $article = Article::where('id', Crypt::decrypt($article_id))->first();
+        
 
         if($request->titre != $article->titre){
             $request->validate([
@@ -164,10 +245,18 @@ class ArticleController extends Controller
         $article->langue_id =  $request->langue_id;
         $article->titre =  $request->titre;
         $article->description =  $request->contenu;
+        $article->est_actif_variation = $request->generer == "on" ? true : false;
         
         $article->update();
 
 
+        if($article->est_actif_variation){
+            $this->genererVariantArticle($article->id);
+
+        }else{
+            Articlevariant::where('article_id', $article->id)->delete();
+
+        }
 
 
         // Récupérer les fichiers d'images
@@ -252,11 +341,12 @@ class ArticleController extends Controller
    
         $pays = Pays::whereIn('id', $pays_ids)->get();
 
-        
         $siteSelected = json_encode($siteSelected);
         $allVal = json_encode($allVal);
         // dd($siteSelected);
-        return view('article.edit_no_scrap',compact('categories', 'langues', 'article', 'pays','allSiteinternes', 'siteSelected','allVal'));  
+        $articlevariants = Articlevariant::where('article_id', $article->id)->get();
+     
+        return view('article.edit_no_scrap',compact('categories', 'langues', 'article', 'pays','allSiteinternes', 'siteSelected','allVal','articlevariants'));  
    }
 
         
@@ -319,8 +409,8 @@ class ArticleController extends Controller
     public function publierArticleInterne(Request $request, $article_id)
     {
         $article = Article::where('id', Crypt::decrypt($article_id))->first();
-        
-
+    
+       
         $categorieinternes = Categorieinterne::where('categoriearticle_id', $article->categoriearticle_id)->whereIn('siteinterne_id', $request->siteinternes)->get();
       
       
@@ -348,11 +438,22 @@ class ArticleController extends Controller
                 $id =  rand(0, $nbImages-1);
                 
                 $curl = curl_init();
-        // return $images[$id];
+      
                 $data = file_get_contents($images[$id]->url);
 
-            
-                $filename = $this->to_slug($article->titre);
+                // Variants de titres
+                $variantArticles = $article->articlevariants;
+
+                if(sizeof($variantArticles) > 0 ){
+
+                    $variant = $article->randomArticlevariants();
+                    $titre = $variant->titre;
+                }else{
+                    $titre = $article->titre;                        
+                }
+
+
+                $filename = $this->to_slug($titre);
 
                 curl_setopt_array($curl, array(
                 CURLOPT_URL => "$domaine/wp-json/wp/v2/media",
@@ -381,6 +482,8 @@ class ArticleController extends Controller
                     echo "cURL Error #:" . $err;
                 } else {
         
+             
+           
                     $fileResponse = json_decode($response,true);
                     if($fileResponse == null) dd($response);
           
@@ -395,7 +498,7 @@ class ArticleController extends Controller
                         ->post("$domaine/wp-json/wp/v2/posts/$articleCategorieinterne->postwp_id",
             
                                 [
-                                'title' => $article->titre,
+                                'title' => $titre,
                                 'content' => $article->description,
                                 'categories' => $categorieinterne->wp_id,
                                 // 'date' => '2023-01-22T15:04:52',
@@ -418,7 +521,7 @@ class ArticleController extends Controller
                             ->post("$domaine/wp-json/wp/v2/posts",
                 
                                     [
-                                    'title' => $article->titre,
+                                    'title' => $titre,
                                     'content' => $article->description,
                                     'categories' => $categorieinterne->wp_id,
                                     // 'date' => '2023-01-22T15:04:52',
@@ -479,7 +582,7 @@ class ArticleController extends Controller
                 }
             } catch (\Exception $th) {
                 echo "Erreur : $th";
-                return redirect()->back()->with('nok','Article Non Publié');
+                return redirect()->back()->with('nok','Article Non Publié '.$th);
             
             }
 

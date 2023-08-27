@@ -64,12 +64,13 @@
                             </div>
                             @if (session('ok'))
                                 <div class="col-6">
-                                    <div class="alert alert-success alert-dismissible bg-success text-white text-center border-0 fade show"
+                                    <div class="alert alert-success alert-dismissible   text-center border-0 fade show"
                                         role="alert">
                                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
                                             aria-label="Close"></button>
                                         <strong> {{ session('ok') }}</strong>
                                     </div>
+                                  
                                 </div>
                             @endif
                             @if (session('nok'))
@@ -78,7 +79,7 @@
                                         role="alert">
                                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
                                             aria-label="Close"></button>
-                                        <strong> {{ session('ok') }}</strong>
+                                        <strong> {{ session('nok') }}</strong>
                                     </div>
                                 </div>
                             @endif
@@ -97,8 +98,6 @@
                 <div class="card">
                     <div class="card-body">
 
-
-
                         <div class="row">
 
                             <div class="row justify-content-between">
@@ -112,6 +111,35 @@
                                 <div class="col-9">
 
                                     <div class="container">
+
+                                        @if($article->est_actif_variation)
+                                        <div class="item">
+
+                                            <button class="btn btn-light mt-2 mt-md-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#variantArticles" aria-controls="variantArticles">Voir les variations du titre</button>
+
+                                    
+                                            <div class="offcanvas offcanvas-start" tabindex="-1" id="variantArticles" aria-labelledby="offcanvasWithBackdropLabel">
+                                                <div class="offcanvas-header">
+                                                    <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Variants du titre</h5>
+                                                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                                </div>
+                                                <div class="offcanvas-body">                                                  
+                                                 
+                                                    <ul class="ps-3">
+                                                        
+                                                        @foreach ($articlevariants as $key => $articlevariant)
+                                                            <li class="mb-3 fw-bold">{{$key+1}} - {{$articlevariant->titre}}</li>
+                                                        @endforeach
+
+                                                 
+                                                    </ul>
+                                                        
+                                                  
+                                                </div>
+                                            </div>
+                                   
+                                        </div>
+                                        @endif
                                         <div class="item">
                                          
                                             <a data-href="{{ route('article.publier_article_interne', Crypt::encrypt($article->id)) }}" 
@@ -158,18 +186,11 @@
                                             </div>
                                         </div>
 
-
-
-
-
                                     </div>
                                 </div>
 
-
-
                             </div>
                         </div>
-
 
 
                     </div>
@@ -178,22 +199,12 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="modal-content">
-                            <div class="modal-header">
-                                {{-- <h4 class="modal-title" id="">Modifier l'article</h4> --}}
-                                <br>
-
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
+                   
                             <div class="modal-body">
-                                <br>
-
-
                                 @csrf
 
-
                                 <div class="row">
-                                    <div class="col-8">
+                                    <div class="col-lg-8">
                                         <div class="col-12">
                                             <div class="mb-3">
                                                 <label for="titre" class="form-label">Titre *</label>
@@ -219,7 +230,17 @@
                                     </div>
 
 
-                                    <div class="col-4">
+                                    <div class="col-lg-4">
+
+
+                                        <div class="col-12">
+                                            <div class="mb-3">                                                
+                                                <label for="categorie_id" class="form-label">Générer plusieurs titres</label> <br>
+                                                <input type="checkbox" id="generer" name="generer" @if($article->est_actif_variation) checked @endif data-switch="secondary"/>
+                                                <label for="generer" data-on-label="Oui" data-off-label="Non"></label>  
+                                            </div> 
+                                        </div>
+
                                         <div class="col-12">
                                             <div class="mb-3">
                                                 <label for="categorie_id" class="form-label">Catégorie *</label>

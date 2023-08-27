@@ -66,6 +66,7 @@
                             <thead class="table-lightx" style="background-color: #17a2b8; color:#fff;">
                                 <tr>
                                 
+                                  @if(Auth::user()->is_admin)  <th>Client</th> @endif
                                     <th>Nom</th>
                                     <th>Prénom(s)</th>
                                     <th>Email</th>
@@ -80,7 +81,13 @@
                                     
                                 
                                 <tr>
-                                    
+                                  
+                                    @if(Auth::user()->is_admin) 
+                                    <td>
+                                       <span class="badge bg-info">{{$utilisateur->client->raison_sociale}}</span>
+                                       
+                                    </td>
+                                    @endif
                                     <td><a href="#" class="text-body fw-bold">{{$utilisateur->nom}}</a> </td>
                                     <td><a href="#" class="text-body fw-bold">{{$utilisateur->prenom}}</a> </td>
                                     <td><a href="#" class="text-body fw-bold">{{$utilisateur->email}}</a> </td>

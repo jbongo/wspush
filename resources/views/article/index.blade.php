@@ -111,8 +111,11 @@
                                       
                                             <td>
                                                 <div class="d-flex align-items-center" class="img-wrapper">
-                                                    <a href="{{route('article.edit_no_scrap', Crypt::encrypt($article->id))}}" >
-                                                         <img src="/images-articles/{{$article->images[0]->filename}}" style=" border-radius: 3px;" height="50px" width="60px" alt=""> </a>                                            
+                                                    @if(sizeof($article->images)> 0)
+                                                        <a href="{{route('article.edit_no_scrap', Crypt::encrypt($article->id))}}" >
+                                                            <img src="/images-articles/{{$article->images[0]->filename}}" style=" border-radius: 3px;" height="50px" width="60px" alt=""> 
+                                                        </a>      
+                                                    @endif                                      
                                                 </div>
                                             </td>
                                 
@@ -121,8 +124,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1 ms-2 fw-bold " style="font-size: 16px">
                                                         <a href="{{route('article.edit_no_scrap', Crypt::encrypt($article->id))}}" class="text-secondary" > {{substr($article->titre,0,50)}}...</a>
-                                                    </div>
-                                                    
+                                                    </div>                                                    
                                                 </div>
                                             </td>
                                              <td>

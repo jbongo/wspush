@@ -39,12 +39,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-       /**
+    /**
      * Retourne le role que possède un utilisateur
      */
     function role(){
 
         return $this->belongsTo(Role::class);
+
+    }
+
+     /**
+     * Retourne le client auquel appartient  l'utilisateur
+     */
+    function client(){
+
+        return $this->belongsTo(Client::class);
 
       }
 }

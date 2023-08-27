@@ -109,7 +109,7 @@
                                     @csrf
 
                                     <div class="row">
-                                        <div class="col-8">
+                                        <div class="col-lg-8">
                                             <div class="col-12">
                                                 <div class="mb-3">
                                                     <label for="titre" class="form-label">Titre *</label>
@@ -122,7 +122,7 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-12">
+                                            <div class="col-12 mb-3">
                                                 <label for="contenu"  class="form-label">Contenu  *</label>
 
                                                 <textarea rows="50" id="contenu"  name="contenu" required> </textarea>
@@ -130,7 +130,19 @@
                                         </div>
 
 
-                                        <div class="col-4">
+
+                                        <div class="col-lg-4">
+                                           
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    
+                                                    <label for="categorie_id" class="form-label">Générer plusieurs titres</label> <br>
+                                                    <input type="checkbox" id="generer" name="generer" checked data-switch="secondary"/>
+                                                    <label for="generer" data-on-label="Oui" data-off-label="Non"></label>  
+                                                </div> 
+                                            </div>
+
+
                                             <div class="col-12">
                                                 <div class="mb-3">
                                                     <label for="categorie_id" class="form-label">Catégorie *</label>
@@ -142,6 +154,8 @@
                                                     </select>
                                                 </div> 
                                             </div>
+
+
                                             <div class="col-12">
                                                 <div class="mb-3">
                                                     <label for="langue_id" class="form-label">Langue de l'article *</label>

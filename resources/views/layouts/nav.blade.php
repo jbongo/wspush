@@ -105,7 +105,7 @@ switch ($curent_url[0]) {
         <li class="side-nav-item {{$li_site_interne}}">
             <a  href="{{route('site_interne.index')}}"aria-expanded="false" aria-controls="sidebarCrm" class="side-nav-link">
                 <i class="uil uil-globe"></i>         
-                <span> Sites </span>
+                <span> Réseau </span>
             </a>
         </li>
         @endcan
@@ -114,7 +114,7 @@ switch ($curent_url[0]) {
         <li class="side-nav-item {{$li_site_source}}">
             <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI" class="side-nav-link">
                 <i class="uil-globe"></i>
-                <span> Sites Externes </span>
+                <span> Sources </span>
                 <span class="menu-arrow"></span>
             </a>
             <div class="collapse" id="sidebarBaseUI">

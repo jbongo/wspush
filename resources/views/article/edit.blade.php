@@ -66,11 +66,8 @@
         <div class="col-12 ">
             <div class="card">
                 <div class="card-body">
-                   
-
                        
                             <div class="row">
-
                                 <div class="row justify-content-between">
                                 <div class="col-4">
                                     <span class="" style="font-style: italic"><a href="{{ $article->url}}" target="_blank">Voir l'article original</a> </span>
