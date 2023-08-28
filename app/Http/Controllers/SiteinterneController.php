@@ -331,7 +331,7 @@ class SiteinterneController extends Controller
                             }
                         } catch (\Exception $th) {
                             echo "Erreur : $th";
-
+                            continue;
                             dd($image);
                             // return redirect()->back()->with('nok','Article Non Publié');
                         
