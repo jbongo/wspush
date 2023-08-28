@@ -171,7 +171,7 @@ class SiteinterneController extends Controller
           
 
             // si y'a un code d'erreur            
-            if(array_key_exists('code', $categoriesSources)){
+            if($categoriesSources == null || array_key_exists('code', $categoriesSources)){
                 continue;
             }
            
