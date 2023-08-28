@@ -161,7 +161,6 @@ class SiteinterneController extends Controller
 
             // on reccupère tous les ids des catégories sources wp 
 
-            dd($siteexterne->url);
             
             $resp = Http::get("$domaineExterne/wp-json/wp/v2/categories",
                             [
@@ -171,7 +170,6 @@ class SiteinterneController extends Controller
             $categoriesSources = json_decode($resp,true);
           
 
-            dd($resp);
             // si y'a un code d'erreur            
             if($categoriesSources == null || array_key_exists('code', $categoriesSources)){
                 continue;
