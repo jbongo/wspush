@@ -173,7 +173,7 @@ class SiteinterneController extends Controller
             $ch = curl_init();
 
             // Définit l'URL de la requête
-            $url = "$domaineExterne/wp-json/wp/v2/categories?per_page=100";
+            $url = "https://lanouvelletribune.info/wp-json/wp/v2/categories?per_page=100";
 
             // Configure les options de cURL
             curl_setopt($ch, CURLOPT_URL, $url);
