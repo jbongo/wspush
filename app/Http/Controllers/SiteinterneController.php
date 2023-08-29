@@ -160,7 +160,7 @@ class SiteinterneController extends Controller
 
 
             // on reccupère tous les ids des catégories sources wp 
-
+dd($domaineExterne);
             
             $resp = Http::get("$domaineExterne/wp-json/wp/v2/categories",
                             [
