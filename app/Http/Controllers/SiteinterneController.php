@@ -111,7 +111,7 @@ class SiteinterneController extends Controller
         
         // On reccupère tous les sites sources wp du site interne
         $siteexternes = $siteinterne->siteexternesWp;
-dd($siteexternes);
+
         if(sizeof($siteexternes)  == 0){
             return redirect()->back()->with('nok','Article Non Publié Aucun site source WP lié au site');
         }
@@ -160,64 +160,16 @@ dd($siteexternes);
 
 
             // on reccupère tous les ids des catégories sources wp 
-            // dd($domaineExterne);
+
             
             $resp = Http::get("$domaineExterne/wp-json/wp/v2/categories",
                             [
                                 'per_page' => 100
                             ]);
 
-            dd($resp);
-
-            // Initialise une session cURL
-            $ch = curl_init();
-
-            // Définit l'URL de la requête
-            $url = "https://lanouvelletribune.info/wp-json/wp/v2/categories?per_page=100";
-
-            // Configure les options de cURL
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-            // Exécute la requête cURL et récupère la réponse
-            $response = curl_exec($ch);
-
-            dd($response);
-            // Vérifie s'il y a des erreurs cURL
-            if (curl_errno($ch)) {
-                echo 'Erreur cURL : ' . curl_error($ch);
-            }
-
-            // Ferme la session cURL
-            curl_close($ch);
-
-            // Vérifie si la réponse n'est pas vide
-            if (!empty($response)) {
-                $categoriesSources = json_decode($response, true);
-                print_r($categoriesSources); // Affiche les catégories
-            } else {
-                echo "La réponse est vide.";
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            $categoriesSources = json_decode($response,true);
+            $categoriesSources = json_decode($resp,true);
           
-dd($categoriesSources);
+
             // si y'a un code d'erreur            
             if($categoriesSources == null || array_key_exists('code', $categoriesSources)){
                 continue;
