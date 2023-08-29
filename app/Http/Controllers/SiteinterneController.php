@@ -182,6 +182,7 @@ class SiteinterneController extends Controller
             // Exécute la requête cURL et récupère la réponse
             $response = curl_exec($ch);
 
+            dd($response);
             // Vérifie s'il y a des erreurs cURL
             if (curl_errno($ch)) {
                 echo 'Erreur cURL : ' . curl_error($ch);
