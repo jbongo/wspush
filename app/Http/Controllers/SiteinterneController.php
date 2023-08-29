@@ -160,14 +160,61 @@ class SiteinterneController extends Controller
 
 
             // on reccupère tous les ids des catégories sources wp 
-// dd($domaineExterne);
+            // dd($domaineExterne);
             
-            $resp = Http::get("https://www.gabonreview.com/wp-json/wp/v2/categories",
-                            [
-                                'per_page' => 100
-                            ]);
+            // $resp = Http::get("$domaineExterne/wp-json/wp/v2/categories",
+            //                 [
+            //                     'per_page' => 100
+            //                 ]);
 
-            $categoriesSources = json_decode($resp,true);
+
+
+            // Initialise une session cURL
+            $ch = curl_init();
+
+            // Définit l'URL de la requête
+            $url = "$domaineExterne/wp-json/wp/v2/categories?per_page=100";
+
+            // Configure les options de cURL
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            // Exécute la requête cURL et récupère la réponse
+            $response = curl_exec($ch);
+
+            // Vérifie s'il y a des erreurs cURL
+            if (curl_errno($ch)) {
+                echo 'Erreur cURL : ' . curl_error($ch);
+            }
+
+            // Ferme la session cURL
+            curl_close($ch);
+
+            // Vérifie si la réponse n'est pas vide
+            if (!empty($response)) {
+                $categoriesSources = json_decode($response, true);
+                print_r($categoriesSources); // Affiche les catégories
+            } else {
+                echo "La réponse est vide.";
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $categoriesSources = json_decode($response,true);
           
 dd($categoriesSources);
             // si y'a un code d'erreur            
