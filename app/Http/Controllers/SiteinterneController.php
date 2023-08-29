@@ -169,6 +169,7 @@ class SiteinterneController extends Controller
 
             $categoriesSources = json_decode($resp,true);
           
+            dd($categoriesSources);
 
             // si y'a un code d'erreur            
             if($categoriesSources == null || array_key_exists('code', $categoriesSources)){
