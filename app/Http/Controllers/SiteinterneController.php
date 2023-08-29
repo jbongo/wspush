@@ -111,7 +111,7 @@ class SiteinterneController extends Controller
         
         // On reccupère tous les sites sources wp du site interne
         $siteexternes = $siteinterne->siteexternesWp;
-
+dd($siteexternes);
         if(sizeof($siteexternes)  == 0){
             return redirect()->back()->with('nok','Article Non Publié Aucun site source WP lié au site');
         }
