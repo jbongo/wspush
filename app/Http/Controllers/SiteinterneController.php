@@ -162,8 +162,10 @@ class SiteinterneController extends Controller
             // on reccupère tous les ids des catégories sources wp 
 // dd($domaineExterne);
             
-            $resp = Http::get("$domaineExterne/wp-json/wp/v2/categories"
-                            );
+            $resp = Http::get("https://www.gabonreview.com/wp-json/wp/v2/categories",
+                            [
+                                'per_page' => 100
+                            ]);
 
             $categoriesSources = json_decode($resp,true);
           
