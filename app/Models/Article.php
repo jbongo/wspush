@@ -133,8 +133,8 @@ class Article extends Model
                     $token = $response->json()['token'] ;
                     
                     $curl = curl_init();
-                    dd($article->image);
                     $data = file_get_contents($article->image);
+                    dd($data);
                     $filename = $this->to_slug($article->titre);
 
                     curl_setopt_array($curl, array(
