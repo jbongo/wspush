@@ -133,7 +133,9 @@ class Article extends Model
                     $token = $response->json()['token'] ;
                     
                     $curl = curl_init();
-                    $data = file_get_contents($article->image);
+                    // $data = file_get_contents($article->image);
+                    $data = file_get_contents("https://www.gabonreview.com/wp-content/uploads/2023/02/GAbJap.jpg)");
+                    
                     dd($data);
                     $filename = $this->to_slug($article->titre);
 
