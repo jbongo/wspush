@@ -18,9 +18,9 @@ class CreateCategorieexterneCategorieinterneTable extends Migration
     {
         Schema::create('categorieexterne_categorieinterne', function (Blueprint $table) {
             $table->id();
-            $table->primary(['categorieexterne_id','categorieinterne_id']);
-            // $table->foreignIdFor(Categorieinterne::class);
-            // $table->foreignIdFor(Categorieexterne::class);
+            // $table->primary(['categorieexterne_id','categorieinterne_id']);
+            $table->integer('categorieinterne_id');
+            $table->integer('categorieexterne_id');
             $table->timestamps();
         });
     }

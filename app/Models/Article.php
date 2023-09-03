@@ -124,19 +124,30 @@ class Article extends Model
                     
                     $domaine = $siteinterne->url;
 
-                    $response = Http::post("$domaine/wp-json/jwt-auth/v1/token", [
-                        'username' => $siteinterne->login,
-                        'password' => $siteinterne->password,
-                    ]);
+                    try {
+                        $response = Http::post("$domaine/wp-json/jwt-auth/v1/token", [
+                            'username' => $siteinterne->login,
+                            'password' => $siteinterne->password,
+                        ]);
+                
+                     
+                        $token = $response->json()['token'] ;
+                                
+                        $curl = curl_init();
+                        $data = file_get_contents($article->image);
+                     } catch (\Exception $th) {
+                        echo $domaine ."continue \n ";
+
+                        continue;
+                    }
+                    
             
-                    
-                    $token = $response->json()['token'] ;
-                    
-                    $curl = curl_init();
-                    // $data = file_get_contents($article->image);
-                    $data = file_get_contents("https://www.gabonreview.com/wp-content/uploads/2023/02/GAbJap.jpg");                    
-                    dd($data);
+                    // $data = file_get_contents("https://www.gabonreview.com/wp-content/uploads/2023/02/GAbJap.jpg");                    
+                    // dd($data);
                     $filename = $this->to_slug($article->titre);
+
+                    echo $filename ."\n";
+
 
                     curl_setopt_array($curl, array(
                     CURLOPT_URL => "$domaine/wp-json/wp/v2/media",
