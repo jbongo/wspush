@@ -132,12 +132,10 @@ class Article extends Model
                 
                      
                         $token = $response->json()['token'] ;
-                            echo $token."<br>";
+                                
                         $curl = curl_init();
                         $data = file_get_contents($article->image);
                      } catch (\Exception $th) {
-                       
-                        echo $article->image . "<br>";
                         echo $domaine ."continue \n ";
 
                         continue;
@@ -181,13 +179,6 @@ class Article extends Model
                         $fileResponse = json_decode($response,true);
                         if($fileResponse == null) dd($response);
                 // echo $fileResponse['id'] ."</br>";
-
-if($fileResponse == null){
-    
-}else{
-
-    dd($fileResponse);
-}
 
                         $resp = Http::withToken($token)
                         ->post("$domaine/wp-json/wp/v2/posts",

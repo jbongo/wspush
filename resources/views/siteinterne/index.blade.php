@@ -98,7 +98,7 @@
                                     @if(Auth::user()->is_admin)
                                     <td>
                                         <div class="d-flex align-items-center">                                            
-                                            <p class="flex-grow-1 ms-2 fw-bold">{{$site->client->raison_sociale}}</p>
+                                            <p class="flex-grow-1 ms-2 fw-bold">@if($site->client != null) {{$site->client->raison_sociale}} @endif</p>
                                         </div> 
                                     </td>
                                     @endif
