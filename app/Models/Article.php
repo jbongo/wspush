@@ -132,12 +132,12 @@ class Article extends Model
                 
                      
                         $token = $response->json()['token'] ;
-                                
+                            echo $token."<br>";
                         $curl = curl_init();
                         $data = file_get_contents($article->image);
                      } catch (\Exception $th) {
                        
-                        echo $article->image;
+                        echo $article->image . "<br>";
                         echo $domaine ."continue \n ";
 
                         continue;
