@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Siteinterne;
 use App\Models\Pays;
+use App\Models\Client;
+use App\Models\Langue;
 use App\Models\Article;
 use App\Models\Categorieinterne;
 use App\Models\Categorieexterne;
@@ -33,9 +35,11 @@ class SiteinterneController extends Controller
 
         $pays = Pays::all();
         $categories = Categoriearticle::where([['est_archive',false]])->get();
+        $clients = Client::where([['est_archive',false]])->get();
+        $langues = Langue::where([['est_archive',false]])->get();
 
 
-        return view('siteinterne.index', compact('sites','pays','categories'));
+        return view('siteinterne.index', compact('sites','pays','categories', 'clients','langues'));
     }
 
     
@@ -50,10 +54,12 @@ class SiteinterneController extends Controller
     {
         $this->authorize('permission', 'ajouter-site');
 
+
         $request->validate([
             "nom"=> "required|unique:siteinternes|string",
             "url"=> "required|unique:siteinternes|string",
             "login"=> "required|string",
+            "langue"=> "required|string",
             "password"=> "required|string",
         ]);
         
@@ -63,6 +69,8 @@ class SiteinterneController extends Controller
             "nom"=> $request->nom,
             "url"=> $request->url,
             "pay_id"=> $request->pays,
+            "client_id"=> $request->client,
+            "langue_id"=> $request->langue,
             "login"=> $request->login,
             "password"=> $request->password,
             "est_diffuse_auto"=> $request->est_diffuse_auto == "on" ? true : false,
@@ -393,6 +401,7 @@ class SiteinterneController extends Controller
         $site->nom = $request->nom;
         $site->url = $request->url;
         $site->pay_id = $request->pays;
+        $site->langue_id = $request->langue;
         $site->login = $request->login;
         $site->password = $request->password;
         $site->est_diffuse_auto = $request->est_diffuse_auto == "on" ? true : false;

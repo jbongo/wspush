@@ -180,6 +180,13 @@ class Article extends Model
                         if($fileResponse == null) dd($response);
                 // echo $fileResponse['id'] ."</br>";
 
+if($fileResponse == null){
+    
+}else{
+
+    dd($fileResponse);
+}
+
                         $resp = Http::withToken($token)
                         ->post("$domaine/wp-json/wp/v2/posts",
             

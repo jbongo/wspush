@@ -69,6 +69,9 @@
                             <thead class="table-lightx" style="background-color: #17a2b8; color:#fff;">
                                 <tr>
                                     <th scope="col">Nom</th>
+                                    @if(Auth::user()->is_admin)
+                                    <th scope="col">Proprietaire</th>
+                                    @endif
                                     <th scope="col">Url</th>
                                     <th scope="col">Pays</th>
                                     @can('permission', 'alimenter-site') <th scope="col">Alimenter</th> @endcan
@@ -91,6 +94,14 @@
                                             <p class="flex-grow-1 ms-2 fw-bold">{{$site->nom}}</p>
                                         </div> 
                                     </td>
+
+                                    @if(Auth::user()->is_admin)
+                                    <td>
+                                        <div class="d-flex align-items-center">                                            
+                                            <p class="flex-grow-1 ms-2 fw-bold">{{$site->client->raison_sociale}}</p>
+                                        </div> 
+                                    </td>
+                                    @endif
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1 ms-2 fw-bold"><span class="text-danger">{{$site->url}}</span></div>
@@ -129,7 +140,7 @@
 
                                             <p class="inbox-item-date" style="margin-left: 5px" >
                                                 <button href="{{route('categorie_interne.add',$site->id)}}"  type="button" class="btn btn-sm btn-primary px-1 py-0 add_categorie"
-                                                    data-site_id="{{$site->id}}" data-nom="{{$site->nom}}"  data-bs-toggle="modal" data-bs-target="#editCategorieModal"   >
+                                                    data-site_id="{{$site->id}}" data-nom="{{$site->nom}}"   data-bs-toggle="modal" data-bs-target="#editCategorieModal"   >
                                                      <i data-bs-toggle="tooltip" data-bs-placement="top" title="Ajouter une nouvelle catégorie" class='uil uil-plus font-14'></i> </button>
                                             </p>
                                             @endcan
@@ -154,8 +165,8 @@
                                         @can('permission', 'modifier-site')
                                             <a  class="text-success modifier" data-bs-toggle="modal" data-bs-target="#editModal" style="cursor: pointer;"
                                                 
-                                                data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pay->id}}" data-login="{{$site->login}}" data-passwordx="{{$site->password}}"
-                                                data-href="{{route('site_interne.update', Crypt::encrypt($site->id))}}" data-site_id="{{$site->id}}"  data-est_diffuse_auto = {{$site->est_diffuse_auto}}
+                                                data-nom="{{$site->nom}}" data-url="{{$site->url}}" data-pays="{{$site->pay->id}}" data-client="{{$site->client_id}}" data-login="{{$site->login}}" data-passwordx="{{$site->password}}"
+                                                data-href="{{route('site_interne.update', Crypt::encrypt($site->id))}}"  data-langue="{{$site->langue_id}}"  data-site_id="{{$site->id}}"  data-est_diffuse_auto = {{$site->est_diffuse_auto}}
                                                 title="Modifier" ><i class="mdi mdi-square-edit-outline"></i></a>
 
                                         @else                                 
@@ -221,8 +232,37 @@
                                             </select>
                                         </div>                                        
                                     </div> 
+
+                                    <div class="col-6" >
+                                        <div id="" class="custom-control custom-radio custom-control-inline">
+                                            <label class="custom-control-label" for="client">Client *</label>
+                                            <select name="client" class="form-select" id="client" required>        
+                                                
+                                                <option value=""></option>
+                                                @foreach ($clients as $client)
+                                                    <option value="{{$client->id}}">{{$client->raison_sociale}}</option>                                                     
+                                                @endforeach
+                                                                            
+                                            </select>
+                                        </div>                                        
+                                    </div> 
                                 </div>
 
+                                <div class="row autre_champs" style="margin-top: 20px">
+                                    <div class="col-6" >
+                                        <div id="" class="custom-control custom-radio custom-control-inline">
+                                            <label class="custom-control-label" for="langue">Langue *</label>
+                                            <select name="langue" class="form-select" id="langue" required>        
+                                                <option value=""></option>
+                                                @foreach ($langues as $langue)
+                                                    <option value="{{$langue->id}}">{{$langue->nom}}</option>                                                     
+                                                @endforeach
+                                                                            
+                                            </select>
+                                        </div>                                        
+                                    </div>                                   
+                                </div>
+                                
                                 <div class="row autre_champs" style="margin-top: 20px">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
@@ -302,7 +342,35 @@
                                         </select>
                                     </div>                                        
                                 </div> 
+
+                                <div class="col-6" >
+                                    <div id="" class="custom-control custom-radio custom-control-inline">
+                                        <label class="custom-control-label" for="edit_client">Client *</label>
+                                        <select name="client" class="form-select" id="edit_client" required> 
+                                            @foreach ($clients as $client)
+                                                <option value="{{$client->id}}">{{$client->raison_sociale}}</option>                                                     
+                                            @endforeach
+                                                                        
+                                        </select>
+                                    </div>                                        
+                                </div> 
                             </div>
+
+                            <div class="row autre_champs" style="margin-top: 20px">
+                                <div class="col-6" >
+                                    <div id="" class="custom-control custom-radio custom-control-inline">
+                                        <label class="custom-control-label" for="edit_langue">Langue *</label>
+                                        <select name="langue" class="form-select" id="edit_langue" required>        
+                                            @foreach ($langues as $langue)
+                                                <option value="{{$langue->id}}">{{$langue->nom}}</option>                                                     
+                                            @endforeach
+                                                                        
+                                        </select>
+                                    </div>                                        
+                                </div>                                   
+                            </div>
+
+
 
                             <div class="row autre_champs" style="margin-top: 20px">
                                 <div class="col-lg-6">
@@ -329,9 +397,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
                             </div>
-                            
                                                                 
                     </div>
                     <div class="modal-footer">
@@ -515,13 +581,17 @@
         $('#edit_password').val(that.data('passwordx')) ;
 
         let pays = that.data('pays');
+        let client = that.data('client');
+        let langue = that.data('langue');
         let diffuse =  that.data('est_diffuse_auto') ;
-
+        
         let currentFormAction = that.data('href');
         $('#form-edit').attr('action', currentFormAction) ;
         
         if(diffuse == true)  $('#edit_est_diffuse_auto').attr('checked', true);
         $('#edit_pays option[value='+pays+']').attr('selected','selected');
+        $('#edit_client option[value='+client+']').attr('selected','selected');
+        $('#edit_langue option[value='+langue+']').attr('selected','selected');
         
 
     });

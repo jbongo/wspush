@@ -41,6 +41,17 @@ class Siteinterne extends Model
         // dd($this);
         return $this->belongsTo(Pays::class);
     }
+    /**
+     * Get the client that owns the Siteinterne
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function client()
+    {
+        // dd($this);
+        return $this->belongsTo(Client::class);
+    }
+
 
     /**
      * Retourne true si l'article existe a déjà sur le site
