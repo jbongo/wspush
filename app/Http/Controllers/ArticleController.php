@@ -156,7 +156,7 @@ class ArticleController extends Controller
             "n": 10
             }';
 
-        $token = "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";
+        $token = env('OPEN_AI_KEY');
     
 
 

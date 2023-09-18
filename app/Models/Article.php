@@ -116,10 +116,10 @@ class Article extends Model
             
             $siteinterne = $categorieinterne->siteinterne;
             
+            echo $article->titre;
 
 
             if($siteinterne->est_archive == false && $categorieinterne->haveArticle($article->id) == false ){
-                
                 try{
                     
                     $domaine = $siteinterne->url;
