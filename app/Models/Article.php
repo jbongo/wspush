@@ -85,7 +85,7 @@ class Article extends Model
      */
     public function publierAuto()
     {
-       $articles = Article::where([['est_archive', false], ['est_brouillon', false], ['est_publie', false]])->get();
+       $articles = Article::where([['est_archive', false], ['est_brouillon', false], ['est_publie', false],['est_scrappe', true]])->get();
 
        foreach ($articles as $article) {
 
@@ -116,7 +116,7 @@ class Article extends Model
             
             $siteinterne = $categorieinterne->siteinterne;
             
-            echo $article->titre;
+            // echo $article->titre;
 
 
             if($siteinterne->est_archive == false && $categorieinterne->haveArticle($article->id) == false ){
