@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
+
 
 class Article extends Model
 {
@@ -109,7 +111,7 @@ class Article extends Model
 
         // on réccupère toutes les catégories internes liées à la catégorie externe de l'article afin de retrouver tous sites où il faut diffuser
 
-        $categorieinternes = $categorieexterne->categorieinternes;
+        $categorieinternes = $categorieexterne != null ? $categorieexterne->categorieinternes : [];
         
 
         foreach ($categorieinternes as $categorieinterne) {
@@ -135,10 +137,11 @@ class Article extends Model
                                 
                         $curl = curl_init();
                         $data = file_get_contents($article->image);
+                        dd($data);
                         echo $domaine ."GOOD \n ";
 
                      } catch (\Exception $th) {
-                        dd($th);
+                        // dd($th);
                         echo $domaine ."$th continue \n ";
 
                         continue;
