@@ -137,7 +137,7 @@ class Article extends Model
                                 
                         $curl = curl_init();
                         $data = file_get_contents($article->image);
-                        dd($data);
+                        // dd($data);
                         echo $domaine ."GOOD \n ";
 
                      } catch (\Exception $th) {
