@@ -118,6 +118,7 @@ class Scrap extends Model
                     
                     } catch (\Exception $th) {
                         echo "Erreur get titre contenu image -- ".$lien->getUri().": $th";
+                        continue;
                        
                     }
         
