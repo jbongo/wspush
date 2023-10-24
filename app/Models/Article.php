@@ -142,6 +142,10 @@ class Article extends Model
 
                      } catch (\Exception $th) {
                         // dd($th);
+                         // archiver l'article si son image est inaccessible pour ne plus en faire appel
+                         $article->est_archive = true;
+                         $article->update();
+ 
                         echo $domaine ."$th continue \n ";
 
                         continue;
@@ -183,7 +187,7 @@ class Article extends Model
                     } else {
             
                         $fileResponse = json_decode($response,true);
-                        if($fileResponse == null) dd($response);
+                        if($fileResponse == null && array_key_exists("id", $fileResponse)) dd($response);
                 // echo $fileResponse['id'] ."</br>";
 
                         $resp = Http::withToken($token)
