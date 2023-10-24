@@ -187,7 +187,7 @@ class Article extends Model
                     } else {
             
                         $fileResponse = json_decode($response,true);
-                        if($fileResponse == null && !array_key_exists("id", $fileResponse)) dd($response);
+                        if($fileResponse == null || !array_key_exists("id", $fileResponse)) dd($response);
                 // echo $fileResponse['id'] ."</br>";
 
                         $resp = Http::withToken($token)
