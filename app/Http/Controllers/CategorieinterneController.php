@@ -74,6 +74,7 @@ class CategorieinterneController extends Controller
                 'password' => $siteinterne->password,
             ]);
 
+            dd($response->json());
             $token = $response->json()['token'] ;
             
             $curl = curl_init();
