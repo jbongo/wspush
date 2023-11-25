@@ -74,7 +74,7 @@ class CategorieinterneController extends Controller
                 'password' => $siteinterne->password,
             ]);
 
-            dd($response->json());
+            dd("$domaine/wp-json/jwt-auth/v1/token");
             $token = $response->json()['token'] ;
             
             $curl = curl_init();
