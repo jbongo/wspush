@@ -156,7 +156,6 @@ class Article extends Model
                     // dd($data);
                     $filename = $this->to_slug($article->titre);
 
-                    $filename = "xxx-xxx";
                     echo $filename ."\n";
 
 
