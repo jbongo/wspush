@@ -92,8 +92,13 @@ class CategorieinterneController extends Controller
             $fileResponse = json_decode($resp,true);
         
 
-
-
+            if( $fileResponse['code'] == "term_exists" ){
+                return redirect()->back()->with('ok',' Erreur: Catégorie existe déjà');
+            }
+            
+            if(isset($fileResponse['data']['status']) && $fileResponse['data']['status'] == 400){
+                return redirect()->back()->with('ok',' Erreur: Catégorie non ajoutée');
+            }
             $categorieinterne = Categorieinterne::create([
                 "nom"=> $request->nom,
                 "siteinterne_id"=> $request->siteinterne_id,
@@ -166,7 +171,7 @@ class CategorieinterneController extends Controller
 
     
     /**
-     * Update the specified resource in storage.
+     * Modifier la catégorie interne et lier les catégories externes
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id

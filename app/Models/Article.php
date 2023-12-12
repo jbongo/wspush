@@ -188,7 +188,7 @@ class Article extends Model
             
                         $fileResponse = json_decode($response,true);
                         if($fileResponse == null || !array_key_exists("id", $fileResponse)) dd($response);
-                // echo $fileResponse['id'] ."</br>";
+                echo $fileResponse['id'] ."</br>";
 
                         $resp = Http::withToken($token)
                         ->post("$domaine/wp-json/wp/v2/posts",
