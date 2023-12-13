@@ -190,8 +190,8 @@ class Article extends Model
                                 if($fileResponse == null || !array_key_exists("id", $fileResponse)) 
                                 echo $fileResponse['id'] ."</br>";
 
-                                dd($response);
-                                
+                                // dd($response);
+
                                 $resp = Http::withToken($token)
                                 ->post("$domaine/wp-json/wp/v2/posts",
                     
