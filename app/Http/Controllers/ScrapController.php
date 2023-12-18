@@ -191,7 +191,7 @@ class ScrapController extends Controller
        
             
             $links_selector = $request->links_selector;
-
+dd($links_selector);
             try {                  
                 
                 $crawler = $client->request('GET', $url); 
