@@ -83,7 +83,20 @@ class Scrap extends Model
                             $imageUrl = trim($matches[1], '"\'');
 
                         }else{
-                            $imageUrl = $crawler->filter($image_selector)->attr('src'); 
+
+                            if($crawler->filter($image_selector)->attr('src') != null){
+
+                                $imageUrl = $crawler->filter($image_selector)->attr('src');
+
+                            }elseif($crawler->filter($image_selector)->attr('data-src') != null){
+
+                                $imageUrl = $crawler->filter($image_selector)->attr('data-src');
+
+                            }elseif($crawler->filter($image_selector)->attr('srcset') != null){
+
+                                $imageUrl = $crawler->filter($image_selector)->attr('srcset');
+                            }
+                           
                         }
 
                         // Si l'url de l'image n'est pas en lien absolue, ajouter l'url du site
