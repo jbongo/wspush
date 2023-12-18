@@ -307,19 +307,10 @@ class ScrapController extends Controller
                    
                 }
 
-                if(!filter_var($imageUrl, FILTER_VALIDATE_URL) && !(str_contains($imageUrl, 'http')))
-                {     
-
-                    // retirer "/" s'il existe en début de l'url
-                    $imageUrl = ltrim($imageUrl, '/');
-
-                    // retirer "/" s'il existe en fin de l'url
-                    $siteUrl = rtrim($site->url, '/');
-                    $imageUrl = $siteUrl.'/'.$imageUrl;
-
-                }
+            
 
                 if($imageUrl != null){
+                    $imageUrl = "https://www.lqj.ch".$imageUrl;
                     echo("IMAGE : ".$imageUrl."  <br>");
 
                     echo "<img src='$imageUrl' height='400px' width='500px'/> ";
