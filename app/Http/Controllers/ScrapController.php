@@ -265,7 +265,7 @@ class ScrapController extends Controller
             $image_affiche_css = $request->image_affiche_css;
             $image_selector = $request->image_selector;
             
-dd($image_selector);
+
             try {                       
                    
                 $crawler = $client->click($lien);
@@ -280,7 +280,7 @@ dd($image_selector);
                 
 
                     $imageUrl = trim($matches[1], '"\'');
-
+                    dd($image_selector);
                 }else{
                    
                     $imageUrl = null;
