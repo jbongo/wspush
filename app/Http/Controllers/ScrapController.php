@@ -283,31 +283,21 @@ class ScrapController extends Controller
 
                 }else{
                    
-               
                     $imageUrl = null;
-                    if ($crawler->filter($image_selector)->hasAttribute('src')) {
+                  
+                    if($crawler->filter($image_selector)->attr('src') ){
+
                         $imageUrl = $crawler->filter($image_selector)->attr('src');
-                    } elseif ($crawler->filter($image_selector)->hasAttribute('data-src')) {
+
+                    }elseif($crawler->filter($image_selector)->attr('data-src') ){
+
                         $imageUrl = $crawler->filter($image_selector)->attr('data-src');
-                    } elseif ($crawler->filter($image_selector)->hasAttribute('srcset')) {
+
+                    }elseif($crawler->filter($image_selector)->attr('srcset') ){
+
                         $imageUrl = $crawler->filter($image_selector)->attr('srcset');
                     }
-
-
-             
-                    // if($crawler->filter($image_selector)->attr('src') != "null"){
-
-                    //     $imageUrl = $crawler->filter($image_selector)->attr('src');
-
-                    // }elseif($crawler->filter($image_selector)->attr('data-src') != "null"){
-
-                    //     $imageUrl = $crawler->filter($image_selector)->attr('data-src');
-
-                    // }elseif($crawler->filter($image_selector)->attr('srcset') != "null"){
-
-                    //     $imageUrl = $crawler->filter($image_selector)->attr('srcset');
-                    // }
-                    // dd($imageUrl);
+                    dd($imageUrl);
                 }
 
                 if($imageUrl != null){
