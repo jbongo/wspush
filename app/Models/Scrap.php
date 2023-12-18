@@ -84,6 +84,8 @@ class Scrap extends Model
 
                         }else{
 
+                             $imageUrl = null;
+
                             if($crawler->filter($image_selector)->attr('src') != null){
 
                                 $imageUrl = $crawler->filter($image_selector)->attr('src');
