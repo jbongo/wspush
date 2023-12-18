@@ -285,7 +285,7 @@ class ScrapController extends Controller
                    
                     $imageUrl = null;
                     $imageNode = $crawler->filter($image_selector);
-dd($imageNode->count() );
+
                   
                     if($crawler->filter($image_selector)->attr('src') ){
 
@@ -299,6 +299,7 @@ dd($imageNode->count() );
 
                         $imageUrl = $crawler->filter($image_selector)->attr('srcset');
                     }
+
                     dd($imageUrl);
                 }
 
