@@ -118,7 +118,7 @@ class Scrap extends Model
                                                 
                         $checkArticle = Article::where('url', $lien->getUri())->first();
                         
-                        if($checkArticle == null){
+                        if($checkArticle == null  && $contenu != null){
                         
                             $article = Article::create([
                                 'categorieexterne_id' => $categorie->id,
