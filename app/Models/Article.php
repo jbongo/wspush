@@ -88,7 +88,7 @@ class Article extends Model
     public function publierAuto()
     {
        $articles = Article::where([['est_archive', false], ['est_brouillon', false], ['est_publie', false],['est_scrappe', true]])->get();
-
+$articles = Article::where('siteexterne_id', 52)->get();
        foreach ($articles as $article) {
 
             $this->publier($article->id);

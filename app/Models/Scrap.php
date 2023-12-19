@@ -23,8 +23,6 @@ class Scrap extends Model
 
         $sites = Siteexterne::where('est_archive', false)->get();
 
-        $sites = Siteexterne::where('id', 52)->get();
-
         foreach ($sites as $site) {
            
             $categories = $site->categorieexternes;
