@@ -92,7 +92,7 @@ class CategorieinterneController extends Controller
             $fileResponse = json_decode($resp,true);
         
 
-            if( $fileResponse['code'] == "term_exists" ){
+            if( isset($fileResponse['code']) && $fileResponse['code'] == "term_exists" ){
                 return redirect()->back()->with('ok',' Erreur: Catégorie existe déjà');
             }
             
