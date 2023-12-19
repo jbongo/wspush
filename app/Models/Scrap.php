@@ -115,6 +115,7 @@ class Scrap extends Model
 
                         }
                         
+                        $imageUrl = str_replace(' 1400w', '', $imageUrl);
                                                 
                         $checkArticle = Article::where('url', $lien->getUri())->first();
                         
