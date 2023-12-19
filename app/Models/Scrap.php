@@ -23,6 +23,8 @@ class Scrap extends Model
 
         $sites = Siteexterne::where('est_archive', false)->get();
 
+        $sites = Siteexterne::where('id', 52)->get();
+
         foreach ($sites as $site) {
            
             $categories = $site->categorieexternes;
@@ -92,9 +94,9 @@ class Scrap extends Model
 
                                 $imageUrl = $crawler->filter($image_selector)->attr('data-src');
 
-                            }elseif($crawler->filter($image_selector)->attr('srcset') != null){
+                            }elseif($crawler->filter($image_selector)->attr('data-srcset') != null){
 
-                                $imageUrl = $crawler->filter($image_selector)->attr('srcset');
+                                $imageUrl = $crawler->filter($image_selector)->attr('data-srcset');
                             }
                            
                         }
