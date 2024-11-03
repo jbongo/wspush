@@ -87,10 +87,10 @@ class Article extends Model
      */
     public function publierAuto()
     {
-        
        $articles = Article::where([['est_archive', false], ['est_brouillon', false], ['est_publie', false],['est_scrappe', true]])
-            ->limit(300)
-            ->get();
+        ->limit(300)
+        ->orderBy('id', 'desc')
+        ->get();
        foreach ($articles as $article) {
 
             $this->publier($article->id);
