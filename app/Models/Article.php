@@ -87,7 +87,10 @@ class Article extends Model
      */
     public function publierAuto()
     {
-       $articles = Article::where([['est_archive', false], ['est_brouillon', false], ['est_publie', false],['est_scrappe', true]])->get();
+        
+       $articles = Article::where([['est_archive', false], ['est_brouillon', false], ['est_publie', false],['est_scrappe', true]])
+            ->limit(300)
+            ->get();
        foreach ($articles as $article) {
 
             $this->publier($article->id);
@@ -116,10 +119,9 @@ class Article extends Model
         foreach ($categorieinternes as $categorieinterne) {
             
             $siteinterne = $categorieinterne->siteinterne;
-            
             // echo $article->titre;
 
-
+            // On vérifie si le site n'est pas archivé et que l'article n'a pas déjà été diffusé sur ce site
             if($siteinterne->est_archive == false && $categorieinterne->haveArticle($article->id) == false ){
                 try{
                     
